@@ -18,14 +18,17 @@ class ArtistsRepository(private var api: Api?) {
     }
 
     private var searchProgress: MutableLiveData<SearchProgress>? = null
-    var artists: List<ArtistApi.Artist>? = null
 
     fun search(query: String, limit: Int): LiveData<SearchProgress>? {
         Log.d("artists search", "reporitory search")
-        if (searchProgress != null && searchProgress!!.value == SearchProgress.IN_PROGRESS) {
-            return searchProgress
+        searchProgress?.let {
+            it.value?.let {
+                if (it.state == SearchProgress.State.IN_PROGRESS) {
+                    return searchProgress
+                }
+            }
         }
-        searchProgress = MutableLiveData(SearchProgress.IN_PROGRESS)
+        searchProgress = MutableLiveData(SearchProgress(SearchProgress.State.IN_PROGRESS))
         search(searchProgress!!, query, limit)
         return searchProgress
     }
@@ -39,22 +42,29 @@ class ArtistsRepository(private var api: Api?) {
                     response: Response<ArtistApi.ArtistSearchResponse>
             ) {
                 Log.d("artist search", "response")
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d("artist search", response.body()!!.toString())
-                    artists = response.body()!!.results!!.artists
-                    progress.postValue(SearchProgress.SUCCESS)
-                    return
+                response.body()?.let {
+                    if (response.isSuccessful()) {
+                        Log.d("artist search", it.toString())
+                        progress.postValue(SearchProgress(SearchProgress.State.SUCCESS, it.results!!.artists))
+                        return
+                    }
                 }
-                progress.postValue(SearchProgress.FAILED)
+                progress.postValue(SearchProgress(SearchProgress.State.FAILED))
             }
 
             override fun onFailure(call: Call<ArtistApi.ArtistSearchResponse>?, t: Throwable?) {
-                progress.postValue(SearchProgress.FAILED)
+                progress.postValue(SearchProgress(SearchProgress.State.FAILED))
             }
         })
     }
 
-    enum class SearchProgress {
-        IN_PROGRESS, SUCCESS, FAILED
+    class SearchProgress(var state: State) {
+        constructor(state: State, artists: List<ArtistApi.Artist>?): this(state) {
+            this.artists = artists
+        }
+        enum class State {
+            IN_PROGRESS, SUCCESS, FAILED
+        }
+        var artists: List<ArtistApi.Artist>? = null
     }
 }
