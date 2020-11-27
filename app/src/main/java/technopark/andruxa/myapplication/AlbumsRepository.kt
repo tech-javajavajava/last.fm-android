@@ -18,6 +18,7 @@ class AlbumsRepository(private var api: Api?) {
     }
 
     private var searchProgress: MutableLiveData<SearchProgress>? = null
+    var albums: List<AlbumApi.Album>? = null
 
     fun search(query: String, limit: Int): LiveData<SearchProgress>? {
         Log.d("albums search", "reporitory search")
@@ -32,21 +33,22 @@ class AlbumsRepository(private var api: Api?) {
     private fun search(progress: MutableLiveData<SearchProgress>, query: String, limit: Int) {
         Log.d("albums search", "repository search 2")
         val api: AlbumApi? = api?.albumApi
-        api?.search(query, limit)?.enqueue(object : Callback<AlbumApi.SearchResponse> {
+        api?.search(query, limit)?.enqueue(object : Callback<AlbumApi.AlbumSearchResponse> {
             override fun onResponse(
-                    call: Call<AlbumApi.SearchResponse>?,
-                    response: Response<AlbumApi.SearchResponse>
+                    call: Call<AlbumApi.AlbumSearchResponse>?,
+                    response: Response<AlbumApi.AlbumSearchResponse>
             ) {
                 Log.d("album search", "response")
                 if (response.isSuccessful() && response.body() != null) {
                     Log.d("album search", response.body()!!.toString())
+                    albums = response.body()!!.results!!.albums
                     progress.postValue(SearchProgress.SUCCESS)
                     return
                 }
                 progress.postValue(SearchProgress.FAILED)
             }
 
-            override fun onFailure(call: Call<AlbumApi.SearchResponse>?, t: Throwable?) {
+            override fun onFailure(call: Call<AlbumApi.AlbumSearchResponse>?, t: Throwable?) {
                 progress.postValue(SearchProgress.FAILED)
             }
         })

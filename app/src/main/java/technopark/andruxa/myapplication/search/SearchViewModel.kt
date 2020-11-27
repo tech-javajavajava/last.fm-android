@@ -8,14 +8,16 @@ import androidx.lifecycle.MediatorLiveData
 import technopark.andruxa.myapplication.AlbumsRepository
 import technopark.andruxa.myapplication.ArtistsRepository
 import technopark.andruxa.myapplication.TracksRepository
+import technopark.andruxa.myapplication.network.AlbumApi
+import technopark.andruxa.myapplication.network.ArtistApi
 import technopark.andruxa.myapplication.network.TrackApi
 
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
     private var lastQuery: String? = null
     private val searchState = MediatorLiveData<SearchProgress>()
-    var tracks: Array<TrackApi.Track>? = null
-    var artists: Array<TrackApi.Track>? = null
-    var albums: Array<TrackApi.Track>? = null
+    var tracks: List<TrackApi.Track>? = null
+    var artists: List<ArtistApi.Artist>? = null
+    var albums: List<AlbumApi.Album>? = null
 
     init {
         searchState.value = SearchProgress.NONE
@@ -60,6 +62,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
             Log.d("artists search", "callback")
             if (searchProgress === ArtistsRepository.SearchProgress.SUCCESS) {
                 Log.d("artists search", "success")
+                artists = ArtistsRepository.getInstance(getApplication()).artists
                 searchState.postValue(SearchProgress.ARTISTS_SUCCESS)
                 searchState.removeSource(artistsSearchLiveData)
             } else if (searchProgress === ArtistsRepository.SearchProgress.FAILED) {
@@ -71,6 +74,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
             Log.d("albums search", "callback")
             if (searchProgress === AlbumsRepository.SearchProgress.SUCCESS) {
                 Log.d("albums search", "success")
+                albums = AlbumsRepository.getInstance(getApplication()).albums
                 searchState.postValue(SearchProgress.ALBUMS_SUCCESS)
                 searchState.removeSource(albumsSearchLiveData)
             } else if (searchProgress === AlbumsRepository.SearchProgress.FAILED) {
