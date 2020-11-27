@@ -1,9 +1,12 @@
 package technopark.andruxa.myapplication.network
 
+import com.tickaroo.tikxml.TikXml
+import com.tickaroo.tikxml.annotation.TextContent
+import com.tickaroo.tikxml.annotation.Xml
+import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 
 class Api {
     var userApi: UserApi? = null
@@ -14,7 +17,9 @@ class Api {
 
     init {
         val retrofit = Retrofit.Builder()
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(TikXmlConverterFactory.create(
+                TikXml.Builder().exceptionOnUnreadXml(false).build()
+            ))
             .baseUrl(
                 HttpUrl.Builder().scheme("https")
                     .host("ws.audioscrobbler.com")
@@ -26,5 +31,13 @@ class Api {
         trackApi = retrofit.create(TrackApi::class.java)
         artistApi = retrofit.create(ArtistApi::class.java)
         albumApi = retrofit.create(AlbumApi::class.java)
+    }
+
+    @Xml
+    class Image {
+        //        @Attribute
+//        var size: String? = null
+        @TextContent
+        var url: String? = null
     }
 }

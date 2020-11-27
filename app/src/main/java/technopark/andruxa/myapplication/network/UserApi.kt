@@ -13,11 +13,10 @@ interface UserApi {
 
     class AuthBody(var username: String, var password: String) {
         var method: String = "auth.getMobileSession"
-        var api_key: String = "3b8a89498b5ab698a8966a966e97c5a1"
+        var api_key: String? = System.getenv("last_fm_api_key") ?: ""
         var api_sig: String
-        var format: String = "json"
         init {
-            api_sig = Utils.md5("api_key" + api_key + "method" + method + "password" + password + "username" + username + "a04db502e40a1249a02833ea3953071f")
+            api_sig = Utils.md5("api_key" + api_key + "method" + method + "password" + password + "username" + username + System.getenv("last_fm_api_secret"))
             Log.d("lol", api_sig)
         }
     }
