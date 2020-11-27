@@ -1,5 +1,7 @@
 package technopark.andruxa.myapplication.network
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import com.tickaroo.tikxml.TikXml
 import com.tickaroo.tikxml.annotation.TextContent
 import com.tickaroo.tikxml.annotation.Xml
@@ -7,6 +9,7 @@ import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import java.net.URL
 
 class Api {
     var userApi: UserApi? = null
@@ -39,5 +42,9 @@ class Api {
 //        var size: String? = null
         @TextContent
         var url: String? = null
+    }
+
+    suspend fun getImageByUrl(url: String): Bitmap {
+        return BitmapFactory.decodeStream(URL(url).openConnection().getInputStream())
     }
 }
