@@ -11,17 +11,21 @@ class ApplicationModified : Application() {
     var tracksRepository: TracksRepository? = null
     var artistsRepository: ArtistsRepository? = null
     var albumsRepository: AlbumsRepository? = null
+    var imagesRepository: ImagesRepository? = null
 
     override fun onCreate() {
         super.onCreate()
+        context = this
         api = Api()
         userRepository = UserRepository(api)
         tracksRepository = TracksRepository(api)
         artistsRepository = ArtistsRepository(api)
         albumsRepository = AlbumsRepository(api)
+        imagesRepository = ImagesRepository(api)
     }
 
     companion object {
+        var context: Context? = null
         fun from(context: Context?): ApplicationModified {
             return context?.getApplicationContext() as ApplicationModified
         }

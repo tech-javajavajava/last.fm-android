@@ -5,4 +5,11 @@
     <dimen name="login_form_vertical_margin">10dp</dimen>
     <dimen name="login_form_horizontal_margin">60dp</dimen>
     <dimen name="search_horizontal_margin">15dp</dimen>
+    <dimen name="search_vertical_margin">10dp</dimen>
+    <dimen name="shortlist_image_size">37dp</dimen>
+    <dimen name="album_shortlist_text_size">18sp</dimen>
+    <dimen name="progress_bar_size">60dp</dimen>
+    <dimen name="track_or_album_shortlist_name_text_size">15sp</dimen>
+    <dimen name="track_or_album_shortlist_artist_name_text_size">12sp</dimen>
+    <dimen name="shortlist_caption_text_size">20sp</dimen>
 </resources>

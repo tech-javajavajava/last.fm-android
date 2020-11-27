@@ -1,12 +1,14 @@
 package technopark.andruxa.myapplication.search
 
 import android.app.Application
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import technopark.andruxa.myapplication.AlbumsRepository
 import technopark.andruxa.myapplication.ArtistsRepository
+import technopark.andruxa.myapplication.ImagesRepository
 import technopark.andruxa.myapplication.TracksRepository
 import technopark.andruxa.myapplication.network.AlbumApi
 import technopark.andruxa.myapplication.network.ArtistApi
@@ -40,6 +42,12 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     private fun requestSearch(query: String, limit: Int) {
         Log.d("search", "request")
         searchState.postValue(SearchProgress.IN_PROGRESS)
+        val responsesAwaiting = 3
+        var responsesRecieved = 0
+        var responsesFailed = 0
+        tracks = null
+        artists = null
+        albums = null
         val tracksSearchLiveData: LiveData<TracksRepository.SearchProgress> =
                 TracksRepository.getInstance(getApplication()).search(query, limit)!!
         val artistsSearchLiveData: LiveData<ArtistsRepository.SearchProgress> =
@@ -51,10 +59,21 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
             if (searchProgress === TracksRepository.SearchProgress.SUCCESS) {
                 Log.d("tracks search", "success")
                 tracks = TracksRepository.getInstance(getApplication()).tracks
-                searchState.postValue(SearchProgress.TRACKS_SUCCESS)
+                ++responsesRecieved
+                if (responsesRecieved == responsesAwaiting) {
+                    searchState.postValue(SearchProgress.SUCCESS)
+                }
                 searchState.removeSource(tracksSearchLiveData)
             } else if (searchProgress === TracksRepository.SearchProgress.FAILED) {
-                searchState.postValue(SearchProgress.TRACKS_FAILED)
+                ++responsesRecieved
+                ++responsesFailed
+                if (responsesRecieved == responsesAwaiting) {
+                    if (responsesFailed == responsesAwaiting) {
+                        searchState.postValue(SearchProgress.FAILED)
+                    } else {
+                        searchState.postValue(SearchProgress.SUCCESS)
+                    }
+                }
                 searchState.removeSource(tracksSearchLiveData)
             }
         }
@@ -63,10 +82,21 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
             if (searchProgress === ArtistsRepository.SearchProgress.SUCCESS) {
                 Log.d("artists search", "success")
                 artists = ArtistsRepository.getInstance(getApplication()).artists
-                searchState.postValue(SearchProgress.ARTISTS_SUCCESS)
+                ++responsesRecieved
+                if (responsesRecieved == responsesAwaiting) {
+                    searchState.postValue(SearchProgress.SUCCESS)
+                }
                 searchState.removeSource(artistsSearchLiveData)
             } else if (searchProgress === ArtistsRepository.SearchProgress.FAILED) {
-                searchState.postValue(SearchProgress.ARTISTS_FAILED)
+                ++responsesRecieved
+                ++responsesFailed
+                if (responsesRecieved == responsesAwaiting) {
+                    if (responsesFailed == responsesAwaiting) {
+                        searchState.postValue(SearchProgress.FAILED)
+                    } else {
+                        searchState.postValue(SearchProgress.SUCCESS)
+                    }
+                }
                 searchState.removeSource(artistsSearchLiveData)
             }
         }
@@ -75,18 +105,31 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
             if (searchProgress === AlbumsRepository.SearchProgress.SUCCESS) {
                 Log.d("albums search", "success")
                 albums = AlbumsRepository.getInstance(getApplication()).albums
-                searchState.postValue(SearchProgress.ALBUMS_SUCCESS)
+                ++responsesRecieved
+                if (responsesRecieved == responsesAwaiting) {
+                    searchState.postValue(SearchProgress.SUCCESS)
+                }
                 searchState.removeSource(albumsSearchLiveData)
             } else if (searchProgress === AlbumsRepository.SearchProgress.FAILED) {
-                searchState.postValue(SearchProgress.ALBUMS_FAILED)
+                ++responsesRecieved
+                ++responsesFailed
+                if (responsesRecieved == responsesAwaiting) {
+                    if (responsesFailed == responsesAwaiting) {
+                        searchState.postValue(SearchProgress.FAILED)
+                    } else {
+                        searchState.postValue(SearchProgress.SUCCESS)
+                    }
+                }
                 searchState.removeSource(albumsSearchLiveData)
             }
         }
     }
 
     enum class SearchProgress {
-        NONE, ERROR, IN_PROGRESS,
-        TRACKS_SUCCESS, ARTISTS_SUCCESS, ALBUMS_SUCCESS,
-        TRACKS_FAILED, ARTISTS_FAILED, ALBUMS_FAILED
+        NONE, ERROR, IN_PROGRESS, SUCCESS, FAILED
+    }
+
+    suspend fun getImage(url: String): Bitmap {
+        return ImagesRepository.getInstance(getApplication()).getByUrl(url)
     }
 }
