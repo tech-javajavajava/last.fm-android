@@ -7,4 +7,5 @@
     <string name="artists_shortlist_button">Все артисты</string>
     <string name="albums_shortlist_caption">Альбомы</string>
     <string name="albums_shortlist_button">Все альбомы</string>
+    <string name="charts_caption">Чарты 🔥</string>
 </resources>

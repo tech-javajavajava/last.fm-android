@@ -18,14 +18,17 @@ class TracksRepository(private var api: Api?) {
     }
 
     private var searchProgress: MutableLiveData<SearchProgress>? = null
-    var tracks: List<TrackApi.Track>? = null
 
     fun search(query: String, limit: Int): LiveData<SearchProgress>? {
         Log.d("tracks search", "reporitory search")
-        if (searchProgress != null && searchProgress!!.value == SearchProgress.IN_PROGRESS) {
-            return searchProgress
+        searchProgress?.let {
+            it.value?.let {
+                if (it.state == SearchProgress.State.IN_PROGRESS) {
+                    return searchProgress
+                }
+            }
         }
-        searchProgress = MutableLiveData(SearchProgress.IN_PROGRESS)
+        searchProgress = MutableLiveData(SearchProgress(SearchProgress.State.IN_PROGRESS))
         search(searchProgress!!, query, limit)
         return searchProgress
     }
@@ -39,26 +42,31 @@ class TracksRepository(private var api: Api?) {
                     response: Response<TrackApi.TrackSearchResponse>
             ) {
                 Log.d("track search", "response")
-                if (response.isSuccessful && response.body() != null) {
-                    Log.d("track search", response.body().toString())
-                    Log.d("track search", response.body()!!.results.toString())
-                    Log.d("track search", response.body()!!.results!!.tracks.toString())
-                    tracks = response.body()!!.results!!.tracks
-                    progress.postValue(SearchProgress.SUCCESS)
-                    return
+                response.body()?.let {
+                    if (response.isSuccessful) {
+                        Log.d("track search", it.toString())
+                        progress.postValue(SearchProgress(SearchProgress.State.SUCCESS, it.results!!.tracks))
+                        return
+                    }
                 }
-                progress.postValue(SearchProgress.FAILED)
+                progress.postValue(SearchProgress(SearchProgress.State.FAILED))
             }
 
             override fun onFailure(call: Call<TrackApi.TrackSearchResponse>?, t: Throwable?) {
                 Log.d("track search", "failure")
                 Log.d("track search", t.toString())
-                progress.postValue(SearchProgress.FAILED)
+                progress.postValue(SearchProgress(SearchProgress.State.FAILED))
             }
         })
     }
 
-    enum class SearchProgress {
-        IN_PROGRESS, SUCCESS, FAILED
+    class SearchProgress(var state: State) {
+        constructor(state: State, tracks: List<TrackApi.Track>?): this(state) {
+            this.tracks = tracks
+        }
+        enum class State {
+            IN_PROGRESS, SUCCESS, FAILED
+        }
+        var tracks: List<TrackApi.Track>? = null
     }
 }

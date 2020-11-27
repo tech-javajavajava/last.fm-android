@@ -70,24 +70,25 @@ class SearchFragment : Fragment() {
         private val searchResultsContainer: LinearLayout) : Observer<SearchViewModel.SearchProgress?> {
 
         override fun onChanged(searchState: SearchViewModel.SearchProgress?) {
+            if (searchState == null) return
             when {
-                searchState === SearchViewModel.SearchProgress.ERROR -> {
+                searchState.state === SearchViewModel.SearchProgress.State.ERROR -> {
                     progressBar.visibility = View.GONE
                 }
-                searchState === SearchViewModel.SearchProgress.IN_PROGRESS -> {
+                searchState.state === SearchViewModel.SearchProgress.State.IN_PROGRESS -> {
                     while (searchResultsContainer.size > 0) {
                         searchResultsContainer.removeViewAt(0)
                     }
                     progressBar.visibility = View.VISIBLE
                 }
-                searchState === SearchViewModel.SearchProgress.SUCCESS -> {
+                searchState.state === SearchViewModel.SearchProgress.State.SUCCESS -> {
                     progressBar.visibility = View.GONE
-                    viewModel.tracks?.let {
+                    searchState.tracks?.let {
                         val tracksShortlist: LinearLayout = LayoutInflater.from(container?.context)
                             .inflate(R.layout.shortlist, container, false) as LinearLayout
                         tracksShortlist.findViewById<TextView>(R.id.shortlist_caption).text =
                             ApplicationModified.context?.getText(R.string.tracks_shortlist_caption)
-                        val button: Button = tracksShortlist.findViewById<Button>(R.id.shortlist_button)
+                        val button: Button = tracksShortlist.findViewById(R.id.shortlist_button)
                         button.text = ApplicationModified.context?.getText(R.string.tracks_shortlist_button)
                         for (track: TrackApi.Track in it) {
                             Log.d("search render", track.name!!)
@@ -107,7 +108,7 @@ class SearchFragment : Fragment() {
                         tracksShortlist.visibility = View.VISIBLE
                         searchResultsContainer.addView(tracksShortlist)
                     }
-                    viewModel.artists?.let {
+                    searchState.artists?.let {
                         val artistsShortlist: LinearLayout = LayoutInflater.from(container?.context)
                             .inflate(R.layout.shortlist, container, false) as LinearLayout
                         artistsShortlist.findViewById<TextView>(R.id.shortlist_caption).text =
@@ -131,7 +132,7 @@ class SearchFragment : Fragment() {
                         artistsShortlist.visibility = View.VISIBLE
                         searchResultsContainer.addView(artistsShortlist)
                     }
-                    viewModel.albums?.let {
+                    searchState.albums?.let {
                         val albumsShortlist: LinearLayout = LayoutInflater.from(container?.context)
                             .inflate(R.layout.shortlist, container, false) as LinearLayout
                         albumsShortlist.findViewById<TextView>(R.id.shortlist_caption).text =
@@ -159,7 +160,7 @@ class SearchFragment : Fragment() {
                         searchResultsContainer.addView(albumsShortlist)
                     }
                 }
-                searchState === SearchViewModel.SearchProgress.FAILED -> {
+                searchState.state === SearchViewModel.SearchProgress.State.FAILED -> {
                     progressBar.visibility = View.GONE
                 }
                 else -> {
