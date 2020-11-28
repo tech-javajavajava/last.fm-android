@@ -8,7 +8,5 @@ interface Tag {
     val reach: Int
     val taggings: Int
     val isStreamable: Boolean
-    val wikiPublished: Calendar
-    val wikiSummary: String
-    val wikiContent: String
+    val wiki: Wiki
 }
