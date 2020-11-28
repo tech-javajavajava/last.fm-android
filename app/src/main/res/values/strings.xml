@@ -10,4 +10,6 @@
     <string name="tags_shortlist_caption">Теги</string>
     <string name="tags_shortlist_button">Все теги</string>
     <string name="charts_caption">Чарты 🔥</string>
+    <string name="login_hint">Логин</string>
+    <string name="password_hint">Пароль</string>
 </resources>
