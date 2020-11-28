@@ -12,7 +12,7 @@ interface User {
     val age: Int
     val gender: String
     val isSubscriber: Boolean
-    val playCount: Int
+    val playlists: Int
     val isBootstrap: Boolean
     val registeredTime: Calendar
 }
