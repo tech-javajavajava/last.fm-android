@@ -16,6 +16,7 @@ class Api {
     var trackApi: TrackApi? = null
     var artistApi: ArtistApi? = null
     var albumApi: AlbumApi? = null
+    var tagApi: TagApi? = null
     private var client: OkHttpClient = OkHttpClient().newBuilder().build()
 
     init {
@@ -34,6 +35,7 @@ class Api {
         trackApi = retrofit.create(TrackApi::class.java)
         artistApi = retrofit.create(ArtistApi::class.java)
         albumApi = retrofit.create(AlbumApi::class.java)
+        tagApi = retrofit.create(TagApi::class.java)
     }
 
     @Xml
@@ -44,7 +46,7 @@ class Api {
         var url: String? = null
     }
 
-    suspend fun getImageByUrl(url: String): Bitmap {
+    fun getImageByUrl(url: String): Bitmap {
         return BitmapFactory.decodeStream(URL(url).openConnection().getInputStream())
     }
 }

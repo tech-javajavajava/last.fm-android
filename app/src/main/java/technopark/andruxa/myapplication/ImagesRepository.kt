@@ -11,7 +11,7 @@ class ImagesRepository(private var api: Api?) {
         }
     }
 
-    suspend fun getByUrl(url: String): Bitmap {
+    fun getByUrl(url: String): Bitmap {
         return api!!.getImageByUrl(url)
     }
 }

@@ -45,15 +45,15 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         searchState.value?.tracks = null
         searchState.value?.artists = null
         searchState.value?.albums = null
-        val tracksSearchLiveData: LiveData<TracksRepository.SearchProgress> =
+        val tracksSearchLiveData: LiveData<TracksRepository.Progress> =
                 TracksRepository.getInstance(getApplication()).search(query, limit)!!
-        val artistsSearchLiveData: LiveData<ArtistsRepository.SearchProgress> =
+        val artistsSearchLiveData: LiveData<ArtistsRepository.Progress> =
                 ArtistsRepository.getInstance(getApplication()).search(query, limit)!!
         val albumsSearchLiveData: LiveData<AlbumsRepository.SearchProgress> =
                 AlbumsRepository.getInstance(getApplication()).search(query, limit)!!
         searchState.addSource(tracksSearchLiveData) { searchProgress ->
             Log.d("tracks search", "callback")
-            if (searchProgress.state === TracksRepository.SearchProgress.State.SUCCESS) {
+            if (searchProgress.state === TracksRepository.Progress.State.SUCCESS) {
                 Log.d("tracks search", "success")
                 searchState.value!!.tracks = searchProgress.tracks
                 ++responsesRecieved
@@ -61,7 +61,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
                     searchState.postValue(searchState.value!!.changeState(SearchProgress.State.SUCCESS))
                 }
                 searchState.removeSource(tracksSearchLiveData)
-            } else if (searchProgress.state === TracksRepository.SearchProgress.State.FAILED) {
+            } else if (searchProgress.state === TracksRepository.Progress.State.FAILED) {
                 ++responsesRecieved
                 ++responsesFailed
                 if (responsesRecieved == responsesAwaiting) {
@@ -76,7 +76,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         }
         searchState.addSource(artistsSearchLiveData) { searchProgress ->
             Log.d("artists search", "callback")
-            if (searchProgress.state === ArtistsRepository.SearchProgress.State.SUCCESS) {
+            if (searchProgress.state === ArtistsRepository.Progress.State.SUCCESS) {
                 Log.d("artists search", "success")
                 searchState.value!!.artists = searchProgress.artists
                 ++responsesRecieved
@@ -84,7 +84,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
                     searchState.postValue(searchState.value!!.changeState(SearchProgress.State.SUCCESS))
                 }
                 searchState.removeSource(artistsSearchLiveData)
-            } else if (searchProgress.state === ArtistsRepository.SearchProgress.State.FAILED) {
+            } else if (searchProgress.state === ArtistsRepository.Progress.State.FAILED) {
                 ++responsesRecieved
                 ++responsesFailed
                 if (responsesRecieved == responsesAwaiting) {

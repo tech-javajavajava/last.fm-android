@@ -67,7 +67,8 @@ class SearchFragment : Fragment() {
         private val container: ViewGroup?,
         private val activity: FragmentActivity?,
         private val progressBar: ProgressBar,
-        private val searchResultsContainer: LinearLayout) : Observer<SearchViewModel.SearchProgress?> {
+        private val searchResultsContainer: LinearLayout
+    ) : Observer<SearchViewModel.SearchProgress?> {
 
         override fun onChanged(searchState: SearchViewModel.SearchProgress?) {
             if (searchState == null) return
@@ -123,8 +124,7 @@ class SearchFragment : Fragment() {
                             artist.images?.get(0)?.url?.let {
                                 setImage(v.findViewById(R.id.image), it)
                             }
-                            val name: TextView =
-                                v.findViewById<View>(R.id.name) as TextView
+                            val name: TextView = v.findViewById(R.id.name) as TextView
                             name.text = artist.name
                             // insert into main view
                             artistsShortlist.addView(v, artistsShortlist.size - 2)
@@ -150,8 +150,7 @@ class SearchFragment : Fragment() {
                             val name: TextView =
                                 v.findViewById<View>(R.id.name) as TextView
                             name.text = album.name
-                            val artistName: TextView =
-                                v.findViewById<View>(R.id.artist_name) as TextView
+                            val artistName: TextView = v.findViewById(R.id.artist_name) as TextView
                             artistName.text = album.artist
                             // insert into main view
                             albumsShortlist.addView(v, albumsShortlist.size - 2)
@@ -162,8 +161,6 @@ class SearchFragment : Fragment() {
                 }
                 searchState.state === SearchViewModel.SearchProgress.State.FAILED -> {
                     progressBar.visibility = View.GONE
-                }
-                else -> {
                 }
             }
         }
