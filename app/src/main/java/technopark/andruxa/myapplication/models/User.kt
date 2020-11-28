@@ -1,5 +1,7 @@
 package technopark.andruxa.myapplication.models
 
+import java.util.*
+
 interface User {
     val id: Int
     val name: String
@@ -10,7 +12,7 @@ interface User {
     val age: Int
     val gender: String
     val isSubscriber: Boolean
-    val playcount: Int
+    val playCount: Int
     val isBootstrap: Boolean
-    val registeredTime: Int
+    val registeredTime: Calendar
 }
