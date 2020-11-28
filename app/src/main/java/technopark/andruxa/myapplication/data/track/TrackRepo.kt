@@ -1,6 +1,6 @@
 package technopark.andruxa.myapplication.data.track
 
-import technopark.andruxa.myapplication.models.Album
+import technopark.andruxa.myapplication.models.album.Album
 
 interface TrackRepo {
     fun getByMbid(

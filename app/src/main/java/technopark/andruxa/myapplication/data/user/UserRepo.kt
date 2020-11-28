@@ -1,6 +1,6 @@
 package technopark.andruxa.myapplication.data.user
 
-import technopark.andruxa.myapplication.models.User
+import technopark.andruxa.myapplication.models.user.User
 
 interface UserRepo {
     fun getCurrent(): User

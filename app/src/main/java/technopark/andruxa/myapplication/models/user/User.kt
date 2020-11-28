@@ -1,8 +1,9 @@
-package technopark.andruxa.myapplication.models
+package technopark.andruxa.myapplication.models.user
 
+import technopark.andruxa.myapplication.models.CanBeBroken
 import java.util.*
 
-interface User {
+interface User: CanBeBroken {
     val id: Int
     val name: String
     val realName: String

@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.models
+package technopark.andruxa.myapplication.models.additional
 
 import java.util.*
 
