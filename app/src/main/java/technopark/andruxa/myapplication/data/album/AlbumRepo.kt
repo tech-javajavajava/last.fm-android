@@ -10,13 +10,6 @@ interface AlbumRepo {
         lang: String?
     ): Album
 
-    fun getByName(
-        name: String,
-        autoCorrect: Boolean?,
-        userName: String?,
-        lang: String?
-    ): Album // probably not working without actor name
-
     fun getByNameNActor(
         name: String,
         actorName: String,
