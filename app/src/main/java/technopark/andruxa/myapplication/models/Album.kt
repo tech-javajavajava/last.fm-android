@@ -4,14 +4,12 @@ import java.util.*
 
 interface Album {
     val name: String
-    val artist: String
+    val artistName: String
     val id: Int
     val mbid: String
     val url: String
     val release: Calendar
-    val imageSmall: String
-    val imageMedium: String
-    val imageLarge: String
+    val image: Image
     val listenerNum: Int
     val playCount: Int
     val topTags: List<Tag>

@@ -9,7 +9,7 @@ interface Track {
     val isStreamable: Boolean
     val listenerNum: Int
     val playCount: Int
-    val artist: User
+    val artist: Artist
     val album: Album
     val topTags: List<Tag>
     val wiki: Wiki
