@@ -12,4 +12,5 @@
     <dimen name="track_or_album_shortlist_name_text_size">15sp</dimen>
     <dimen name="track_or_album_shortlist_artist_name_text_size">12sp</dimen>
     <dimen name="shortlist_caption_text_size">20sp</dimen>
+    <dimen name="tag_shortlist_image_size">100dp</dimen>
 </resources>

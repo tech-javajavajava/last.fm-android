@@ -12,6 +12,7 @@ class ApplicationModified : Application() {
     var artistsRepository: ArtistsRepository? = null
     var albumsRepository: AlbumsRepository? = null
     var imagesRepository: ImagesRepository? = null
+    var tagsRepository: TagsRepository? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -22,6 +23,7 @@ class ApplicationModified : Application() {
         artistsRepository = ArtistsRepository(api)
         albumsRepository = AlbumsRepository(api)
         imagesRepository = ImagesRepository(api)
+        tagsRepository = TagsRepository(api)
     }
 
     companion object {
