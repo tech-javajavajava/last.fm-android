@@ -4,7 +4,7 @@ import technopark.andruxa.myapplication.models.Album
 
 interface AlbumRepo {
     fun getByMbid(
-        mbdi: String,
+        mbid: String,
         autoCorrect: Boolean?,
         userName: String?,
         lang: String?
