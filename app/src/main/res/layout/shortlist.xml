@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/shortlist"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="gone"
+    android:layout_marginHorizontal="@dimen/search_horizontal_margin"
+    android:background="@drawable/rounded_corners_background"
+    android:layout_marginVertical="@dimen/search_vertical_margin">
+
+    <TextView
+        android:id="@+id/shortlist_caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/shortlist_caption_text_size"
+        android:textColor="@color/text_color"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="17dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/secondary_text_color"
+        android:layout_marginBottom="7dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/secondary_text_color"
+        android:layout_marginTop="7dp"/>
+
+    <Button
+        android:id="@+id/shortlist_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:textColor="@color/last_fm_red"/>
+
+</LinearLayout>

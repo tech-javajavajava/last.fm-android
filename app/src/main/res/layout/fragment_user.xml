@@ -15,7 +15,8 @@
         android:layout_marginHorizontal="@dimen/login_form_horizontal_margin"
         android:inputType="text"
         android:autofillHints="login"
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor"
+        android:hint="@string/login_hint"/>
 
     <EditText
         android:id="@+id/password"
@@ -25,7 +26,8 @@
         android:layout_marginHorizontal="@dimen/login_form_horizontal_margin"
         android:inputType="textPassword"
         android:autofillHints="password"
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor"
+        android:hint="@string/password_hint"/>
 
     <Button
         android:id="@+id/login_button"

@@ -21,10 +21,14 @@ class AlbumsRepository(private var api: Api?) {
 
     fun search(query: String, limit: Int): LiveData<SearchProgress>? {
         Log.d("albums search", "reporitory search")
-        if (searchProgress != null && searchProgress!!.value == SearchProgress.IN_PROGRESS) {
-            return searchProgress
+        searchProgress?.let {
+            it.value?.let {
+                if (it.state == SearchProgress.State.IN_PROGRESS) {
+                    return searchProgress
+                }
+            }
         }
-        searchProgress = MutableLiveData(SearchProgress.IN_PROGRESS)
+        searchProgress = MutableLiveData(SearchProgress(SearchProgress.State.IN_PROGRESS))
         search(searchProgress!!, query, limit)
         return searchProgress
     }
@@ -32,27 +36,35 @@ class AlbumsRepository(private var api: Api?) {
     private fun search(progress: MutableLiveData<SearchProgress>, query: String, limit: Int) {
         Log.d("albums search", "repository search 2")
         val api: AlbumApi? = api?.albumApi
-        api?.search(query, limit)?.enqueue(object : Callback<AlbumApi.SearchResponse> {
+        api?.search(query, limit)?.enqueue(object : Callback<AlbumApi.AlbumSearchResponse> {
             override fun onResponse(
-                    call: Call<AlbumApi.SearchResponse>?,
-                    response: Response<AlbumApi.SearchResponse>
+                    call: Call<AlbumApi.AlbumSearchResponse>?,
+                    response: Response<AlbumApi.AlbumSearchResponse>
             ) {
                 Log.d("album search", "response")
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d("album search", response.body()!!.toString())
-                    progress.postValue(SearchProgress.SUCCESS)
-                    return
+                response.body()?.let {
+                    if (response.isSuccessful()) {
+                        Log.d("album search", it.toString())
+                        progress.postValue(SearchProgress(SearchProgress.State.SUCCESS, it.results!!.albums))
+                        return
+                    }
                 }
-                progress.postValue(SearchProgress.FAILED)
+                progress.postValue(SearchProgress(SearchProgress.State.FAILED))
             }
 
-            override fun onFailure(call: Call<AlbumApi.SearchResponse>?, t: Throwable?) {
-                progress.postValue(SearchProgress.FAILED)
+            override fun onFailure(call: Call<AlbumApi.AlbumSearchResponse>?, t: Throwable?) {
+                progress.postValue(SearchProgress(SearchProgress.State.FAILED))
             }
         })
     }
 
-    enum class SearchProgress {
-        IN_PROGRESS, SUCCESS, FAILED
+    class SearchProgress(var state: State) {
+        constructor(state: State, albums: List<AlbumApi.Album>?): this(state) {
+            this.albums = albums
+        }
+        enum class State {
+            IN_PROGRESS, SUCCESS, FAILED
+        }
+        var albums: List<AlbumApi.Album>? = null
     }
 }
