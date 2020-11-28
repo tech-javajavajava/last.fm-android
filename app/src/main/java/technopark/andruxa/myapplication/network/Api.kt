@@ -9,6 +9,7 @@ import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import technopark.andruxa.myapplication.network.album.AlbumApi
 import java.net.URL
 
 class Api {

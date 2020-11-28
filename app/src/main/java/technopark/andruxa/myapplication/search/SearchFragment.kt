@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
-import technopark.andruxa.myapplication.network.AlbumApi
+import technopark.andruxa.myapplication.network.album.AlbumApi
 import technopark.andruxa.myapplication.network.ArtistApi
 import technopark.andruxa.myapplication.network.TrackApi
 

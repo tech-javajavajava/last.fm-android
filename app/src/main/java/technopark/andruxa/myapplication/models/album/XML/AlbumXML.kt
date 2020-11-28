@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.models.album.XMLalbum
+package technopark.andruxa.myapplication.models.album.XML
 
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.Path

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import technopark.andruxa.myapplication.network.AlbumApi
+import technopark.andruxa.myapplication.network.album.AlbumApi
 import technopark.andruxa.myapplication.network.Api
 
 class AlbumsRepository(private var api: Api?) {
@@ -38,8 +38,8 @@ class AlbumsRepository(private var api: Api?) {
         val api: AlbumApi? = api?.albumApi
         api?.search(query, limit)?.enqueue(object : Callback<AlbumApi.AlbumSearchResponse> {
             override fun onResponse(
-                    call: Call<AlbumApi.AlbumSearchResponse>?,
-                    response: Response<AlbumApi.AlbumSearchResponse>
+                call: Call<AlbumApi.AlbumSearchResponse>?,
+                response: Response<AlbumApi.AlbumSearchResponse>
             ) {
                 Log.d("album search", "response")
                 response.body()?.let {

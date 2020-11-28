@@ -10,7 +10,7 @@ import technopark.andruxa.myapplication.AlbumsRepository
 import technopark.andruxa.myapplication.ArtistsRepository
 import technopark.andruxa.myapplication.ImagesRepository
 import technopark.andruxa.myapplication.TracksRepository
-import technopark.andruxa.myapplication.network.AlbumApi
+import technopark.andruxa.myapplication.network.album.AlbumApi
 import technopark.andruxa.myapplication.network.ArtistApi
 import technopark.andruxa.myapplication.network.TrackApi
 
