@@ -3,26 +3,25 @@ package technopark.andruxa.myapplication.data.album
 import technopark.andruxa.myapplication.models.Album
 
 interface AlbumRepo {
-    fun getAlbumByMbid(
+    fun getByMbid(
         mbdi: String,
         autoCorrect: Boolean?,
         userName: String?,
         lang: String?
     ): Album
 
-    fun getAlbumByName(
+    fun getByName(
         name: String,
         autoCorrect: Boolean?,
         userName: String?,
         lang: String?
     ): Album // probably not working without actor name
 
-    fun getAlbumByNameNActor(
+    fun getByNameNActor(
         name: String,
         actorName: String,
         autoCorrect: Boolean?,
         userName: String?,
         lang: String?
     ): Album
-
 }
