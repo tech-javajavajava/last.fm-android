@@ -46,7 +46,12 @@ class Api {
         var url: String? = null
     }
 
-    fun getImageByUrl(url: String): Bitmap {
+    fun getImageByUrl(url: String): Bitmap? {
+        try {
+            URL(url)
+        } catch (t: Throwable) {
+            return null
+        }
         return BitmapFactory.decodeStream(URL(url).openConnection().getInputStream())
     }
 }
