@@ -1,6 +1,5 @@
 package technopark.andruxa.myapplication.search
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -167,12 +166,13 @@ class SearchFragment : Fragment() {
 
         fun setImage(image: ImageView, url: String) {
             GlobalScope.launch {
-                val bmp: Bitmap = withContext(Dispatchers.IO) {
+                withContext(Dispatchers.IO) {
                     viewModel.getImage(url)
-                }
-                activity?.let { activity ->
-                    activity.runOnUiThread {
-                        image.setImageBitmap(bmp)
+                }?.let {
+                    activity?.let { activity ->
+                        activity.runOnUiThread {
+                            image.setImageBitmap(it)
+                        }
                     }
                 }
             }

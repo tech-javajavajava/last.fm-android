@@ -135,7 +135,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    suspend fun getImage(url: String): Bitmap {
+    suspend fun getImage(url: String): Bitmap? {
         return ImagesRepository.getInstance(getApplication()).getByUrl(url)
     }
 }

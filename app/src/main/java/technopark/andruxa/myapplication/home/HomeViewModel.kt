@@ -130,7 +130,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getImage(url: String): Bitmap {
+    fun getImage(url: String): Bitmap? {
         return ImagesRepository.getInstance(getApplication()).getByUrl(url)
     }
 
