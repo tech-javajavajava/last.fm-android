@@ -5,20 +5,20 @@ import technopark.andruxa.myapplication.models.user.User
 
 class UserRoomRepo: UserRepo {
     override fun getCurrent(): User {
-        return getUserRoomDao().getCurrent()
+        return UserRoomDao.get().getCurrent()
     }
 
     override fun getById(id: Int): User {
-        return getUserRoomDao().getById(id)
+        return UserRoomDao.get().getById(id)
     }
 
     override fun saveCurrent(current: User): User {
-        getUserRoomDao().saveUser(current)
+        UserRoomDao.get().saveUser(current)
         return current
     }
 
     override fun save(user: User): User {
-        getUserRoomDao().saveUser(user)
+        UserRoomDao.get().saveUser(user)
         return user
     }
 
@@ -27,7 +27,7 @@ class UserRoomRepo: UserRepo {
         if (current.isBroken()) {
             return current.notFound() as User
         }
-        getUserRoomDao().deleteUser(current)
+        UserRoomDao.get().deleteUser(current)
         return current
     }
 
@@ -36,7 +36,7 @@ class UserRoomRepo: UserRepo {
         if (user.isBroken()) {
             return user.notFound() as User
         }
-        getUserRoomDao().deleteUser(user)
+        UserRoomDao.get().deleteUser(user)
         return user
     }
 }
