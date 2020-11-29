@@ -21,7 +21,7 @@ interface UserApi {
             var concat_str: String =
                 "api_key" + api_key + "method" + method + "password" + password + "username" + username + api_secret
             Log.d("lol", concat_str)
-            api_sig = concat_str.let { Utils.md5(it) }
+            api_sig = Utils.md5(concat_str)
             Log.d("lol", api_sig)
         }
     }
