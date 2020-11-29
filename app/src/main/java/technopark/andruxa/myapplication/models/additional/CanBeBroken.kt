@@ -5,6 +5,12 @@ interface CanBeBroken {
         return errorCode != 0
     }
 
-    val errorCode: Int
-    val message: String
+    var errorCode: Int
+    var message: String
+}
+
+fun notFound(broken: CanBeBroken): CanBeBroken {
+    broken.errorCode = 404
+    broken.message = broken::class.java.name + ": Not Found"
+    return broken
 }
