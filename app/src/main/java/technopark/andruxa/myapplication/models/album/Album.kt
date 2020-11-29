@@ -16,6 +16,6 @@ interface Album: CanBeBroken {
     var imageLargeUrl: String
     var listenerNum: Int
     var playCount: Int
-    var topTags: List<Tag>
-    var tracks: List<Track>
+    var topTags: List<Tag>?
+    var tracks: List<Track>?
 }

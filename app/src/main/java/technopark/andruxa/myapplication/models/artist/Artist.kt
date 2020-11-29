@@ -13,8 +13,8 @@ interface Artist: CanBeBroken {
     var isStreamable: Boolean
     var listeners: Int
     var plays: Int
-    var similar: List<Artist>
-    var tags: List<Tag>
+    var similar: List<Artist>?
+    var tags: List<Tag>?
     var wikiPublished: String
     var wikiSummary: String
     var wikiContent: String

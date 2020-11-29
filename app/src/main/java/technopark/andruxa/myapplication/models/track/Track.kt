@@ -14,9 +14,9 @@ interface Track: CanBeBroken {
     var isStreamable: Boolean
     var listenerNum: Int
     var playCount: Int
-    var artist: Artist
-    var album: Album
-    var topTags: List<Tag>
+    var artist: Artist?
+    var album: Album?
+    var topTags: List<Tag>?
     var wikiPublished: String
     var wikiSummary: String
     var wikiContent: String
