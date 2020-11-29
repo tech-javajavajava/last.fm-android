@@ -18,10 +18,10 @@ interface UserApi {
         val api_sig: String
 
         init {
-            val concat_str: String =
+            val concatStr: String =
                 "api_key" + api_key + "method" + method + "password" + password + "username" + username + api_secret
-            Log.d("lol", concat_str)
-            api_sig = Utils.md5(concat_str)
+            Log.d("lol", concatStr)
+            api_sig = Utils.md5(concatStr)
             Log.d("lol", api_sig)
         }
     }
