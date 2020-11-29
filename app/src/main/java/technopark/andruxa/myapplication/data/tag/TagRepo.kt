@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.data.tags
+package technopark.andruxa.myapplication.data.tag
 
 import technopark.andruxa.myapplication.models.tag.Tag
 

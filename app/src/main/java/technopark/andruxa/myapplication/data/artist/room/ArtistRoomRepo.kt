@@ -1,13 +1,11 @@
 package technopark.andruxa.myapplication.data.artist.room
 
 import androidx.room.Entity
-import technopark.andruxa.myapplication.models.image.Image
-import technopark.andruxa.myapplication.models.wiki.Wiki
 import technopark.andruxa.myapplication.models.artist.Artist
 import technopark.andruxa.myapplication.models.tag.Tag
 
 @Entity
-class ArtistRoomEntity: Artist {
+class ArtistRoomRepo: Artist {
     override var name: String
         get() = TODO("Not yet implemented")
         set(value) {}
@@ -17,7 +15,13 @@ class ArtistRoomEntity: Artist {
     override var url: String
         get() = TODO("Not yet implemented")
         set(value) {}
-    override var image: Image
+    override var imageSmallUrl: String
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var imageMediumUrl: String
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var imageLargeUrl: String
         get() = TODO("Not yet implemented")
         set(value) {}
     override var isStreamable: Boolean
@@ -29,13 +33,19 @@ class ArtistRoomEntity: Artist {
     override var plays: Int
         get() = TODO("Not yet implemented")
         set(value) {}
-    override var similar: List<Artist>
+    override var similar: List<Artist>?
         get() = TODO("Not yet implemented")
         set(value) {}
-    override var tags: List<Tag>
+    override var tags: List<Tag>?
         get() = TODO("Not yet implemented")
         set(value) {}
-    override var bio: Wiki
+    override var wikiPublished: String
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var wikiSummary: String
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var wikiContent: String
         get() = TODO("Not yet implemented")
         set(value) {}
     override var errorCode: Int
