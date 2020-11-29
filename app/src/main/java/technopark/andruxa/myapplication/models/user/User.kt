@@ -15,5 +15,5 @@ interface User: CanBeBroken {
     var isSubscriber: Boolean
     var playlists: Int
     var isBootstrap: Boolean
-    var registeredTime: Calendar
+    var registeredTime: String
 }

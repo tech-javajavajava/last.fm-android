@@ -1,6 +1,6 @@
 package technopark.andruxa.myapplication.models.tag
 
-import technopark.andruxa.myapplication.models.CanBeBroken
+import technopark.andruxa.myapplication.models.additional.CanBeBroken
 import technopark.andruxa.myapplication.models.additional.Wiki
 
 interface Tag: CanBeBroken {
