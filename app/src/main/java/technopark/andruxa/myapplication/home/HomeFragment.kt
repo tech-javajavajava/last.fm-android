@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -25,6 +26,7 @@ import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
 import technopark.andruxa.myapplication.network.ArtistApi
 import technopark.andruxa.myapplication.network.TrackApi
+import technopark.andruxa.myapplication.track.TrackFragment
 
 class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
@@ -47,6 +49,7 @@ class HomeFragment : Fragment() {
             viewModel,
             container,
             activity,
+            parentFragmentManager,
             viewLifecycleOwner,
             charts_container
         ))
@@ -57,6 +60,7 @@ class HomeFragment : Fragment() {
         private val viewModel: HomeViewModel,
         private val container: ViewGroup?,
         private val activity: FragmentActivity?,
+        private val fragmentManager: FragmentManager,
         private val viewLifecycleOwner: LifecycleOwner,
         private val chartsContainer: LinearLayout
     ): Observer<HomeViewModel.ChartsProgress?> {
@@ -77,7 +81,7 @@ class HomeFragment : Fragment() {
                             Log.d("charts render track", track.name!!)
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.track_or_album, container, false)
-//                            // fill in any details dynamically here
+                            // fill in any details dynamically here
                             track.images?.get(0)?.url?.let {
                                 setImage(v.findViewById(R.id.image), it)
                             }
@@ -85,7 +89,14 @@ class HomeFragment : Fragment() {
                             name.text = track.name
                             val artistName: TextView = v.findViewById(R.id.artist_name)
                             artistName.text = track.artist
-//                            // insert into main view
+                            // insert into main view
+                            v.setOnClickListener{
+                                fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.nav_host_fragment, TrackFragment())
+                                    .addToBackStack(null)
+                                    .commit()
+                            }
                             tracksShortlist.addView(v, tracksShortlist.size - 2)
                         }
                         tracksShortlist.visibility = View.VISIBLE
