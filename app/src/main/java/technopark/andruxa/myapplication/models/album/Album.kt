@@ -7,7 +7,6 @@ import technopark.andruxa.myapplication.models.track.Track
 interface Album: CanBeBroken {
     var name: String
     var artistName: String
-    var id: Int
     var mbid: String
     var url: String
     var release: String

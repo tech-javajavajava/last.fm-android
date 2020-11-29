@@ -6,7 +6,6 @@ import technopark.andruxa.myapplication.models.artist.Artist
 import technopark.andruxa.myapplication.models.tag.Tag
 
 interface Track: CanBeBroken {
-    var id: Int
     var name: String
     var mbid: String
     var url: String
