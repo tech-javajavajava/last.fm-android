@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.models
+package technopark.andruxa.myapplication.models.additional
 
 interface CanBeBroken {
     var errorCode: Int
@@ -14,4 +14,9 @@ interface CanBeBroken {
         return this
     }
 
+    fun notInitialized(): CanBeBroken {
+        errorCode = 418
+        message = this::class.java.name + ": Not initialized"
+        return this
+    }
 }
