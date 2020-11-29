@@ -1,19 +1,21 @@
 package technopark.andruxa.myapplication.models.artist
 
-import technopark.andruxa.myapplication.models.CanBeBroken
-import technopark.andruxa.myapplication.models.additional.Image
+import technopark.andruxa.myapplication.models.additional.CanBeBroken
 import technopark.andruxa.myapplication.models.tag.Tag
-import technopark.andruxa.myapplication.models.additional.Wiki
 
 interface Artist: CanBeBroken {
-    val name: String
-    val mbid: String
-    val url: String
-    val image: Image
-    val isStreamable: Boolean
-    val listeners: Int
-    val plays: Int
-    val similar: List<Artist>
-    val tags: List<Tag>
-    val bio: Wiki
+    var name: String
+    var mbid: String
+    var url: String
+    var imageSmallUrl: String
+    var imageMediumUrl: String
+    var imageLargeUrl: String
+    var isStreamable: Boolean
+    var listeners: Int
+    var plays: Int
+    var similar: List<Artist>?
+    var tags: List<Tag>?
+    var wikiPublished: String
+    var wikiSummary: String
+    var wikiContent: String
 }

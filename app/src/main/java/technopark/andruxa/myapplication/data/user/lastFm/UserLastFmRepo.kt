@@ -16,7 +16,7 @@ interface UserLastFmRepo: UserRepo {
         TODO("Not yet implemented")
     }
 
-    override fun save(current: User): User {
+    override fun save(user: User): User {
         TODO("Not yet implemented")
     }
 

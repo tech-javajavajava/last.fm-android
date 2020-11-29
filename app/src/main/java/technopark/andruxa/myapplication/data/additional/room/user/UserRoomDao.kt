@@ -1,7 +1,7 @@
-package technopark.andruxa.myapplication.data.user.room
+package technopark.andruxa.myapplication.data.additional.room.user
 
 import androidx.room.*
-import technopark.andruxa.myapplication.models.notFound
+import technopark.andruxa.myapplication.data.additional.room.getRoomDatabase
 import technopark.andruxa.myapplication.models.user.User
 
 @Dao
@@ -17,4 +17,10 @@ interface UserRoomDao {
 
     @Delete
     fun deleteUser(user: User): User
+
+    companion object {
+        fun get(): UserRoomDao {
+            return getRoomDatabase().userRoomDao()
+        }
+    }
 }

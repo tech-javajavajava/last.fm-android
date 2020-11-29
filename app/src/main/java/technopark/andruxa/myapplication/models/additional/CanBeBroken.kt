@@ -1,16 +1,22 @@
-package technopark.andruxa.myapplication.models
+package technopark.andruxa.myapplication.models.additional
 
 interface CanBeBroken {
+    var errorCode: Int
+    var message: String
+
     fun isBroken(): Boolean {
         return errorCode != 0
     }
 
-    var errorCode: Int
-    var message: String
-}
+    fun notFound(): CanBeBroken {
+        errorCode = 404
+        message = this::class.java.name + ": Not Found"
+        return this
+    }
 
-fun notFound(broken: CanBeBroken): CanBeBroken {
-    broken.errorCode = 404
-    broken.message = broken::class.java.name + ": Not Found"
-    return broken
+    fun notInitialized(): CanBeBroken {
+        errorCode = 418
+        message = this::class.java.name + ": Not initialized"
+        return this
+    }
 }

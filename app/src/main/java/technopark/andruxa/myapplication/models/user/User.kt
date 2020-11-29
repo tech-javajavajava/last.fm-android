@@ -1,6 +1,6 @@
 package technopark.andruxa.myapplication.models.user
 
-import technopark.andruxa.myapplication.models.CanBeBroken
+import technopark.andruxa.myapplication.models.additional.CanBeBroken
 import java.util.*
 
 interface User: CanBeBroken {
@@ -15,5 +15,5 @@ interface User: CanBeBroken {
     var isSubscriber: Boolean
     var playlists: Int
     var isBootstrap: Boolean
-    var registeredTime: Calendar
+    var registeredTime: String
 }
