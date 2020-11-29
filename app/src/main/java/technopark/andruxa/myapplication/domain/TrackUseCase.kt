@@ -7,4 +7,5 @@ interface TrackUseCase {
     fun AddTags(track: String, artist: String, tags: Array<String>): Boolean
     fun RemoveTags(track: String, artist: String, tags: Array<String>): Boolean
     fun Search(track: String, artist: String?): Array<Track>
+    fun GetLovedTracks(username: String,limit: Int?): Array<Track>
 }

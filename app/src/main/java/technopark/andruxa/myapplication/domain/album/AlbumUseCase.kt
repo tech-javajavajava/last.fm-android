@@ -10,4 +10,8 @@ class AlbumUseCase(val albumRepo: AlbumRepo) : AlbumUseCase {
         val Album = albumRepo.getByNameNActor(name, artist, null, null, null)
         return Album
     }
+
+    override fun Search(name: String, limit: Int): Array<Album>? {
+        TODO("Not yet implemented")
+    }
 }

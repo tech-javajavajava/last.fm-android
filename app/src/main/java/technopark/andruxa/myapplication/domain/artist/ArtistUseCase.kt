@@ -14,6 +14,10 @@ class ArtistUseCase(val artistRepo: ArtistRepo) : ArtistUseCase {
         }
     }
 
+    override fun Search(query: String): Array<Artist>? {
+        TODO("Not yet implemented")
+    }
+
     private fun isUUID(string: String?): Boolean {
         return try {
             UUID.fromString(string)
