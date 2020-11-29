@@ -1,5 +1,6 @@
 package technopark.andruxa.myapplication.data.user.room
 
+import technopark.andruxa.myapplication.data.additional.room.user.UserRoomDao
 import technopark.andruxa.myapplication.data.user.UserRepo
 import technopark.andruxa.myapplication.models.user.User
 

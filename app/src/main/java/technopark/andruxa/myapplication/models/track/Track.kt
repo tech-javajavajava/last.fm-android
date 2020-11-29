@@ -1,7 +1,6 @@
 package technopark.andruxa.myapplication.models.track
 
 import technopark.andruxa.myapplication.models.additional.CanBeBroken
-import technopark.andruxa.myapplication.models.additional.Wiki
 import technopark.andruxa.myapplication.models.album.Album
 import technopark.andruxa.myapplication.models.artist.Artist
 import technopark.andruxa.myapplication.models.tag.Tag
@@ -18,5 +17,7 @@ interface Track: CanBeBroken {
     var artist: Artist
     var album: Album
     var topTags: List<Tag>
-    var wiki: Wiki
+    var wikiPublished: String
+    var wikiSummary: String
+    var wikiContent: String
 }

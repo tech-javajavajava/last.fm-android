@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.data.user.room
+package technopark.andruxa.myapplication.data.additional.room.user
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -20,7 +20,7 @@ class UserRoomEntity: User {
     @ColumnInfo override var isSubscriber: Boolean = false
     @ColumnInfo override var playlists: Int = -1
     @ColumnInfo override var isBootstrap: Boolean = false
-    @ColumnInfo override var registeredTime: Calendar = Calendar.getInstance()
+    @ColumnInfo override var registeredTime: String = ""
     @Ignore override var errorCode: Int = 0
     @Ignore override lateinit var message: String
 

@@ -4,7 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import technopark.andruxa.myapplication.models.additional.Wiki
+import technopark.andruxa.myapplication.data.additional.room.album.AlbumRoomEntity
+import technopark.andruxa.myapplication.data.artist.room.ArtistRoomEntity
+import technopark.andruxa.myapplication.models.wiki.Wiki
 import technopark.andruxa.myapplication.models.album.Album
 import technopark.andruxa.myapplication.models.artist.Artist
 import technopark.andruxa.myapplication.models.tag.Tag
@@ -31,8 +33,8 @@ class TrackRoomEntity: Track {
     @Ignore override var errorCode: Int = 0
     @Ignore override var message: String = ""
 
-    @Ignore override lateinit var artist: Artist
-    @Ignore override lateinit var album: Album
+    @Ignore override var artist: Artist = ArtistRoomEntity().also { notInitialized() }
+    @Ignore override var album: Album = AlbumRoomEntity().also { notInitialized() }
     @Ignore override lateinit var topTags: List<Tag>
     @Ignore override lateinit var wiki: Wiki
 }
