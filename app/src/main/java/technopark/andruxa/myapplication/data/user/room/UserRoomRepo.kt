@@ -5,12 +5,38 @@ import technopark.andruxa.myapplication.data.user.UserRepo
 import technopark.andruxa.myapplication.models.notFound
 import technopark.andruxa.myapplication.models.user.User
 
+class UserRoomRepo: UserRepo {
+    override fun getCurrent(): User {
+        TODO("Not yet implemented")
+    }
+
+    override fun getById(id: Int): User {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveCurrent(current: User): User {
+        TODO("Not yet implemented")
+    }
+
+    override fun save(current: User): User {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteCurrent(): User {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteById(id: Int): User {
+        TODO("Not yet implemented")
+    }
+}
+
 @Dao
-interface UserRoomRepo: UserRepo {
-    @Query("SELECT * FROM UserRoomModel WHERE id = 0")
+interface UserRoomRepoo: UserRepo {
+    @Query("SELECT * FROM UserRoomEntity WHERE id = 0")
     override fun getCurrent(): User
 
-    @Query("SELECT * FROM UserRoomModel WHERE id = :id")
+    @Query("SELECT * FROM UserRoomEntity WHERE id = :id")
     override fun getById(id: Int): User
 
     override fun saveCurrent(current: User): User {

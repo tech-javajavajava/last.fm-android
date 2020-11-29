@@ -8,7 +8,7 @@ import technopark.andruxa.myapplication.models.user.User
 import java.util.*
 
 @Entity
-class UserRoomModel: User {
+class UserRoomEntity: User {
     @PrimaryKey override var id: Int = -1
     @ColumnInfo override lateinit var name: String
     @ColumnInfo override lateinit var realName: String
