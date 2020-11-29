@@ -1,6 +1,7 @@
 package technopark.andruxa.myapplication.data.track.room
 
 import technopark.andruxa.myapplication.data.additional.room.track.TrackRoomDao
+import technopark.andruxa.myapplication.data.additional.room.track.TrackRoomEntity
 import technopark.andruxa.myapplication.data.track.TrackRepo
 import technopark.andruxa.myapplication.models.track.Track
 
@@ -19,12 +20,12 @@ class TrackRoomRepo: TrackRepo {
     }
 
     override fun save(track: Track): Track {
-        TrackRoomDao.get().save(track)
+        TrackRoomDao.get().save(track as TrackRoomEntity)
         return track
     }
 
     override fun deleteByMbid(mbid: String): Track {
-        val track = getByMbid(mbid)
+        val track = getByMbid(mbid) as TrackRoomEntity
         if (track.isBroken()) {
             return track.notFound() as Track
         }
@@ -33,7 +34,7 @@ class TrackRoomRepo: TrackRepo {
     }
 
     override fun deleteByNameNArtist(name: String, artistName: String): Track {
-        val track = getByNameNArtist(name, artistName)
+        val track = getByNameNArtist(name, artistName) as TrackRoomEntity
         if (track.isBroken()) {
             return track.notFound() as Track
         }

@@ -20,12 +20,12 @@ class TrackRoomEntity: Track {
     @ColumnInfo override var playCount: Int = -1
     @ColumnInfo var artistName: String = ""
     @ColumnInfo var albumMbid: String = ""
-    @Ignore override var artist: Artist? = null
-    @Ignore override var album: Album? = null
-    @Ignore override var topTags: List<Tag>? = null
     @ColumnInfo override var wikiPublished: String = ""
     @ColumnInfo override var wikiSummary: String = ""
     @ColumnInfo override var wikiContent: String = ""
+    @Ignore override var artist: Artist? = null
+    @Ignore override var album: Album? = null
+    @Ignore override var topTags: List<Tag>? = null
     @Ignore override var errorCode: Int = -1
     @Ignore override var message: String = ""
 }
