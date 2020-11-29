@@ -1,6 +1,7 @@
 package technopark.andruxa.myapplication.data.user.room
 
 import technopark.andruxa.myapplication.data.additional.room.user.UserRoomDao
+import technopark.andruxa.myapplication.data.additional.room.user.UserRoomEntity
 import technopark.andruxa.myapplication.data.user.UserRepo
 import technopark.andruxa.myapplication.models.user.User
 
@@ -14,17 +15,17 @@ class UserRoomRepo: UserRepo {
     }
 
     override fun saveCurrent(current: User): User {
-        UserRoomDao.get().saveUser(current)
+        UserRoomDao.get().saveUser(current as UserRoomEntity)
         return current
     }
 
     override fun save(user: User): User {
-        UserRoomDao.get().saveUser(user)
+        UserRoomDao.get().saveUser(user as UserRoomEntity)
         return user
     }
 
     override fun deleteCurrent(): User {
-        val current = getById(0)
+        val current = getById(0) as UserRoomEntity
         if (current.isBroken()) {
             return current.notFound() as User
         }
@@ -33,7 +34,7 @@ class UserRoomRepo: UserRepo {
     }
 
     override fun deleteById(id: Int): User {
-        val user = getById(id)
+        val user = getById(id) as UserRoomEntity
         if (user.isBroken()) {
             return user.notFound() as User
         }

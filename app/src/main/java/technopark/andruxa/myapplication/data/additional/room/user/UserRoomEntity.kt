@@ -22,7 +22,7 @@ class UserRoomEntity: User {
     @ColumnInfo override var isBootstrap: Boolean = false
     @ColumnInfo override var registeredTime: String = ""
     @Ignore override var errorCode: Int = 0
-    @Ignore override lateinit var message: String
+    @Ignore override var message: String = ""
 
     override fun isBroken(): Boolean {
         if (id < 0) return true

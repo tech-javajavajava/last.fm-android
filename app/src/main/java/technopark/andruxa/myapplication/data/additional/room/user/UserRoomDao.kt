@@ -6,17 +6,17 @@ import technopark.andruxa.myapplication.models.user.User
 
 @Dao
 interface UserRoomDao {
-    @Query("SELECT * FROM UserRoomEntity WHERE id = 0")
-    fun getCurrent(): User
+    @Query("SELECT * FROM UserRoomEntity WHERE id = 0 LIMIT 1")
+    fun getCurrent(): UserRoomEntity
 
-    @Query("SELECT * FROM UserRoomEntity WHERE id = :id")
-    fun getById(id: Int): User
+    @Query("SELECT * FROM UserRoomEntity WHERE id = :id LIMIT 1")
+    fun getById(id: Int): UserRoomEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveUser(user: User): Long
+    fun saveUser(user: UserRoomEntity): Long
 
     @Delete
-    fun deleteUser(user: User): User
+    fun deleteUser(user: UserRoomEntity): User
 
     companion object {
         fun get(): UserRoomDao {
