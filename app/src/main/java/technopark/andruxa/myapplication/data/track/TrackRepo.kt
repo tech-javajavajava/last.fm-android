@@ -1,18 +1,18 @@
 package technopark.andruxa.myapplication.data.track
 
-import technopark.andruxa.myapplication.models.album.Album
+import technopark.andruxa.myapplication.models.track.Track
 
 interface TrackRepo {
     fun getByMbid(
         mbid: String,
         autoCorrect: Boolean?,
         userName: String?,
-    ): Album
+    ): Track
 
     fun getByNameNArtist(
         name: String,
         artistName: String,
         autoCorrect: Boolean?,
         userName: String?,
-    ): Album
+    ): Track
 }
