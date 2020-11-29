@@ -2,6 +2,7 @@ package technopark.andruxa.myapplication.data.additional.room.track
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import technopark.andruxa.myapplication.models.album.Album
 import technopark.andruxa.myapplication.models.artist.Artist
@@ -18,13 +19,13 @@ class TrackRoomEntity: Track {
     @ColumnInfo override var listenerNum: Int = -1
     @ColumnInfo override var playCount: Int = -1
     @ColumnInfo var artistName: String = ""
-    @ColumnInfo var albumId: Int = -1
-    override var artist: Artist? = null
-    override var album: Album? = null
-    override var topTags: List<Tag>? = null
+    @ColumnInfo var albumMbid: String = ""
+    @Ignore override var artist: Artist? = null
+    @Ignore override var album: Album? = null
+    @Ignore override var topTags: List<Tag>? = null
     @ColumnInfo override var wikiPublished: String = ""
     @ColumnInfo override var wikiSummary: String = ""
     @ColumnInfo override var wikiContent: String = ""
-    override var errorCode: Int = -1
-    override var message: String = ""
+    @Ignore override var errorCode: Int = -1
+    @Ignore override var message: String = ""
 }
