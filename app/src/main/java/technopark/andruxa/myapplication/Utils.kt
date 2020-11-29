@@ -5,7 +5,6 @@ import java.security.MessageDigest
 object Utils {
     fun md5(str: String): String {
         val digest = MessageDigest.getInstance("MD5")
-
         val bytes = digest.digest(str.toByteArray(charset("UTF-8")))
         val b = StringBuilder(32)
         for (aByte in bytes) {
