@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/base_indent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stayin' Alive"
+                android:textSize="@dimen/entity_name_entity_page_text_size"
+                android:textColor="@color/text_color"
+                android:layout_marginHorizontal="@dimen/base_indent"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bee Gees"
+                android:textSize="@dimen/secondary_entity_name_entity_page_text_size"
+                android:textColor="@color/secondary_text_color"
+                android:layout_marginHorizontal="@dimen/base_indent"
+                android:layout_marginBottom="@dimen/base_indent"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/secondary_text_color"
+                android:layout_marginVertical="@dimen/base_indent"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/small_indent"
+                android:layout_marginHorizontal="@dimen/base_indent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="продолжительность"
+                        android:textColor="@color/secondary_text_color"
+                        android:layout_marginStart="@dimen/main_indent"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="3:16"
+                    android:textColor="@color/text_color"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/small_indent"
+                android:layout_marginHorizontal="@dimen/base_indent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="дата выхода"
+                        android:textColor="@color/secondary_text_color"
+                        android:layout_marginStart="@dimen/main_indent"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="давно"
+                    android:textColor="@color/text_color"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/small_indent"
+                android:layout_marginHorizontal="@dimen/base_indent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="слушатели"
+                        android:textColor="@color/secondary_text_color"
+                        android:layout_marginStart="@dimen/main_indent"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="дохуя"
+                    android:textColor="@color/text_color"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/small_indent"
+                android:layout_marginHorizontal="@dimen/base_indent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="прослушивания"
+                        android:textColor="@color/secondary_text_color"
+                        android:layout_marginStart="@dimen/main_indent"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="дохуя"
+                    android:textColor="@color/text_color"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/secondary_text_color"
+                android:layout_marginVertical="@dimen/base_indent"/>
+
+            <com.google.android.flexbox.FlexboxLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/main_indent"
+                app:flexWrap="wrap">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/tag_padding_horizontal"
+                    android:paddingVertical="@dimen/tag_padding_vertical"
+                    android:gravity="center"
+                    android:textColor="@color/text_color"
+                    android:text="лол"
+                    android:background="@drawable/rounded_corners_background"
+                    android:layout_margin="@dimen/small_indent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/tag_padding_horizontal"
+                    android:paddingVertical="@dimen/tag_padding_vertical"
+                    android:gravity="center"
+                    android:textColor="@color/text_color"
+                    android:text="кек"
+                    android:background="@drawable/rounded_corners_background"
+                    android:layout_margin="@dimen/small_indent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/tag_padding_horizontal"
+                    android:paddingVertical="@dimen/tag_padding_vertical"
+                    android:gravity="center"
+                    android:textColor="@color/text_color"
+                    android:text="чебурек"
+                    android:background="@drawable/rounded_corners_background"
+                    android:layout_margin="@dimen/small_indent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/tag_padding_horizontal"
+                    android:paddingVertical="@dimen/tag_padding_vertical"
+                    android:gravity="center"
+                    android:textColor="@color/text_color"
+                    android:text="арбидол"
+                    android:background="@drawable/rounded_corners_background"
+                    android:layout_margin="@dimen/small_indent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/tag_padding_horizontal"
+                    android:paddingVertical="@dimen/tag_padding_vertical"
+                    android:gravity="center"
+                    android:textColor="@color/text_color"
+                    android:text="веон"
+                    android:background="@drawable/rounded_corners_background"
+                    android:layout_margin="@dimen/small_indent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/tag_padding_horizontal"
+                    android:paddingVertical="@dimen/tag_padding_vertical"
+                    android:gravity="center"
+                    android:textColor="@color/text_color"
+                    android:text="еаонлпг"
+                    android:background="@drawable/rounded_corners_background"
+                    android:layout_margin="@dimen/small_indent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/tag_padding_horizontal"
+                    android:paddingVertical="@dimen/tag_padding_vertical"
+                    android:gravity="center"
+                    android:textColor="@color/text_color"
+                    android:text="кноег"
+                    android:background="@drawable/rounded_corners_background"
+                    android:layout_margin="@dimen/small_indent"/>
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/secondary_text_color"
+                android:layout_marginVertical="@dimen/base_indent"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Альбом"
+                android:textSize="@dimen/secondary_entity_name_entity_page_text_size"
+                android:textColor="@color/text_color"
+                android:layout_marginHorizontal="@dimen/main_indent"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/base_indent"
+                android:layout_marginStart="@dimen/main_indent"
+                android:layout_marginTop="@dimen/base_indent">
+
+                <ImageView
+                    android:layout_height="@dimen/album_image_track_page_size"
+                    android:layout_width="@dimen/album_image_track_page_size"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/rounded_corners_background"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/base_indent"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/album_name_track_page_text_size"
+                        android:textColor="@color/text_color"
+                        android:text="Number Ones"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/album_name_track_page_text_size"
+                        android:textColor="@color/secondary_text_color"
+                        android:text="Bee Gees"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/secondary_text_color"
+                android:layout_marginVertical="@dimen/base_indent"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="'Believe' is a Grammy Award winning global number one, Multi-Platinum Dance Song which served as the world-wide lead single for American singer Cher's twenty-third studio album Believe. It is noted for its use of a peculiar sound effect on the singer's vocals, which is referred to as the Cher effect today. 'Believe' was written by a number of writers including Paul Barry, Matt Gray, Brian Higgins, Stuart McLellan, Timothy Powell, and Steven Torch."
+                android:textColor="@color/text_color"
+                android:layout_marginStart="@dimen/main_indent"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/main_indent"
+                android:textAlignment="center"
+                android:text="ещё"
+                android:textColor="@color/last_fm_red"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/secondary_text_color"
+                android:layout_marginVertical="@dimen/base_indent"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Похожие треки"
+                android:textSize="@dimen/secondary_entity_name_entity_page_text_size"
+                android:textColor="@color/text_color"
+                android:layout_marginHorizontal="@dimen/main_indent"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/base_indent"
+                android:layout_marginStart="@dimen/main_indent"
+                android:layout_marginTop="@dimen/base_indent">
+
+                <ImageView
+                    android:layout_height="@dimen/shortlist_image_size"
+                    android:layout_width="@dimen/shortlist_image_size"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/rounded_corners_background"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/base_indent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_name_text_size"
+                        android:textColor="@color/text_color"
+                        android:text="Лол"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size"
+                        android:textColor="@color/secondary_text_color"
+                        android:text="Кек"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/base_indent"
+                android:layout_marginStart="@dimen/main_indent"
+                android:layout_marginTop="@dimen/base_indent">
+
+                <ImageView
+                    android:layout_height="@dimen/shortlist_image_size"
+                    android:layout_width="@dimen/shortlist_image_size"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/rounded_corners_background"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/base_indent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_name_text_size"
+                        android:textColor="@color/text_color"
+                        android:text="Лол"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size"
+                        android:textColor="@color/secondary_text_color"
+                        android:text="Кек"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/base_indent"
+                android:layout_marginStart="@dimen/main_indent"
+                android:layout_marginTop="@dimen/base_indent">
+
+                <ImageView
+                    android:layout_height="@dimen/shortlist_image_size"
+                    android:layout_width="@dimen/shortlist_image_size"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/rounded_corners_background"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/base_indent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_name_text_size"
+                        android:textColor="@color/text_color"
+                        android:text="Лол"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size"
+                        android:textColor="@color/secondary_text_color"
+                        android:text="Кек"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/base_indent"
+                android:layout_marginStart="@dimen/main_indent"
+                android:layout_marginTop="@dimen/base_indent">
+
+                <ImageView
+                    android:layout_height="@dimen/shortlist_image_size"
+                    android:layout_width="@dimen/shortlist_image_size"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/rounded_corners_background"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/base_indent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_name_text_size"
+                        android:textColor="@color/text_color"
+                        android:text="Лол"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size"
+                        android:textColor="@color/secondary_text_color"
+                        android:text="Кек"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/base_indent"
+                android:layout_marginStart="@dimen/main_indent"
+                android:layout_marginTop="@dimen/base_indent">
+
+                <ImageView
+                    android:layout_height="@dimen/shortlist_image_size"
+                    android:layout_width="@dimen/shortlist_image_size"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/rounded_corners_background"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/base_indent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_name_text_size"
+                        android:textColor="@color/text_color"
+                        android:text="Лол"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size"
+                        android:textColor="@color/secondary_text_color"
+                        android:text="Кек"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/base_indent"
+                android:layout_marginStart="@dimen/main_indent"
+                android:layout_marginTop="@dimen/base_indent">
+
+                <ImageView
+                    android:layout_height="@dimen/shortlist_image_size"
+                    android:layout_width="@dimen/shortlist_image_size"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/rounded_corners_background"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/base_indent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_name_text_size"
+                        android:textColor="@color/text_color"
+                        android:text="Лол"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size"
+                        android:textColor="@color/secondary_text_color"
+                        android:text="Кек"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
