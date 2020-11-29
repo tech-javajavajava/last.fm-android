@@ -23,4 +23,9 @@ class UserRoomEntity: User {
     @ColumnInfo override lateinit var registeredTime: Calendar
     @Ignore override var errorCode: Int = 0
     @Ignore override lateinit var message: String
+
+    override fun isBroken(): Boolean {
+        if (id < 0) return true
+        return super.isBroken()
+    }
 }

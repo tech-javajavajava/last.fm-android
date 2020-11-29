@@ -7,7 +7,7 @@ interface UserRepo {
     fun getById(id: Int): User
 
     fun saveCurrent(current: User): User
-    fun save(current: User): User
+    fun save(user: User): User
 
     fun deleteCurrent(): User
     fun deleteById(id: Int): User
