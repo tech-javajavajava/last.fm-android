@@ -21,4 +21,8 @@ class TrackUseCase(val trackRepo: TrackRepo) : TrackUseCase {
         TODO("Not yet implemented")
     }
 
+    override fun GetLovedTracks(username: String, limit: Int?): Array<Track> {
+        TODO("Not yet implemented")
+    }
+
 }

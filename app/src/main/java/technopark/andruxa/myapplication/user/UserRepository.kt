@@ -13,7 +13,6 @@ import technopark.andruxa.myapplication.network.Api
 import technopark.andruxa.myapplication.network.UserApi
 
 class UserRepository(private var api: Api?) {
-
     companion object {
         fun getInstance(context: Context?): UserRepository {
             return ApplicationModified.from(context).userRepository!!
