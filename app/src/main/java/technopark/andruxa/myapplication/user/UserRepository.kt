@@ -36,13 +36,6 @@ class UserRepository(private var api: Api?) {
         return authProgress
     }
 
-//    interface LoginCallback {
-//        fun onSuccess()
-//        fun onError()
-//    }
-
-//    fun login(login: String, password: String, callback: LoginCallback?) {}
-
     private fun login(progress: MutableLiveData<AuthProgress>, login: String, password: String) {
         Log.d("lol", "login 2")
         val api: UserApi? = api?.userApi
@@ -52,14 +45,14 @@ class UserRepository(private var api: Api?) {
                 response: Response<UserApi.Response>
             ) {
                 Log.d("lol", "response")
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d("lol", response.body()!!.toString())
-                    progress.postValue(AuthProgress.SUCCESS)
-                    return
-//                    val users: List<UserApi.UserPlain?>? = response.body()
-//                    if (hasUserCredentials(users, login, password)) {
-//                        return
-//                    }
+                response.body()?.let {
+                    it.session?.let {
+                        if (response.isSuccessful()) {
+//                            sessionKey = it.key
+                            progress.postValue(AuthProgress.SUCCESS)
+                            return
+                        }
+                    }
                 }
                 progress.postValue(AuthProgress.FAILED)
             }
