@@ -1,0 +1,22 @@
+package technopark.andruxa.myapplication.data.additional.room.image
+
+import androidx.room.*
+import technopark.andruxa.myapplication.data.additional.room.getRoomDatabase
+
+@Dao
+interface ImageRoomDao {
+    @Query("SELECT * FROM ImageRoomEntity WHERE name = :name LIMIT 1")
+    fun getByName(name: String): ImageRoomEntity
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(vararg images: ImageRoomEntity): Long
+
+    @Delete
+    fun delete(vararg images: ImageRoomEntity): Long
+
+    companion object {
+        fun get(): ImageRoomDao {
+            return getRoomDatabase().imageRoomDao()
+        }
+    }
+}

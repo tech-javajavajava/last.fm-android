@@ -6,7 +6,7 @@ import technopark.andruxa.myapplication.data.additional.room.artist.fromArtist
 import technopark.andruxa.myapplication.data.artist.ArtistRepo
 import technopark.andruxa.myapplication.models.artist.Artist
 
-@Entity
+
 class ArtistRoomRepo: ArtistRepo {
     override fun getByMbid(
         mbid: String,
