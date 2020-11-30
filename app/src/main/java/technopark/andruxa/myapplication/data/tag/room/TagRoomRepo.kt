@@ -40,7 +40,7 @@ class TagRoomRepo : TagRepo {
         return tag
     }
 
-    override fun getTop(): List<Tag> {
-        return TagRoomDao.get().getTop()
+    override fun getTop(limit: Int, page: Int): List<Tag> {
+        return TagRoomDao.get().getTop(limit, limit * (page - 1))
     }
 }

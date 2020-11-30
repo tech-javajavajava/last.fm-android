@@ -9,8 +9,8 @@ interface TagRoomDao {
     @Query("SELECT * FROM TagRoomEntity WHERE name = :name LIMIT 1")
     fun getByName(name: String): Tag
 
-    @Query("SELECT * FROM TagRoomEntity WHERE isTop = 1")
-    fun getTop(): List<Tag>
+    @Query("SELECT * FROM TagRoomEntity WHERE isTop = 1 LIMIT :limit OFFSET :offset")
+    fun getTop(limit: Int, offset: Int): List<Tag>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(vararg tags: Tag): Long

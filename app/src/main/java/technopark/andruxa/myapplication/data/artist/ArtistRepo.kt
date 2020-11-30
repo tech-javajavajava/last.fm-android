@@ -1,6 +1,7 @@
 package technopark.andruxa.myapplication.data.artist
 
 import technopark.andruxa.myapplication.models.artist.Artist
+import technopark.andruxa.myapplication.models.tag.Tag
 
 interface ArtistRepo {
     fun getByMbid(
@@ -10,10 +11,14 @@ interface ArtistRepo {
         lang: String?
     ): Artist
 
-    fun getByName(
+    fun searchByName(
         name: String,
-        autoCorrect: Boolean?,
-        userName: String?,
-        lang: String?
-    ): Artist
+        limit: Int = 50,
+        page: Int = 1,
+    ): List<Artist>
+
+    fun delete(vararg artists: Artist): List<Artist>
+    fun save(vararg artists: Artist): List<Artist>
+    fun getTop(limit: Int = 50, page: Int = 1): List<Artist>
+    fun setTop(vararg artists: Artist): List<Artist>
 }
