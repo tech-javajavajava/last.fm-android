@@ -1,6 +1,6 @@
 package technopark.andruxa.myapplication.data.artist
 
-import technopark.andruxa.myapplication.models.album.Album
+import technopark.andruxa.myapplication.models.artist.Artist
 
 interface ArtistRepo {
     fun getByMbid(
@@ -8,12 +8,12 @@ interface ArtistRepo {
         autoCorrect: Boolean?,
         userName: String?,
         lang: String?
-    ): Album
+    ): Artist
 
     fun getByName(
         name: String,
         autoCorrect: Boolean?,
         userName: String?,
         lang: String?
-    ): Album
+    ): Artist
 }
