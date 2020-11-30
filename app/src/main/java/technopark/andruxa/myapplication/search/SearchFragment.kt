@@ -9,18 +9,19 @@ import android.widget.*
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
+import technopark.andruxa.myapplication.models.Track
 import technopark.andruxa.myapplication.network.AlbumApi
 import technopark.andruxa.myapplication.network.ArtistApi
-import technopark.andruxa.myapplication.network.TrackApi
+import technopark.andruxa.myapplication.track.TrackFragment
 
 class SearchFragment : Fragment() {
     private lateinit var viewModel: SearchViewModel
@@ -44,13 +45,14 @@ class SearchFragment : Fragment() {
             viewModel,
             container,
             activity,
-            search_progress_bar,
-            search_results_container
+            parentFragmentManager,
+            view.findViewById(R.id.search_progress_bar),
+            view.findViewById(R.id.search_results_container)
         ))
 
-        search_input.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        view.findViewById<SearchView>(R.id.search_input).setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                search_input.clearFocus()
+                view.findViewById<SearchView>(R.id.search_input).clearFocus()
                 viewModel.search(query, 3)
                 return true
             }
@@ -65,6 +67,7 @@ class SearchFragment : Fragment() {
         private val viewModel: SearchViewModel,
         private val container: ViewGroup?,
         private val activity: FragmentActivity?,
+        private val fragmentManager: FragmentManager,
         private val progressBar: ProgressBar,
         private val searchResultsContainer: LinearLayout
     ) : Observer<SearchViewModel.SearchProgress?> {
@@ -90,7 +93,7 @@ class SearchFragment : Fragment() {
                             ApplicationModified.context?.getText(R.string.tracks_shortlist_caption)
                         val button: Button = tracksShortlist.findViewById(R.id.shortlist_button)
                         button.text = ApplicationModified.context?.getText(R.string.tracks_shortlist_button)
-                        for (track: TrackApi.Track in it) {
+                        for (track: Track in it) {
                             Log.d("search render", track.name!!)
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.track_or_album, container, false)
@@ -103,6 +106,13 @@ class SearchFragment : Fragment() {
                             val artistName: TextView = v.findViewById(R.id.artist_name)
                             artistName.text = track.artist
                             // insert into main view
+                            v.setOnClickListener{
+                                fragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.nav_host_fragment, TrackFragment(track.name, track.artist!!))
+                                    .addToBackStack(null)
+                                    .commit()
+                            }
                             tracksShortlist.addView(v, tracksShortlist.size - 2)
                         }
                         tracksShortlist.visibility = View.VISIBLE

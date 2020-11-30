@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import technopark.andruxa.myapplication.models.Track
 import technopark.andruxa.myapplication.network.Api
 import technopark.andruxa.myapplication.network.TrackApi
 
@@ -18,6 +19,7 @@ class TracksRepository(private var api: Api?) {
     }
 
     private var progress: MutableLiveData<Progress>? = null
+    private var progressSingle: MutableLiveData<ProgressSingle>? = null
 
     fun search(query: String, limit: Int): LiveData<Progress>? {
         Log.d("tracks search", "reporitory search")
@@ -45,7 +47,7 @@ class TracksRepository(private var api: Api?) {
                 response.body()?.let {
                     if (response.isSuccessful) {
                         Log.d("track search", it.toString())
-                        progress.postValue(Progress(Progress.State.SUCCESS, it.results!!.tracks!!.map{st -> TrackApi.Track(st)}))
+                        progress.postValue(Progress(Progress.State.SUCCESS, it.results!!.tracks!!.map{st -> Track(st) }))
                         return
                     }
                 }
@@ -86,7 +88,7 @@ class TracksRepository(private var api: Api?) {
                 response.body()?.let {
                     if (response.isSuccessful) {
                         Log.d("tracks chart", it.toString())
-                        progress.postValue(Progress(Progress.State.SUCCESS, it.tracks!!.tracks!!.map{ct -> TrackApi.Track(ct)}))
+                        progress.postValue(Progress(Progress.State.SUCCESS, it.tracks!!.tracks!!.map{ct -> Track(ct)}))
                         return
                     }
                 }
@@ -101,13 +103,109 @@ class TracksRepository(private var api: Api?) {
         })
     }
 
+    fun getTrack(name: String, artist: String): LiveData<ProgressSingle>? {
+        Log.d("track", "reporitory")
+        progressSingle?.let {
+            it.value?.let {
+                if (it.state == ProgressSingle.State.IN_PROGRESS) {
+                    return progressSingle
+                }
+            }
+        }
+        progressSingle = MutableLiveData(ProgressSingle(ProgressSingle.State.IN_PROGRESS))
+        getTrack(progressSingle!!, name, artist)
+        return progressSingle
+    }
+
+    private fun getTrack(progressSingle: MutableLiveData<ProgressSingle>, name: String, artist: String) {
+        Log.d("track", "repository 2")
+        val api: TrackApi? = api?.trackApi
+        api?.getTrack(name, artist)?.enqueue(object : Callback<TrackApi.TrackResponse> {
+            override fun onResponse(
+                call: Call<TrackApi.TrackResponse>?,
+                response: Response<TrackApi.TrackResponse>
+            ) {
+                Log.d("track", "response")
+                response.body()?.let {
+                    if (response.isSuccessful) {
+                        Log.d("track", it.toString())
+                        Log.d("track similar", it.track?.topTags?.size.toString())
+                        it.track?.topTags?.forEach {
+                            Log.d("similar", it.name.toString())
+                        }
+                        progressSingle.postValue(ProgressSingle(ProgressSingle.State.SUCCESS, Track(it.track!!)))
+                        return
+                    }
+                }
+                progressSingle.postValue(ProgressSingle(ProgressSingle.State.FAILED))
+            }
+
+            override fun onFailure(call: Call<TrackApi.TrackResponse>?, t: Throwable?) {
+                Log.d("track", "failure")
+                Log.d("track", t.toString())
+                progressSingle.postValue(ProgressSingle(ProgressSingle.State.FAILED))
+            }
+        })
+    }
+
+    fun getSimilarTracks(name: String, artist: String): LiveData<Progress>? {
+        Log.d("track similar", "reporitory")
+        progress?.let {
+            it.value?.let {
+                if (it.state == Progress.State.IN_PROGRESS) {
+                    return progress
+                }
+            }
+        }
+        progress = MutableLiveData(Progress(Progress.State.IN_PROGRESS))
+        getSimilarTracks(progress!!, name, artist)
+        return progress
+    }
+
+    private fun getSimilarTracks(progress: MutableLiveData<Progress>, name: String, artist: String) {
+        Log.d("track similar", "repository 2")
+        val api: TrackApi? = api?.trackApi
+        api?.getSimilarTracks(name, artist)?.enqueue(object : Callback<TrackApi.TrackSimilarResponse> {
+            override fun onResponse(
+                call: Call<TrackApi.TrackSimilarResponse>?,
+                response: Response<TrackApi.TrackSimilarResponse>
+            ) {
+                Log.d("track similar", "response")
+                response.body()?.let {
+                    if (response.isSuccessful) {
+                        Log.d("track similar", it.toString())
+                        progress.postValue(Progress(Progress.State.SUCCESS, it.similar?.map { st -> Track(st) }))
+                        return
+                    }
+                }
+                progress.postValue(Progress(Progress.State.FAILED))
+            }
+
+            override fun onFailure(call: Call<TrackApi.TrackSimilarResponse>?, t: Throwable?) {
+                Log.d("track", "failure")
+                Log.d("track", t.toString())
+                progress.postValue(Progress(Progress.State.FAILED))
+            }
+        })
+    }
+
     class Progress(var state: State) {
-        constructor(state: State, tracks: List<TrackApi.Track>?): this(state) {
+        constructor(state: State, tracks: List<Track>?): this(state) {
             this.tracks = tracks
         }
         enum class State {
             IN_PROGRESS, SUCCESS, FAILED
         }
-        var tracks: List<TrackApi.Track>? = null
+        var tracks: List<Track>? = null
+    }
+
+    class ProgressSingle(var state: State) {
+        constructor(state: State, track: Track?): this(state) {
+            this.track = track
+        }
+        enum class State {
+            IN_PROGRESS, SUCCESS, FAILED
+        }
+        var track: Track? = null
     }
 }

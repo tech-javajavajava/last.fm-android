@@ -43,7 +43,7 @@ class AlbumsRepository(private var api: Api?) {
             ) {
                 Log.d("album search", "response")
                 response.body()?.let {
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful) {
                         Log.d("album search", it.toString())
                         progress.postValue(SearchProgress(SearchProgress.State.SUCCESS, it.results!!.albums))
                         return

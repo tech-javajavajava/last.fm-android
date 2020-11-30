@@ -1,7 +1,5 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="login_form_vertical_margin">10dp</dimen>
     <dimen name="login_form_horizontal_margin">60dp</dimen>
     <dimen name="search_horizontal_margin">15dp</dimen>
@@ -13,4 +11,17 @@
     <dimen name="track_or_album_shortlist_artist_name_text_size">12sp</dimen>
     <dimen name="shortlist_caption_text_size">20sp</dimen>
     <dimen name="tag_shortlist_image_size">100dp</dimen>
+    <dimen name="base_indent">7dp</dimen>
+    <dimen name="entity_name_entity_page_text_size">30sp</dimen>
+    <dimen name="secondary_entity_name_entity_page_text_size">20sp</dimen>
+    <dimen name="small_indent">3dp</dimen>
+    <dimen name="main_indent">14dp</dimen>
+    <dimen name="tag_padding_horizontal">20dp</dimen>
+    <dimen name="tag_padding_vertical">3dp</dimen>
+    <dimen name="album_image_track_page_size">70dp</dimen>
+    <dimen name="album_name_track_page_text_size">15sp</dimen>
+    <dimen name="action_bar_padding">17dp</dimen>
+    <dimen name="action_bar_text_size">20sp</dimen>
+    <dimen name="shortlist_caption_margin_vertical">10dp</dimen>
+    <dimen name="shortlist_caption_margin_horizontal">17dp</dimen>
 </resources>

@@ -43,7 +43,7 @@ class ArtistsRepository(private var api: Api?) {
             ) {
                 Log.d("artist search", "response")
                 response.body()?.let {
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful) {
                         Log.d("artist search", it.toString())
                         progress.postValue(Progress(Progress.State.SUCCESS, it.results!!.artists!!.map{sa -> ArtistApi.Artist(sa)}))
                         return

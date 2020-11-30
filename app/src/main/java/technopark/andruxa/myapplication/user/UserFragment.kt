@@ -6,13 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
-//import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import technopark.andruxa.myapplication.R
-//import java.security.AccessController.getContext
 
 class UserFragment : Fragment() {
     private lateinit var viewModel: UserViewModel
@@ -31,9 +28,8 @@ class UserFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         val loginButton : Button = view.findViewById(R.id.login_button)
-        val progress : TextView = view.findViewById(R.id.login_progress)
 
-        viewModel.getProgress().observe(viewLifecycleOwner, UserObserver(progress))
+        viewModel.getProgress().observe(viewLifecycleOwner, UserObserver())
 
         val login: EditText = view.findViewById(R.id.login)
         val password: EditText = view.findViewById(R.id.password)
@@ -45,24 +41,19 @@ class UserFragment : Fragment() {
         }
     }
 
-    private class UserObserver(private val progress: TextView) :
+    private class UserObserver() :
         Observer<UserViewModel.LoginState?> {
         override fun onChanged(loginState: UserViewModel.LoginState?) {
             when {
                 loginState === UserViewModel.LoginState.FAILED -> {
-                    progress.text = "Failed"
                 }
                 loginState === UserViewModel.LoginState.ERROR -> {
-                    progress.text = "Error"
                 }
                 loginState === UserViewModel.LoginState.IN_PROGRESS -> {
-                    progress.text = "In progress"
                 }
                 loginState === UserViewModel.LoginState.SUCCESS -> {
-                    progress.text = "Success"
                 }
                 else -> {
-                    progress.text = ""
                 }
             }
         }
