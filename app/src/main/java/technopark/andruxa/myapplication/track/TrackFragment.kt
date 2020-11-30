@@ -25,7 +25,19 @@ import technopark.andruxa.myapplication.Utils
 import technopark.andruxa.myapplication.models.Tag
 import technopark.andruxa.myapplication.models.Track
 
-class TrackFragment(private val trackName: String, private val trackArtist: String) : Fragment() {
+class TrackFragment() : Fragment() {
+    constructor(trackName: String, trackArtist: String) : this() {
+        this.trackName = trackName
+        this.trackArtist = trackArtist
+    }
+
+    companion object {
+        private const val NAME_KEY = "trackName"
+        private const val ARTIST_KEY = "trackArtist"
+    }
+
+    private lateinit var trackName: String
+    private lateinit var trackArtist: String
     private lateinit var viewModel: TrackViewModel
     private var container: ViewGroup? = null
 
@@ -41,6 +53,13 @@ class TrackFragment(private val trackName: String, private val trackArtist: Stri
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("track fragment", "restoring state...")
+        Log.d("track fragment", savedInstanceState?.getString(NAME_KEY).toString())
+        Log.d("track fragment", savedInstanceState?.getString(ARTIST_KEY).toString())
+        savedInstanceState?.let {
+            trackName = it.getString(NAME_KEY, "")
+            trackArtist = it.getString(ARTIST_KEY, "")
+        }
         viewModel = ViewModelProvider(this).get(TrackViewModel::class.java)
         viewModel.getTrackState().observe(viewLifecycleOwner, TrackObserver(
             viewModel,
@@ -52,6 +71,13 @@ class TrackFragment(private val trackName: String, private val trackArtist: Stri
         )
         )
         viewModel.getTrack(trackName, trackArtist)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(NAME_KEY, trackName)
+        outState.putString(ARTIST_KEY, trackArtist)
+        Log.d("track fragment", "saving state...")
     }
 
     fun onWikiExpanderClickListener(lessTextWiki: String?, moreTextWiki: String?) {
