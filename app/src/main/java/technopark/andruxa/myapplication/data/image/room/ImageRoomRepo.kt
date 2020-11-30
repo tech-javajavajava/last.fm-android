@@ -1,11 +1,16 @@
 package technopark.andruxa.myapplication.data.image.room
 
 import technopark.andruxa.myapplication.data.additional.room.image.ImageRoomDao
+import technopark.andruxa.myapplication.data.additional.room.image.ImageRoomEntity
 import technopark.andruxa.myapplication.data.additional.room.image.fromImage
 import technopark.andruxa.myapplication.data.image.ImageRepo
 import technopark.andruxa.myapplication.models.image.Image
 
 class ImageRoomRepo: ImageRepo {
+    override fun getByURL(url: String): Image {
+        return ImageRoomEntity().apply { setNotPermitted() }
+    }
+
     override fun getByName(name: String): Image {
         return ImageRoomDao.get().getByName(name)
     }

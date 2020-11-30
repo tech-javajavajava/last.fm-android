@@ -31,4 +31,16 @@ interface CanBeBroken {
         message = this::class.java.name + ": Empty mbid"
         return this
     }
+
+    fun setNotPermitted(): CanBeBroken {
+        errorCode = 420
+        message = this::class.java.name + ": not permitted"
+        return this
+    }
+
+    fun setBadRequest(): CanBeBroken {
+        errorCode = 421
+        message = this::class.java.name + ": bad request"
+        return this
+    }
 }
