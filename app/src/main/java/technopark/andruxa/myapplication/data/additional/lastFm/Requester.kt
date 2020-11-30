@@ -11,6 +11,7 @@ import technopark.andruxa.myapplication.data.additional.lastFm.artist.ArtistRequ
 import technopark.andruxa.myapplication.data.additional.lastFm.session.SessionAuthBody
 import technopark.andruxa.myapplication.data.additional.lastFm.session.SessionRequester
 import technopark.andruxa.myapplication.data.additional.lastFm.tag.TagRequester
+import technopark.andruxa.myapplication.data.additional.lastFm.track.TrackRequester
 
 class Requester {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
@@ -33,6 +34,7 @@ class Requester {
     val albumApi: AlbumRequester = retrofit.create(AlbumRequester::class.java)
     val artistApi: ArtistRequester = retrofit.create(ArtistRequester::class.java)
     val tagsApi: TagRequester = retrofit.create(TagRequester::class.java)
+    val trackApi: TrackRequester = retrofit.create(TrackRequester::class.java)
 
     private val sessionApi: SessionRequester = retrofit.create(SessionRequester::class.java)
     private var sessionKey: String = ""
