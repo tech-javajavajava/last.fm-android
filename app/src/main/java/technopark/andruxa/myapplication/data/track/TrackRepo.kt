@@ -16,8 +16,12 @@ interface TrackRepo {
         userName: String? = null,
     ): Track
 
-    fun save(track: Track): Track
+    fun save(vararg tracks: Track): List<Track>
 
     fun deleteByMbid(mbid: String): Track
     fun deleteByNameNArtist(name: String, artistName: String): Track
+
+    fun searchByName(name: String, artistName: String?, limit: Int = 50, page: Int = 1): List<Track>
+    fun getTop(limit: Int = 50, page: Int = 1): List<Track>
+    fun setTop(vararg tracks: Track): List<Track>
 }

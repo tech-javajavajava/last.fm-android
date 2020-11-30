@@ -23,9 +23,32 @@ class TrackRoomEntity: Track {
     @ColumnInfo override var wikiPublished: String = ""
     @ColumnInfo override var wikiSummary: String = ""
     @ColumnInfo override var wikiContent: String = ""
+    @ColumnInfo var isTop: Boolean = false
     @Ignore override var artist: Artist? = null
     @Ignore override var album: Album? = null
     @Ignore override var topTags: List<Tag>? = null
     @Ignore override var errorCode: Int = -1
     @Ignore override var message: String = ""
+}
+
+fun fromTrack(track: Track): TrackRoomEntity {
+    return TrackRoomEntity().also {
+        it.mbid = track.mbid
+        it.name = track.name
+        it.url = track.url
+        it.duration = track.duration
+        it.isStreamable = track.isStreamable
+        it.listenerNum = track.listenerNum
+        it.playCount = track.playCount
+        if (track.artist != null) it.artistName = track.artist!!.name
+        if (track.album != null) it.albumMbid = track.album!!.mbid
+        it.album = track.album
+        it.artist = track.artist
+        it.wikiContent = track.wikiContent
+        it.wikiPublished = track.wikiPublished
+        it.wikiSummary = track.wikiSummary
+        it.topTags = track.topTags
+        it.errorCode = track.errorCode
+        it.message = track.message
+    }
 }
