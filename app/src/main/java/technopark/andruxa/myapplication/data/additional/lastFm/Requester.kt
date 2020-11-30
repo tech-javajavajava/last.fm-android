@@ -12,6 +12,9 @@ import technopark.andruxa.myapplication.data.additional.lastFm.session.SessionAu
 import technopark.andruxa.myapplication.data.additional.lastFm.session.SessionRequester
 import technopark.andruxa.myapplication.data.additional.lastFm.tag.TagRequester
 import technopark.andruxa.myapplication.data.additional.lastFm.track.TrackRequester
+import technopark.andruxa.myapplication.data.additional.lastFm.user.UserInfoXML
+import technopark.andruxa.myapplication.data.additional.lastFm.user.UserRequester
+import technopark.andruxa.myapplication.models.user.User
 
 class Requester {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
@@ -35,21 +38,14 @@ class Requester {
     val artistApi: ArtistRequester = retrofit.create(ArtistRequester::class.java)
     val tagsApi: TagRequester = retrofit.create(TagRequester::class.java)
     val trackApi: TrackRequester = retrofit.create(TrackRequester::class.java)
+    val userApi: UserRequester = retrofit.create(UserRequester::class.java)
 
     private val sessionApi: SessionRequester = retrofit.create(SessionRequester::class.java)
-    private var sessionKey: String = ""
-    private var apiSig: String = ""
+    var sessionKey: String = ""
+    var apiSig: String = ""
 
-
-    fun login(username: String, password: String): Boolean {
-        val response = sessionApi.login(SessionAuthBody(username, password)).execute()
-        if (response.isSuccessful) {
-            sessionKey = response.body()?.sessionKey ?: ""
-            apiSig = response.body()?.apiSig.toString()
-            return true
-        }
-
-        return false
+    fun isAuthorized(): Boolean {
+        return sessionKey.isNotEmpty() && apiSig.isNotEmpty()
     }
 
     companion object {

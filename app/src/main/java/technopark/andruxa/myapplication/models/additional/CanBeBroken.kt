@@ -43,4 +43,10 @@ interface CanBeBroken {
         message = this::class.java.name + ": bad request"
         return this
     }
+
+    fun setNotAuthorized(): CanBeBroken {
+        errorCode = 401
+        message = this::class.java.name + ": Not Authorized"
+        return this
+    }
 }
