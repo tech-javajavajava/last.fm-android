@@ -8,7 +8,7 @@ interface ArtistRoomDao {
     @Query("SELECT * FROM ArtistRoomEntity WHERE mbid = :mbid LIMIT 1")
     fun get(mbid: String): ArtistRoomEntity
 
-    @Query("SELECT * FROM artistroomentity WHERE isTop = 1 LIMIT :limit OFFSET :offset")
+    @Query("SELECT * FROM ArtistRoomEntity WHERE isTop = 1 LIMIT :limit OFFSET :offset")
     fun getTop(limit: Int, offset: Int): List<ArtistRoomEntity>
 
     @Query("SELECT * FROM ArtistRoomEntity WHERE name LIKE :name LIMIT :limit OFFSET :offset")
