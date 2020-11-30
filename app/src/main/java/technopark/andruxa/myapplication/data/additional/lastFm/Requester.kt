@@ -6,6 +6,7 @@ import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import technopark.andruxa.myapplication.data.additional.lastFm.album.AlbumRequester
+import technopark.andruxa.myapplication.data.additional.lastFm.artist.ArtistRequester
 
 class Requester {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
@@ -25,7 +26,8 @@ class Requester {
     val apiKey = "3b8a89498b5ab698a8966a966e97c5a1"
     val lang = "RU"
 
-    val albumApi = retrofit.create(AlbumRequester::class.java)
+    val albumApi: AlbumRequester = retrofit.create(AlbumRequester::class.java)
+    val artistApi: ArtistRequester = retrofit.create(ArtistRequester::class.java)
 
     companion object {
         var requester: Requester? = null
