@@ -26,9 +26,9 @@ class TrackRoomRepo: TrackRepo {
                 return emptyList()
             }
         }
-        val roomTracks: List<TrackRoomEntity> = tracks.map { fromTrack(it).apply { isTop = true } }
+        val roomTracks: List<TrackRoomEntity> = tracks.map { fromTrack(it) }
         TrackRoomDao.get().save(*roomTracks.toTypedArray())
-        return listOf(*tracks)
+        return roomTracks
     }
 
     override fun deleteByMbid(mbid: String): Track {
@@ -55,7 +55,7 @@ class TrackRoomRepo: TrackRepo {
                 return emptyList()
             }
         }
-        val roomTracks: List<TrackRoomEntity> = tracks.map { fromTrack(it).apply { isTop = true } }
+        val roomTracks: List<TrackRoomEntity> = tracks.map { fromTrack(it) }
         TrackRoomDao.get().delete(*roomTracks.toTypedArray())
         return roomTracks
     }
@@ -79,8 +79,8 @@ class TrackRoomRepo: TrackRepo {
     }
 
     override fun setTop(vararg tracks: Track): List<Track> {
-        val roomTracks: List<TrackRoomEntity> = tracks.map { fromTrack(it).apply { isTop = true } }
-        TrackRoomDao.get().save(*roomTracks.toTypedArray())
-        return roomTracks
+        val roomTopTracks: List<TrackRoomEntity> = tracks.map { fromTrack(it).apply { isTop = true } }
+        TrackRoomDao.get().save(*roomTopTracks.toTypedArray())
+        return roomTopTracks
     }
 }
