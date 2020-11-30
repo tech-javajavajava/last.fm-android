@@ -25,7 +25,8 @@ class Api {
                 TikXml.Builder().exceptionOnUnreadXml(false).build()
             ))
             .baseUrl(
-                HttpUrl.Builder().scheme("https")
+                HttpUrl.Builder()
+                    .scheme("https")
                     .host("ws.audioscrobbler.com")
                     .build()
             )

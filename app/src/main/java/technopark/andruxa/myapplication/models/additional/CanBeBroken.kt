@@ -19,4 +19,16 @@ interface CanBeBroken {
         message = this::class.java.name + ": Not initialized"
         return this
     }
+
+    fun setLastFmError(message: String): CanBeBroken {
+        errorCode = 555
+        this.message = this::class.java.name + message
+        return this
+    }
+
+    fun setEmptyMbid(): CanBeBroken {
+        errorCode = 419
+        message = this::class.java.name + ": Empty mbid"
+        return this
+    }
 }

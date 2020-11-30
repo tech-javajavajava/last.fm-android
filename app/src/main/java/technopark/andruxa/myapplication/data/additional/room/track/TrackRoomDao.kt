@@ -2,7 +2,6 @@ package technopark.andruxa.myapplication.data.additional.room.track
 
 import androidx.room.*
 import technopark.andruxa.myapplication.data.additional.room.getRoomDatabase
-import technopark.andruxa.myapplication.models.track.Track
 
 @Dao
 interface TrackRoomDao {

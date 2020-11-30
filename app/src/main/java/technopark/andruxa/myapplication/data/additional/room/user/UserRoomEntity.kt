@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import technopark.andruxa.myapplication.models.user.User
-import java.util.*
 
 @Entity
 class UserRoomEntity: User {

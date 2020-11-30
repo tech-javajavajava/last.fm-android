@@ -1,6 +1,5 @@
 package technopark.andruxa.myapplication.data.artist.room
 
-import androidx.room.Entity
 import technopark.andruxa.myapplication.data.additional.room.artist.ArtistRoomDao
 import technopark.andruxa.myapplication.data.additional.room.artist.fromArtist
 import technopark.andruxa.myapplication.data.artist.ArtistRepo

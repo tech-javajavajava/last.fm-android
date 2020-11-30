@@ -14,7 +14,6 @@ import technopark.andruxa.myapplication.data.additional.room.tag.TagRoomEntity
 import technopark.andruxa.myapplication.data.additional.room.track.TrackRoomDao
 import technopark.andruxa.myapplication.data.additional.room.track.TrackRoomEntity
 import technopark.andruxa.myapplication.data.additional.room.user.UserRoomEntity
-import technopark.andruxa.myapplication.models.image.Image
 
 @Database(
     entities = [
