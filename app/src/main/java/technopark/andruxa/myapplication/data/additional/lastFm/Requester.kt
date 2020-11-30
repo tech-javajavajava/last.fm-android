@@ -4,9 +4,12 @@ import com.tickaroo.tikxml.TikXml
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
+import retrofit2.Call
 import retrofit2.Retrofit
 import technopark.andruxa.myapplication.data.additional.lastFm.album.AlbumRequester
 import technopark.andruxa.myapplication.data.additional.lastFm.artist.ArtistRequester
+import technopark.andruxa.myapplication.data.additional.lastFm.session.SessionAuthBody
+import technopark.andruxa.myapplication.data.additional.lastFm.session.SessionRequester
 
 class Requester {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
@@ -28,6 +31,21 @@ class Requester {
 
     val albumApi: AlbumRequester = retrofit.create(AlbumRequester::class.java)
     val artistApi: ArtistRequester = retrofit.create(ArtistRequester::class.java)
+    private val sessionApi: SessionRequester = retrofit.create(SessionRequester::class.java)
+    private var sessionKey: String = ""
+    private var apiSig: String = ""
+
+
+    fun login(username: String, password: String): Boolean {
+        val response = sessionApi.login(SessionAuthBody(username, password)).execute()
+        if (response.isSuccessful) {
+            sessionKey = response.body()?.sessionKey ?: ""
+            apiSig = response.body()?.apiSig.toString()
+            return true
+        }
+
+        return false
+    }
 
     companion object {
         var requester: Requester? = null
