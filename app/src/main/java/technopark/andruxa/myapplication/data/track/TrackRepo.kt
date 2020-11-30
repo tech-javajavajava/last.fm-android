@@ -17,6 +17,7 @@ interface TrackRepo {
     ): Track
 
     fun save(vararg tracks: Track): List<Track>
+    fun delete(vararg tracks: Track): List<Track>
 
     fun deleteByMbid(mbid: String): Track
     fun deleteByNameNArtist(name: String, artistName: String): Track

@@ -21,8 +21,13 @@ class TrackRoomRepo: TrackRepo {
     }
 
     override fun save(vararg tracks: Track): List<Track> {
-        @Suppress("UNCHECKED_CAST")
-        TrackRoomDao.get().save(*tracks as Array<out TrackRoomEntity>)
+        for (track in tracks)  {
+            if (track.isBroken()) {
+                return emptyList()
+            }
+        }
+        val roomTracks: List<TrackRoomEntity> = tracks.map { fromTrack(it).apply { isTop = true } }
+        TrackRoomDao.get().save(*roomTracks.toTypedArray())
         return listOf(*tracks)
     }
 
@@ -42,6 +47,17 @@ class TrackRoomRepo: TrackRepo {
         }
         TrackRoomDao.get().delete(track)
         return track
+    }
+
+    override fun delete(vararg tracks: Track): List<Track> {
+        for (track in tracks)  {
+            if (track.isBroken()) {
+                return emptyList()
+            }
+        }
+        val roomTracks: List<TrackRoomEntity> = tracks.map { fromTrack(it).apply { isTop = true } }
+        TrackRoomDao.get().delete(*roomTracks.toTypedArray())
+        return roomTracks
     }
 
     override fun searchByName(

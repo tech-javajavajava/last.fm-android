@@ -2,6 +2,7 @@ package technopark.andruxa.myapplication.data.user.room
 
 import technopark.andruxa.myapplication.data.additional.room.user.UserRoomDao
 import technopark.andruxa.myapplication.data.additional.room.user.UserRoomEntity
+import technopark.andruxa.myapplication.data.additional.room.user.fromUser
 import technopark.andruxa.myapplication.data.user.UserRepo
 import technopark.andruxa.myapplication.models.user.User
 
@@ -15,11 +16,16 @@ class UserRoomRepo: UserRepo {
     }
 
     override fun saveCurrent(current: User): User {
-        UserRoomDao.get().saveUser(current as UserRoomEntity)
+        if (current.isBroken()) return current
+
+        val roomUser = fromUser(current).apply { id = 0 }
+        UserRoomDao.get().saveUser(roomUser)
         return current
     }
 
     override fun save(user: User): User {
+        if (user.isBroken()) return user
+
         UserRoomDao.get().saveUser(user as UserRoomEntity)
         return user
     }

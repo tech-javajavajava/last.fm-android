@@ -29,3 +29,22 @@ class UserRoomEntity: User {
         return super.isBroken()
     }
 }
+
+fun fromUser(user: User): UserRoomEntity {
+    return UserRoomEntity().apply {
+        id = user.id
+        name = user.name
+        realName = user.realName
+        url = user.url
+        image = user.image
+        country = user.country
+        age = user.age
+        gender = user.gender
+        isSubscriber = user.isSubscriber
+        playlists = user.playlists
+        isBootstrap = user.isBootstrap
+        registeredTime = user.registeredTime
+        errorCode = user.errorCode
+        message = user.message
+    }
+}
