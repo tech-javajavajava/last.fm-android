@@ -47,7 +47,7 @@ class ArtistInfoXML: Artist {
     @PropertyElement(name = "content")
     override var wikiContent: String = ""
 
-    override var errorCode: Int = -1
+    override var errorCode: Int = 0
     override var message: String = ""
 
     fun initImages(): Artist {
