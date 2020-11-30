@@ -10,9 +10,9 @@ import technopark.andruxa.myapplication.AlbumsRepository
 import technopark.andruxa.myapplication.ArtistsRepository
 import technopark.andruxa.myapplication.ImagesRepository
 import technopark.andruxa.myapplication.TracksRepository
+import technopark.andruxa.myapplication.models.Track
 import technopark.andruxa.myapplication.network.AlbumApi
 import technopark.andruxa.myapplication.network.ArtistApi
-import technopark.andruxa.myapplication.network.TrackApi
 
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
     private var lastQuery: String? = null
@@ -126,7 +126,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         enum class State {
             NONE, ERROR, IN_PROGRESS, SUCCESS, FAILED
         }
-        var tracks: List<TrackApi.Track>? = null
+        var tracks: List<Track>? = null
         var artists: List<ArtistApi.Artist>? = null
         var albums: List<AlbumApi.Album>? = null
         fun changeState(state: State): SearchProgress {
@@ -135,7 +135,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    suspend fun getImage(url: String): Bitmap? {
+    fun getImage(url: String): Bitmap? {
         return ImagesRepository.getInstance(getApplication()).getByUrl(url)
     }
 }

@@ -47,7 +47,7 @@ class UserRepository(private var api: Api?) {
                 Log.d("lol", "response")
                 response.body()?.let {
                     it.session?.let {
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful) {
 //                            sessionKey = it.key
                             progress.postValue(AuthProgress.SUCCESS)
                             return

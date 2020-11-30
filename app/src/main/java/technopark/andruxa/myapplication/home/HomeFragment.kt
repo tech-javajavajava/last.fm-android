@@ -17,15 +17,14 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
+import technopark.andruxa.myapplication.models.Track
 import technopark.andruxa.myapplication.network.ArtistApi
-import technopark.andruxa.myapplication.network.TrackApi
 import technopark.andruxa.myapplication.track.TrackFragment
 
 class HomeFragment : Fragment() {
@@ -33,9 +32,9 @@ class HomeFragment : Fragment() {
     private var container: ViewGroup? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         this.container = container
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
@@ -51,7 +50,7 @@ class HomeFragment : Fragment() {
             activity,
             parentFragmentManager,
             viewLifecycleOwner,
-            charts_container
+            view.findViewById(R.id.charts_container)
         ))
         viewModel.getCharts(true)
     }
@@ -77,7 +76,7 @@ class HomeFragment : Fragment() {
                             ApplicationModified.context?.getText(R.string.tracks_shortlist_caption)
                         val button: Button = tracksShortlist.findViewById(R.id.shortlist_button)
                         button.text = ApplicationModified.context?.getText(R.string.tracks_shortlist_button)
-                        for (track: TrackApi.Track in it) {
+                        for (track: Track in it) {
                             Log.d("charts render track", track.name!!)
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.track_or_album, container, false)
@@ -93,7 +92,7 @@ class HomeFragment : Fragment() {
                             v.setOnClickListener{
                                 fragmentManager
                                     .beginTransaction()
-                                    .replace(R.id.nav_host_fragment, TrackFragment())
+                                    .replace(R.id.nav_host_fragment, TrackFragment(track.name, track.artist!!))
                                     .addToBackStack(null)
                                     .commit()
                             }
@@ -141,15 +140,13 @@ class HomeFragment : Fragment() {
                                 val tag = it[j]
                                 Log.d("charts render tag", tag.name!!)
                                 val v: View = LayoutInflater.from(container?.context)
-                                    .inflate(R.layout.tag, container, false)
+                                    .inflate(R.layout.shortlist_tag, container, false)
                                 // fill in any details dynamically here
-                                getTagImageUrl(tag.name!!).observe(viewLifecycleOwner, object : Observer<String?> {
-                                    override fun onChanged(url: String?) {
+                                getTagImageUrl(tag.name!!).observe(viewLifecycleOwner, { url ->
                                         url?.let {
                                             setImage(v.findViewById(R.id.image), url)
                                         }
-                                    }
-                                })
+                                    })
                                 val name: TextView = v.findViewById(R.id.name) as TextView
                                 name.text = tag.name
                                 // insert into main view

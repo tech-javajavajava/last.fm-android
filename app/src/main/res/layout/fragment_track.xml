@@ -1,544 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <ProgressBar
+        android:id="@+id/track_progress_bar"
+        android:visibility="gone"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
+        android:layout_gravity="center"
+        android:layout_marginVertical="@dimen/search_vertical_margin" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingVertical="@dimen/base_indent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/base_indent"
-            android:text="Stayin' Alive"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/entity_name_entity_page_text_size" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/base_indent"
-            android:layout_marginBottom="@dimen/base_indent"
-            android:text="Bee Gees"
-            android:textColor="@color/secondary_text_color"
-            android:textSize="@dimen/secondary_entity_name_entity_page_text_size" />
-
-        <include layout="@layout/separator_line"/>
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/track"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/base_indent"
-            android:layout_marginVertical="@dimen/small_indent"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/main_indent"
-                    android:text="продолжительность"
-                    android:textColor="@color/secondary_text_color" />
-
-            </LinearLayout>
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/base_indent">
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/track_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3:16"
-                android:textColor="@color/text_color" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/base_indent"
-            android:layout_marginVertical="@dimen/small_indent">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/main_indent"
-                    android:text="дата выхода"
-                    android:textColor="@color/secondary_text_color" />
-
-            </LinearLayout>
+                android:layout_marginHorizontal="@dimen/base_indent"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/entity_name_entity_page_text_size" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/track_artist_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="давно"
-                android:textColor="@color/text_color" />
+                android:layout_marginHorizontal="@dimen/base_indent"
+                android:layout_marginBottom="@dimen/base_indent"
+                android:textColor="@color/secondary_text_color"
+                android:textSize="@dimen/secondary_entity_name_entity_page_text_size" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/base_indent"
-            android:layout_marginVertical="@dimen/small_indent">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/main_indent"
-                    android:text="слушатели"
-                    android:textColor="@color/secondary_text_color" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="дохуя"
-                android:textColor="@color/text_color" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/base_indent"
-            android:layout_marginVertical="@dimen/small_indent">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/main_indent"
-                    android:text="прослушивания"
-                    android:textColor="@color/secondary_text_color" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="дохуя"
-                android:textColor="@color/text_color" />
-
-        </LinearLayout>
-
-        <include layout="@layout/separator_line"/>
-
-        <com.google.android.flexbox.FlexboxLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/main_indent"
-            app:flexWrap="wrap">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_indent"
-                android:background="@drawable/rounded_corners_background"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/tag_padding_horizontal"
-                android:paddingVertical="@dimen/tag_padding_vertical"
-                android:text="лол"
-                android:textColor="@color/text_color" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_indent"
-                android:background="@drawable/rounded_corners_background"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/tag_padding_horizontal"
-                android:paddingVertical="@dimen/tag_padding_vertical"
-                android:text="кек"
-                android:textColor="@color/text_color" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_indent"
-                android:background="@drawable/rounded_corners_background"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/tag_padding_horizontal"
-                android:paddingVertical="@dimen/tag_padding_vertical"
-                android:text="чебурек"
-                android:textColor="@color/text_color" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_indent"
-                android:background="@drawable/rounded_corners_background"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/tag_padding_horizontal"
-                android:paddingVertical="@dimen/tag_padding_vertical"
-                android:text="арбидол"
-                android:textColor="@color/text_color" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_indent"
-                android:background="@drawable/rounded_corners_background"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/tag_padding_horizontal"
-                android:paddingVertical="@dimen/tag_padding_vertical"
-                android:text="веон"
-                android:textColor="@color/text_color" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_indent"
-                android:background="@drawable/rounded_corners_background"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/tag_padding_horizontal"
-                android:paddingVertical="@dimen/tag_padding_vertical"
-                android:text="еаонлпг"
-                android:textColor="@color/text_color" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_indent"
-                android:background="@drawable/rounded_corners_background"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/tag_padding_horizontal"
-                android:paddingVertical="@dimen/tag_padding_vertical"
-                android:text="кноег"
-                android:textColor="@color/text_color" />
-
-        </com.google.android.flexbox.FlexboxLayout>
-
-        <include layout="@layout/separator_line"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/main_indent"
-            android:text="Альбом"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/secondary_entity_name_entity_page_text_size" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/main_indent"
-            android:layout_marginTop="@dimen/base_indent"
-            android:layout_marginEnd="@dimen/base_indent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/album_image_track_page_size"
-                android:layout_height="@dimen/album_image_track_page_size"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/rounded_corners_background" />
+            <include layout="@layout/separator_line" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/base_indent"
-                android:orientation="vertical">
+                android:layout_marginHorizontal="@dimen/base_indent"
+                android:layout_marginVertical="@dimen/small_indent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/main_indent"
+                        android:text="@string/duration"
+                        android:textColor="@color/secondary_text_color" />
+
+                </LinearLayout>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/track_duration"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Number Ones"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/album_name_track_page_text_size" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Bee Gees"
-                    android:textColor="@color/secondary_text_color"
-                    android:textSize="@dimen/album_name_track_page_text_size" />
+                    android:layout_weight="1"
+                    android:textColor="@color/text_color" />
 
             </LinearLayout>
-
-        </LinearLayout>
-
-        <include layout="@layout/separator_line"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/main_indent"
-            android:text="'Believe' is a Grammy Award winning global number one, Multi-Platinum Dance Song which served as the world-wide lead single for American singer Cher's twenty-third studio album Believe. It is noted for its use of a peculiar sound effect on the singer's vocals, which is referred to as the Cher effect today. 'Believe' was written by a number of writers including Paul Barry, Matt Gray, Brian Higgins, Stuart McLellan, Timothy Powell, and Steven Torch."
-            android:textColor="@color/text_color" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/main_indent"
-            android:text="ещё"
-            android:textAlignment="center"
-            android:textColor="@color/last_fm_red" />
-
-        <include layout="@layout/separator_line"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/main_indent"
-            android:text="Похожие треки"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/secondary_entity_name_entity_page_text_size" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/main_indent"
-            android:layout_marginTop="@dimen/base_indent"
-            android:layout_marginEnd="@dimen/base_indent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/shortlist_image_size"
-                android:layout_height="@dimen/shortlist_image_size"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/rounded_corners_background" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_indent"
-                android:orientation="vertical">
+                android:layout_marginHorizontal="@dimen/base_indent"
+                android:layout_marginVertical="@dimen/small_indent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/main_indent"
+                        android:text="@string/listeners"
+                        android:textColor="@color/secondary_text_color" />
+
+                </LinearLayout>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/track_listeners"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Лол"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_name_text_size" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Кек"
-                    android:textColor="@color/secondary_text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size" />
+                    android:layout_weight="1"
+                    android:textColor="@color/text_color" />
 
             </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/main_indent"
-            android:layout_marginTop="@dimen/base_indent"
-            android:layout_marginEnd="@dimen/base_indent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/shortlist_image_size"
-                android:layout_height="@dimen/shortlist_image_size"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/rounded_corners_background" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_indent"
-                android:orientation="vertical">
+                android:layout_marginHorizontal="@dimen/base_indent"
+                android:layout_marginVertical="@dimen/small_indent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/main_indent"
+                        android:text="@string/playcount"
+                        android:textColor="@color/secondary_text_color" />
+                </LinearLayout>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/track_playcount"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Лол"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_name_text_size" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Кек"
-                    android:textColor="@color/secondary_text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size" />
+                    android:layout_weight="1"
+                    android:textColor="@color/text_color" />
 
             </LinearLayout>
 
-        </LinearLayout>
+            <include layout="@layout/separator_line" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/main_indent"
-            android:layout_marginTop="@dimen/base_indent"
-            android:layout_marginEnd="@dimen/base_indent"
-            android:orientation="horizontal">
+            <com.google.android.flexbox.FlexboxLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/tags_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/main_indent"
+                app:flexWrap="wrap"/>
 
-            <ImageView
-                android:layout_width="@dimen/shortlist_image_size"
-                android:layout_height="@dimen/shortlist_image_size"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/rounded_corners_background" />
+            <include layout="@layout/separator_line" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/main_indent"
+                android:text="@string/album"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/secondary_entity_name_entity_page_text_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_indent"
-                android:orientation="vertical">
+                android:layout_marginStart="@dimen/main_indent"
+                android:layout_marginTop="@dimen/base_indent"
+                android:layout_marginEnd="@dimen/base_indent"
+                android:orientation="horizontal">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/album_image"
+                    android:layout_width="@dimen/album_image_track_page_size"
+                    android:layout_height="@dimen/album_image_track_page_size"
+                    android:layout_gravity="center_vertical" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Лол"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_name_text_size" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/base_indent"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Кек"
-                    android:textColor="@color/secondary_text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size" />
+                    <TextView
+                        android:id="@+id/album_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/album_name_track_page_text_size" />
+
+                    <TextView
+                        android:id="@+id/album_artist_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text_color"
+                        android:textSize="@dimen/album_name_track_page_text_size" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+            <include layout="@layout/separator_line" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/main_indent"
-            android:layout_marginTop="@dimen/base_indent"
-            android:layout_marginEnd="@dimen/base_indent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/shortlist_image_size"
-                android:layout_height="@dimen/shortlist_image_size"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/rounded_corners_background" />
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/wiki"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_indent"
-                android:orientation="vertical">
+                android:layout_marginHorizontal="@dimen/main_indent"
+                android:textColor="@color/text_color" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Лол"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_name_text_size" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Кек"
-                    android:textColor="@color/secondary_text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/main_indent"
-            android:layout_marginTop="@dimen/base_indent"
-            android:layout_marginEnd="@dimen/base_indent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/shortlist_image_size"
-                android:layout_height="@dimen/shortlist_image_size"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/rounded_corners_background" />
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/wiki_expander"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_indent"
-                android:orientation="vertical">
+                android:layout_marginHorizontal="@dimen/main_indent"
+                android:text="@string/track_wiki_expander_expand_text"
+                android:textAlignment="center"
+                android:textColor="@color/last_fm_red"
+                android:focusable="true"
+                android:clickable="true"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Лол"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_name_text_size" />
+            <include layout="@layout/separator_line" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Кек"
-                    android:textColor="@color/secondary_text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/main_indent"
-            android:layout_marginTop="@dimen/base_indent"
-            android:layout_marginEnd="@dimen/base_indent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/shortlist_image_size"
-                android:layout_height="@dimen/shortlist_image_size"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/rounded_corners_background" />
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/base_indent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Лол"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_name_text_size" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Кек"
-                    android:textColor="@color/secondary_text_color"
-                    android:textSize="@dimen/track_or_album_shortlist_artist_name_text_size" />
-
-            </LinearLayout>
+                android:layout_marginHorizontal="@dimen/main_indent"
+                android:text="@string/similar_tracks"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/secondary_entity_name_entity_page_text_size" />
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+</LinearLayout>

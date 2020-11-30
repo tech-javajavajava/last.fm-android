@@ -29,7 +29,7 @@ class ApplicationModified : Application() {
     companion object {
         var context: Context? = null
         fun from(context: Context?): ApplicationModified {
-            return context?.getApplicationContext() as ApplicationModified
+            return context?.applicationContext as ApplicationModified
         }
     }
 }

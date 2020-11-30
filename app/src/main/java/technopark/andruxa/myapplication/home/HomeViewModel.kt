@@ -10,23 +10,23 @@ import technopark.andruxa.myapplication.ArtistsRepository
 import technopark.andruxa.myapplication.ImagesRepository
 import technopark.andruxa.myapplication.TagsRepository
 import technopark.andruxa.myapplication.TracksRepository
+import technopark.andruxa.myapplication.models.Track
 import technopark.andruxa.myapplication.network.ArtistApi
 import technopark.andruxa.myapplication.network.TagApi
-import technopark.andruxa.myapplication.network.TrackApi
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
-    private val chartsState = MediatorLiveData<HomeViewModel.ChartsProgress>()
+    private val chartsState = MediatorLiveData<ChartsProgress>()
 
     init {
-        chartsState.value = HomeViewModel.ChartsProgress(HomeViewModel.ChartsProgress.State.NONE)
+        chartsState.value = ChartsProgress(ChartsProgress.State.NONE)
     }
 
-    fun getChartsState(): LiveData<HomeViewModel.ChartsProgress> {
+    fun getChartsState(): LiveData<ChartsProgress> {
         return chartsState
     }
 
     fun getCharts(short: Boolean) {
-        if (chartsState.value!!.state != HomeViewModel.ChartsProgress.State.IN_PROGRESS) {
+        if (chartsState.value!!.state != ChartsProgress.State.IN_PROGRESS) {
             requestCharts(short)
         }
     }
@@ -121,7 +121,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         enum class State {
             NONE, IN_PROGRESS, SUCCESS, FAILED
         }
-        var tracks: List<TrackApi.Track>? = null
+        var tracks: List<Track>? = null
         var artists: List<ArtistApi.Artist>? = null
         var tags: List<TagApi.Tag>? = null
         fun changeState(state: State): ChartsProgress {
