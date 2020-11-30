@@ -9,6 +9,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import technopark.andruxa.myapplication.ApplicationModified
+import technopark.andruxa.myapplication.Constants
+import technopark.andruxa.myapplication.Utils
 import technopark.andruxa.myapplication.network.Api
 import technopark.andruxa.myapplication.network.UserApi
 
@@ -39,7 +41,12 @@ class UserRepository(private var api: Api?) {
     private fun login(progress: MutableLiveData<AuthProgress>, login: String, password: String) {
         Log.d("lol", "login 2")
         val api: UserApi? = api?.userApi
-        api?.login(UserApi.AuthBody(login, password))?.enqueue(object : Callback<UserApi.Response> {
+        api?.login(
+            login,
+            password,
+            Constants.lastFmApiKey,
+            Utils.md5("api_key" + Constants.lastFmApiKey + "methodauth.getMobileSessionpassword" + password + "username" + login + Constants.lastFmApiSecret)
+        )?.enqueue(object : Callback<UserApi.Response> {
             override fun onResponse(
                 call: Call<UserApi.Response>?,
                 response: Response<UserApi.Response>

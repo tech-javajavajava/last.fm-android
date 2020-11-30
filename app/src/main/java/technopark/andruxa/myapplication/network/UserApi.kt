@@ -1,14 +1,11 @@
 package technopark.andruxa.myapplication.network
 
-import android.util.Log
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
 import retrofit2.Call
-import retrofit2.http.Body
 import retrofit2.http.POST
-import technopark.andruxa.myapplication.Constants
-import technopark.andruxa.myapplication.Utils
+import retrofit2.http.Query
 
 interface UserApi {
     @Xml(name = "lfm")
@@ -27,20 +24,11 @@ interface UserApi {
 //        var subscriber: Int? = null
     }
 
-    class AuthBody(val username: String, val password: String) {
-        val method: String = "auth.getMobileSession"
-        val api_key: String = Constants.lastFmApiKey
-        val api_sig: String
-
-        init {
-            val concatStr: String =
-                "api_key" + api_key + "method" + method + "password" + password + "username" + username + Constants.lastFmApiSecret
-            Log.d("lol", concatStr)
-            api_sig = Utils.md5(concatStr)
-            Log.d("lol", api_sig)
-        }
-    }
-
-    @POST("2.0")
-    fun login(@Body body: AuthBody): Call<Response>?
+    @POST("2.0/?method=auth.getMobileSession")
+    fun login(
+        @Query("username") username: String,
+        @Query("password") password: String,
+        @Query("api_key") apiKey: String,
+        @Query("api_sig") apiSig: String
+    ): Call<Response>?
 }
