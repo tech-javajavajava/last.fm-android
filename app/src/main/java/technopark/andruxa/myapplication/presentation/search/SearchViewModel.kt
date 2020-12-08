@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.search
+package technopark.andruxa.myapplication.presentation.search
 
 import android.app.Application
 import android.graphics.Bitmap

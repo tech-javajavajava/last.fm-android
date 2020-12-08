@@ -24,7 +24,7 @@ class AlbumInfoXML: Album {
     override var imageLargeUrl: String = ""
 
     @PropertyElement
-    val image: List<String> = emptyList()
+    var image: List<String> = emptyList()
 
     @PropertyElement(name = "listeners")
     override var listenerNum: Int = -1

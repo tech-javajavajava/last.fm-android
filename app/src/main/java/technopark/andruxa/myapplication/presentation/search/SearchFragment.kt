@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.search
+package technopark.andruxa.myapplication.presentation.search
 
 import android.os.Bundle
 import android.util.Log
@@ -21,7 +21,7 @@ import technopark.andruxa.myapplication.R
 import technopark.andruxa.myapplication.models.Track
 import technopark.andruxa.myapplication.network.AlbumApi
 import technopark.andruxa.myapplication.network.ArtistApi
-import technopark.andruxa.myapplication.track.TrackFragment
+import technopark.andruxa.myapplication.presentation.track.TrackFragment
 
 class SearchFragment : Fragment() {
     private lateinit var viewModel: SearchViewModel

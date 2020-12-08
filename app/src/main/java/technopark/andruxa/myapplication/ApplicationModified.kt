@@ -3,7 +3,6 @@ package technopark.andruxa.myapplication
 import android.app.Application
 import android.content.Context
 import technopark.andruxa.myapplication.network.Api
-import technopark.andruxa.myapplication.user.UserRepository
 
 class ApplicationModified : Application() {
     var api: Api? = null

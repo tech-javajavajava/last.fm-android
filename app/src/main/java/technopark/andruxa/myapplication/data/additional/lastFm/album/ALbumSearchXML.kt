@@ -9,7 +9,7 @@ import technopark.andruxa.myapplication.models.album.Album
 class AlbumSearchXML {
     @Path("albummatches")
     @Element
-    val albums: List<AlbumInfoXML> = emptyList()
+    var albums: List<AlbumInfoXML> = emptyList()
 
     fun toAlbumList(): List<Album> {
         albums.forEach { it.initImages() }

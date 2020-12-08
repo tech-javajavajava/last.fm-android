@@ -8,5 +8,5 @@ import com.tickaroo.tikxml.annotation.Xml
 class TrackSearchXML {
     @Path("trackmatches")
     @Element
-    val tracks: List<TrackInfoXML> = emptyList()
+    var tracks: List<TrackInfoXML> = emptyList()
 }
