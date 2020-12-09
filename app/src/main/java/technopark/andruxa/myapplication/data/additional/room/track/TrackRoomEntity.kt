@@ -24,6 +24,7 @@ class TrackRoomEntity: Track {
     @ColumnInfo override var wikiSummary: String = ""
     @ColumnInfo override var wikiContent: String = ""
     @ColumnInfo var isTop: Boolean = false
+    @Ignore override var image: String? = null
     @Ignore override var artist: Artist? = null
     @Ignore override var album: Album? = null
     @Ignore override var topTags: List<Tag>? = null

@@ -19,4 +19,5 @@ interface Track: CanBeBroken {
     var wikiPublished: String
     var wikiSummary: String
     var wikiContent: String
+    var image: String?
 }

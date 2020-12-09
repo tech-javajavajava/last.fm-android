@@ -42,7 +42,7 @@ class TrackInfoXML: Track {
     @Path("wiki")
     @PropertyElement(name = "content")
     override var wikiContent: String = ""
-
+    override var image: String? = null
     override var errorCode: Int = 0
     override var message: String = ""
 }
