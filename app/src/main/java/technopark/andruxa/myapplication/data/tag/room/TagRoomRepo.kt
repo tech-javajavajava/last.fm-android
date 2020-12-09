@@ -1,6 +1,7 @@
 package technopark.andruxa.myapplication.data.tag.room
 
 import technopark.andruxa.myapplication.data.additional.room.tag.TagRoomDao
+import technopark.andruxa.myapplication.data.additional.room.tag.TagRoomEntity
 import technopark.andruxa.myapplication.data.additional.room.tag.fromTag
 import technopark.andruxa.myapplication.data.tag.TagRepo
 import technopark.andruxa.myapplication.models.tag.Tag
@@ -31,7 +32,7 @@ class TagRoomRepo : TagRepo {
     }
 
     override fun deleteByName(name: String): Tag {
-        val tag = getByName(name)
+        val tag = getByName(name) as TagRoomEntity
         if (tag.isBroken()) {
             return tag.apply { notFound() }
         }

@@ -48,6 +48,16 @@ class Requester {
         return sessionKey.isNotEmpty() && apiSig.isNotEmpty()
     }
 
+    fun login(username: String, password: String): Boolean {
+        val response = sessionApi.login(SessionAuthBody(username, password)).execute()
+        if (response.isSuccessful) {
+            sessionKey = response.body()!!.sessionKey
+            apiSig = response.body()!!.apiSig
+        }
+
+        return response.isSuccessful
+    }
+
     companion object {
         var requester: Requester? = null
         fun getInstance(): Requester {
