@@ -6,5 +6,5 @@ import com.tickaroo.tikxml.annotation.Xml
 @Xml(name = "tags")
 class TopTagsXML {
     @Element
-    var tags: List<TagInfoXML> = emptyList()
+    val tags: List<TagInfoXML> = emptyList()
 }

@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.presentation.user
+package technopark.andruxa.myapplication.user
 
 import android.app.Application
 import android.text.TextUtils
@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import technopark.andruxa.myapplication.UserRepository
 import java.util.*
 
 

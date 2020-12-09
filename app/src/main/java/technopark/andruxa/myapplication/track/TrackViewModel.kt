@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.presentation.track
+package technopark.andruxa.myapplication.track
 
 import android.app.Application
 import android.graphics.Bitmap

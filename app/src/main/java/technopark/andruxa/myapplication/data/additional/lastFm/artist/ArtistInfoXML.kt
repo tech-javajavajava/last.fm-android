@@ -20,7 +20,7 @@ class ArtistInfoXML: Artist {
     override var imageLargeUrl: String = ""
 
     @PropertyElement
-    var image: List<String> = emptyList()
+    val image: List<String> = emptyList()
 
     @PropertyElement(name = "streamable")
     override var isStreamable: Boolean = false

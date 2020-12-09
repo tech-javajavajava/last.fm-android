@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.presentation.home
+package technopark.andruxa.myapplication.home
 
 import android.os.Bundle
 import android.util.Log
@@ -25,7 +25,7 @@ import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
 import technopark.andruxa.myapplication.models.Track
 import technopark.andruxa.myapplication.network.ArtistApi
-import technopark.andruxa.myapplication.presentation.track.TrackFragment
+import technopark.andruxa.myapplication.track.TrackFragment
 
 class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel

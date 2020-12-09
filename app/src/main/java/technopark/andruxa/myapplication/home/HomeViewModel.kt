@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.presentation.home
+package technopark.andruxa.myapplication.home
 
 import android.app.Application
 import android.graphics.Bitmap
