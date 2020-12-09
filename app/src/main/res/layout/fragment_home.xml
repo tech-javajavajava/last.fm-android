@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".home.HomeFragment">
+    tools:context=".presentation.home.HomeFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/text_color_inversed"
-        android:padding="17dp"
-        android:textSize="20sp"
+        android:padding="@dimen/action_bar_padding"
+        android:textSize="@dimen/action_bar_text_size"
         android:background="@color/last_fm_red"
         android:text="@string/charts_caption"/>
 

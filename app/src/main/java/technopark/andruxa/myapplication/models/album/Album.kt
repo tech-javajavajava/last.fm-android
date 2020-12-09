@@ -1,24 +1,20 @@
 package technopark.andruxa.myapplication.models.album
 
-interface Album {
-    val name: String?
-    val artist: String?
-//    var url: String? = null
-//    var images: List<Api.Image>? = null
-//    var streamable: String? = null
-//    var mbid: String? = null
+import technopark.andruxa.myapplication.models.additional.CanBeBroken
+import technopark.andruxa.myapplication.models.tag.Tag
+import technopark.andruxa.myapplication.models.track.Track
+
+interface Album: CanBeBroken {
+    var name: String
+    var artistName: String
+    var mbid: String
+    var url: String
+    var release: String
+    var imageSmallUrl: String
+    var imageMediumUrl: String
+    var imageLargeUrl: String
+    var listenerNum: Int
+    var playCount: Int
+    var topTags: List<Tag>?
+    var tracks: List<Track>?
 }
-
-interface AlbumSearchResults {
-    val totalResults: Int?
-    val albums: List<Album>?
-    //        var startIndex: Int? = null
-    //        var itemsPerPage: Int? = null
-    //        var query: String? = null
-
-}
-
-interface AlbumSearchResponse {
-    val results: AlbumSearchResults?
-}
-

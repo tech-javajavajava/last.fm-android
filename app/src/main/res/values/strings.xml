@@ -10,4 +10,13 @@
     <string name="tags_shortlist_caption">Теги</string>
     <string name="tags_shortlist_button">Все теги</string>
     <string name="charts_caption">Чарты 🔥</string>
+    <string name="login_hint">Логин</string>
+    <string name="password_hint">Пароль</string>
+    <string name="track_wiki_expander_expand_text">ещё</string>
+    <string name="track_wiki_expander_reduce_text">свернуть</string>
+    <string name="duration">продолжительность</string>
+    <string name="listeners">слушатели</string>
+    <string name="playcount">прослушивания</string>
+    <string name="album">Альбом</string>
+    <string name="similar_tracks">Похожие треки</string>
 </resources>

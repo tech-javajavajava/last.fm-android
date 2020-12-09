@@ -15,7 +15,8 @@
         android:layout_marginHorizontal="@dimen/login_form_horizontal_margin"
         android:inputType="text"
         android:autofillHints="login"
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor"
+        android:hint="@string/login_hint"/>
 
     <EditText
         android:id="@+id/password"
@@ -25,7 +26,8 @@
         android:layout_marginHorizontal="@dimen/login_form_horizontal_margin"
         android:inputType="textPassword"
         android:autofillHints="password"
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor"
+        android:hint="@string/password_hint"/>
 
     <Button
         android:id="@+id/login_button"
@@ -34,10 +36,5 @@
         android:layout_marginVertical="@dimen/login_form_vertical_margin"
         android:text="@string/log_in"
         android:background="@color/last_fm_red" />
-
-    <TextView
-        android:id="@+id/login_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>
