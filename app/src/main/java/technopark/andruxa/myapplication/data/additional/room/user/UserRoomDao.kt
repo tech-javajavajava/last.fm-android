@@ -13,10 +13,10 @@ interface UserRoomDao {
     fun getById(id: Int): UserRoomEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveUser(user: UserRoomEntity): Long
+    fun saveUser(user: UserRoomEntity)
 
     @Delete
-    fun deleteUser(user: UserRoomEntity): User
+    fun deleteUser(user: UserRoomEntity)
 
     companion object {
         fun get(): UserRoomDao {

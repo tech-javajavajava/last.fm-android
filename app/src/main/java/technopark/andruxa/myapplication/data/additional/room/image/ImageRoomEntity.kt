@@ -3,6 +3,7 @@ package technopark.andruxa.myapplication.data.additional.room.image
 import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import technopark.andruxa.myapplication.models.image.Image
 import java.io.ByteArrayOutputStream
@@ -11,9 +12,9 @@ import java.io.ByteArrayOutputStream
 class ImageRoomEntity: Image {
     @PrimaryKey override var name: String = ""
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB) var blob: ByteArray = byteArrayOf()
-    override var errorCode: Int = 0
-    override var message: String = ""
-    override var bitmap: Bitmap? = null
+    @Ignore override var errorCode: Int = 0
+    @Ignore override var message: String = ""
+    @Ignore override var bitmap: Bitmap? = null
 }
 
 fun fromImage(image: Image): ImageRoomEntity {

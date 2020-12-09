@@ -23,7 +23,7 @@ import technopark.andruxa.myapplication.data.additional.room.user.UserRoomEntity
         ArtistRoomEntity::class,
         AlbumRoomEntity::class,
         ImageRoomEntity::class,
-    ], version = 1
+    ], version = 1, exportSchema = false
 )
 abstract class RoomDataBase : RoomDatabase() {
     abstract fun userRoomDao(): UserRoomDao

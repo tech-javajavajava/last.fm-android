@@ -15,10 +15,10 @@ interface AlbumRoomDao {
     fun search(name: String, limit: Int, offset: Int): List<AlbumRoomEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(vararg albums: AlbumRoomEntity): Long
+    fun save(vararg albums: AlbumRoomEntity)
 
     @Delete
-    fun delete(vararg albums: AlbumRoomEntity): Long
+    fun delete(vararg albums: AlbumRoomEntity)
 
     companion object {
         fun get(): AlbumRoomDao {

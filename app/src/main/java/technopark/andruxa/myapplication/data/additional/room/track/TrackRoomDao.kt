@@ -21,10 +21,10 @@ interface TrackRoomDao {
     fun getTop(limit: Int, offset: Int): List<TrackRoomEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(vararg tracks: TrackRoomEntity): Long
+    fun save(vararg tracks: TrackRoomEntity)
 
     @Delete
-    fun delete(vararg tracks: TrackRoomEntity): Long
+    fun delete(vararg tracks: TrackRoomEntity)
 
     companion object {
         fun get(): TrackRoomDao {

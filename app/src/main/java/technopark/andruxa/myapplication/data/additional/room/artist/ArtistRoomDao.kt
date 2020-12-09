@@ -15,10 +15,10 @@ interface ArtistRoomDao {
     fun search(name: String, limit: Int, offset: Int): List<ArtistRoomEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(vararg artists: ArtistRoomEntity): Long
+    fun save(vararg artists: ArtistRoomEntity)
 
     @Delete
-    fun delete(vararg artists: ArtistRoomEntity): Long
+    fun delete(vararg artists: ArtistRoomEntity)
 
     companion object {
         fun get(): ArtistRoomDao {

@@ -9,10 +9,10 @@ interface ImageRoomDao {
     fun getByName(name: String): ImageRoomEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(vararg images: ImageRoomEntity): Long
+    fun save(vararg images: ImageRoomEntity)
 
     @Delete
-    fun delete(vararg images: ImageRoomEntity): Long
+    fun delete(vararg images: ImageRoomEntity)
 
     companion object {
         fun get(): ImageRoomDao {

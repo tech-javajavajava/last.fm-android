@@ -1,5 +1,6 @@
 package technopark.andruxa.myapplication.data.additional.lastFm.artist
 
+import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.Path
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
@@ -19,7 +20,7 @@ class ArtistInfoXML: Artist {
     override var imageMediumUrl: String = ""
     override var imageLargeUrl: String = ""
 
-    @PropertyElement
+     // TODO
     var image: List<String> = emptyList()
 
     @PropertyElement(name = "streamable")

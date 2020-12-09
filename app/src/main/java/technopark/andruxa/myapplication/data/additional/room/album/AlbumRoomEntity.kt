@@ -20,8 +20,8 @@ class AlbumRoomEntity: Album {
     @ColumnInfo override var imageLargeUrl: String = ""
     @ColumnInfo override var listenerNum: Int = 0
     @ColumnInfo override var playCount: Int = 0
-    override var topTags: List<Tag>? = null
-    override var tracks: List<Track>? = null
+    @Ignore override var topTags: List<Tag>? = null
+    @Ignore override var tracks: List<Track>? = null
     @Ignore override var errorCode: Int = 0
     @Ignore override var message: String = ""
 }

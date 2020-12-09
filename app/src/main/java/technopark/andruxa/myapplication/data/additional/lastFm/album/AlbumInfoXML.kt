@@ -23,7 +23,7 @@ class AlbumInfoXML: Album {
     override var imageMediumUrl: String = ""
     override var imageLargeUrl: String = ""
 
-    @PropertyElement
+    // TODO
     var image: List<String> = emptyList()
 
     @PropertyElement(name = "listeners")
