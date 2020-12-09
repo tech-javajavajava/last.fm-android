@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.user
+package technopark.andruxa.myapplication.presentation.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
