@@ -1,19 +1,16 @@
 package technopark.andruxa.myapplication.models.user
 
-import technopark.andruxa.myapplication.models.additional.CanBeBroken
-import java.util.*
-
-interface User: CanBeBroken {
-    var id: Int
-    var name: String
-    var realName: String
-    var url: String
-    var image: String
-    var country: String
-    var age: Int
-    var gender: String
-    var isSubscriber: Boolean
-    var playlists: Int
-    var isBootstrap: Boolean
-    var registeredTime: String
+class User {
+    var id: String? = null
+    var name: String? = null
+    var realName: String? = null
+    var url: String? = null
+    var image: String? = null
+    var country: String? = null
+    var age: Int? = null
+    var gender: String? = null
+    var isSubscriber: Boolean? = null
+    var playlists: Int? = null
+    var isBootstrap: Boolean? = null
+    var registeredTime: String? = null
 }
