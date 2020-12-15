@@ -1,32 +1,32 @@
-package technopark.andruxa.myapplication.data.storages.lastFm.album
+package technopark.andruxa.myapplication.data.storages.lastFm.track
 
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
 import technopark.andruxa.myapplication.data.storages.lastFm.image.ImageXML
-import technopark.andruxa.myapplication.models.album.Album
-import technopark.andruxa.myapplication.models.album.Albumix
 import technopark.andruxa.myapplication.models.image.Image
+import technopark.andruxa.myapplication.models.track.Track
+import technopark.andruxa.myapplication.models.track.Trackix
 
-@Xml(name = "album")
-class AlbumXML: Albumix {
+@Xml(name = "track")
+class TrackXML: Trackix {
     @PropertyElement
     var name: String? = null
-    @PropertyElement(name = "artist")
-    var artistName: String? = null
-    @PropertyElement
-    var id: String? = null
     @PropertyElement
     var url: String? = null
+    @PropertyElement
+    var listeners: Int? = null
+    @PropertyElement(name = "artist")
+    var artistName: String? = null
     @Element
     var images: List<ImageXML> = List(0) { ImageXML() }
 
-    override fun toAlbum(): Album {
-        return Album().also {
+    override fun toTrack(): Track {
+        return Track().also {
             it.name = name
-            it.artistName = artistName
-            it.id = id
             it.url = url
+            it.listeners = listeners
+            it.artistName = artistName
             for (image in images) {
                 if (image.size == null || image.url == null) {
                     continue

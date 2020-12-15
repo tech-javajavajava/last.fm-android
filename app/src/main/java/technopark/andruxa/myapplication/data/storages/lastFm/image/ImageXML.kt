@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.data.storages.lastFm.album
+package technopark.andruxa.myapplication.data.storages.lastFm.image
 
 import com.tickaroo.tikxml.annotation.Attribute
 import com.tickaroo.tikxml.annotation.TextContent
