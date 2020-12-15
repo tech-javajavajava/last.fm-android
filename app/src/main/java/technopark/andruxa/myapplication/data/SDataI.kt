@@ -6,9 +6,12 @@ interface SDataI<T> {
     val state: LiveData<State>
     val message: String
     val data: T?
+    val isNetErr: Boolean
 
     enum class State {
-        Ok,
+        NetOk,
+        CacheOk,
+        SqlOk,
         Load,
         Err,
     }

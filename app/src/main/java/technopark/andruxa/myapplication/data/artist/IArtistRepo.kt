@@ -1,10 +1,9 @@
 package technopark.andruxa.myapplication.data.artist
 
 import androidx.lifecycle.LiveData
-import technopark.andruxa.myapplication.data.IRepo
 import technopark.andruxa.myapplication.models.artist.Artist
 
-interface IArtistRepo: IRepo {
+interface IArtistRepo {
 
     val artist: LiveData<Artist>
 
