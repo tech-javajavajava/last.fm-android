@@ -1,10 +1,10 @@
-package technopark.andruxa.myapplication.data.additional.lastFm.tag
+package technopark.andruxa.myapplication.data.storages.lastFm.tag
 
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.Xml
 
 @Xml(name = "tags")
-class TopTagsXML {
+class TagTopXML {
     @Element
     var tags: List<TagInfoXML> = emptyList()
 }
