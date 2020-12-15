@@ -1,10 +1,10 @@
 package technopark.andruxa.myapplication.data.artist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import technopark.andruxa.myapplication.data.SData
+import technopark.andruxa.myapplication.data.SDataI
 import technopark.andruxa.myapplication.data.storages.lastFm.LastFmStore
 import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistSearchXML
 import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistXML
@@ -14,165 +14,159 @@ import technopark.andruxa.myapplication.models.artist.Artist
 
 class ArtistRepo: IArtistRepo {
 
-    override var artist: MutableLiveData<Artist> = MutableLiveData<Artist>()
-        private set
-
-    override var artists: MutableLiveData<List<Artist>> = MutableLiveData(List(0) { Artist() })
-        private set
+    override val artistById: SData<Artist> = SData()
+    override val artistByName: SData<Artist> = SData()
+    override val artistSearch: SData<List<Artist>> = SData()
+    override val artistTop: SData<List<Artist>> = SData()
 
     private val lastFmStore = LastFmStore.instance.artistApi
     private val sqlStore = RoomStore.instance.artistRoomDao()
 
-    override fun getByName(name: String, userName: String?): LiveData<Artist> {
+    override fun getById(id: String, userName: String?): SDataI<Artist> {
+        with(artistById) {
 
-        lastFmStore.getInfoByName(name).enqueue(object: Callback<ArtistXML> {
-            override fun onResponse(call: Call<ArtistXML>, response: Response<ArtistXML>) {
-                response.body()?.let { artist.postValue(it.toArtist()) }
-//                setState(IRepo.State.Ok, "network response received")
-            }
+            postState(SDataI.State.Load)
 
-            override fun onFailure(call: Call<ArtistXML>, t: Throwable) {
-//                setState(IRepo.State.Err, "network error: '${t.message}'")
-            }
-        })
-
-        artist.value?.name?.let {
-            if (it == name) {
-//                setState(IRepo.State.Ok, "same model requested")
-                return artist
-            }
-        }
-
-        artists.value?.let {
-            val newArtist = it.find { artist -> artist.name == name}
-            if (newArtist != null) {
-                artist.postValue(newArtist)
-//                setState(IRepo.State.Ok, "model found in cache")
-                return artist
-            }
-        }
-
-//        setState(IRepo.State.Warn, "looking in local storage")
-        val storedArtist = sqlStore.getByName(name)
-        if (storedArtist == null) {
-//            setState(IRepo.State.Err, "not found in local storage")
-        } else {
-            artist.postValue(storedArtist.toArtist())
-//            setState(IRepo.State.Ok, "found in local storage")
-        }
-
-        return artist
-    }
-
-    override fun getById(id: String, userName: String?): LiveData<Artist> {
-
-        lastFmStore.getByMbid(id).enqueue(object: Callback<ArtistXML> {
-            override fun onResponse(call: Call<ArtistXML>, response: Response<ArtistXML>) {
-                response.body()?.let { artist.postValue(it.toArtist()) }
-//                setState(IRepo.State.Ok, "network response received")
-            }
-
-            override fun onFailure(call: Call<ArtistXML>, t: Throwable) {
-//                setState(IRepo.State.Err, "network error: '${t.message}'")
-            }
-        })
-
-        artist.value?.id?.let {
-            if (it == id) {
-//                setState(IRepo.State.Ok, "same model requested")
-                return artist
-            }
-        }
-
-        artists.value?.let {
-            val newArtist = it.find { artist -> artist.id == id}
-            if (newArtist != null) {
-                artist.postValue(newArtist)
-//                setState(IRepo.State.Ok, "model found in cache")
-                return artist
-            }
-        }
-
-//        setState(IRepo.State.Warn, "looking in local storage")
-        val storedArtist = sqlStore.getByMbid(id)
-        if (storedArtist == null) {
-//            setState(IRepo.State.Err, "not found in local storage")
-        } else {
-            artist.postValue(storedArtist.toArtist())
-//            setState(IRepo.State.Ok, "found in local storage")
-        }
-
-        return artist
-    }
-
-    override fun searchByName(name: String, limit: Int, page: Int): LiveData<List<Artist>> {
-        lastFmStore.searchByName(name, limit, page).enqueue(object: Callback<ArtistSearchXML> {
-            override fun onResponse(call: Call<ArtistSearchXML>, response: Response<ArtistSearchXML>) {
-                response.body()?.let { artists.postValue(it.artists.map { artist -> artist.toArtist() }) }
-//                setState(IRepo.State.Ok, "network response received")
-            }
-
-            override fun onFailure(call: Call<ArtistSearchXML>, t: Throwable) {
-//                setState(IRepo.State.Err, "network error: '${t.message}'")
-            }
-        })
-
-        artists.value?.let {
-            val newArtists = it.filter { album -> album.name == name }
-            if (newArtists.isNotEmpty()) {
-                artists.postValue(newArtists)
-//                setState(IRepo.State.Ok, "search results found in cache")
-                return artists
-            }
-        }
-
-//        setState(IRepo.State.Warn, "looking in local storage")
-        val storedArtists = sqlStore.searchByName(name, limit, page)
-        if (storedArtists.isEmpty()) {
-//            setState(IRepo.State.Err, "not found in local storage")
-        } else {
-            artists.postValue(storedArtists.map { artist -> artist.toArtist() })
-//            setState(IRepo.State.Ok, "found in local storage")
-        }
-
-        return artists
-    }
-
-    override fun getTop(limit: Int, page: Int): LiveData<List<Artist>> {
-
-        lastFmStore.getTop(page, limit).enqueue(object : Callback<ArtistsTopXML> {
-            override fun onResponse(call: Call<ArtistsTopXML>, response: Response<ArtistsTopXML>) {
-                response.body()?.let {
-                    val newArtists =  it.artists.map { artist -> artist.toArtist() }
-                    newArtists.forEach { artist -> artist.makeTop() }
-                    artists.postValue(newArtists)
+            lastFmStore.getByMbid(id).enqueue(object: Callback<ArtistXML> {
+                override fun onResponse(call: Call<ArtistXML>, response: Response<ArtistXML>) {
+                    response.body()?.let { setData(it.toArtist()) }
+                    setNetErr(false)
+                    postState(SDataI.State.NetOk)
                 }
-//                setState(IRepo.State.Ok, "network response received")
+
+                override fun onFailure(call: Call<ArtistXML>, t: Throwable) {
+                    setMessage("network error: '${t.message}'")
+                    setNetErr(true)
+                    postState(SDataI.State.Err)
+                }
+            })
+
+            if (data?.id == id) {
+                setMessage("${this.javaClass.name} cache hit")
+                postState(SDataI.State.CacheOk)
+                return this
             }
 
-            override fun onFailure(call: Call<ArtistsTopXML>, t: Throwable) {
-//                setState(IRepo.State.Err, "network error: '${t.message}'")
+            val albumEntity = sqlStore.getByMbid(id)
+            if (albumEntity != null) {
+                setMessage("${this.javaClass.name} sql hit")
+                setData(albumEntity.toArtist())
+                postState(SDataI.State.SqlOk)
+                return this
             }
-        })
 
-        artists.value?.let {
-            val newArtists = it.filter { album -> album.isTop }
-            if (newArtists.isNotEmpty()) {
-                artists.postValue(newArtists)
-//                setState(IRepo.State.Ok, "search results found in cache")
-                return artists
-            }
+            return this
         }
+    }
 
-//        setState(IRepo.State.Warn, "looking in local storage")
-        val storedArtists = sqlStore.getTop(limit, (page - 1) * limit)
-        if (storedArtists.isEmpty()) {
-//            setState(IRepo.State.Err, "not found in local storage")
-        } else {
-            artists.postValue(storedArtists.map { artist -> artist.toArtist() })
-//            setState(IRepo.State.Ok, "found in local storage")
+    override fun getByName(name: String, userName: String?): SDataI<Artist> {
+        with(artistByName) {
+
+            postState(SDataI.State.Load)
+
+            lastFmStore.getInfoByName(name, 1, userName).enqueue(object: Callback<ArtistXML> {
+                override fun onResponse(call: Call<ArtistXML>, response: Response<ArtistXML>) {
+                    response.body()?.let { setData(it.toArtist()) }
+                    setNetErr(false)
+                    postState(SDataI.State.NetOk)
+                }
+
+                override fun onFailure(call: Call<ArtistXML>, t: Throwable) {
+                    setMessage("network error: '${t.message}'")
+                    setNetErr(true)
+                    postState(SDataI.State.Err)
+                }
+            })
+
+            if (data?.name == name) {
+                setMessage("${this.javaClass.name} cache hit")
+                postState(SDataI.State.CacheOk)
+                return this
+            }
+
+            val albumEntity = sqlStore.getByName(name)
+            if (albumEntity != null) {
+                setMessage("${this.javaClass.name} sql hit")
+                setData(albumEntity.toArtist())
+                postState(SDataI.State.SqlOk)
+                return this
+            }
+
+            return this
         }
+    }
 
-        return artists
+    override fun searchByName(name: String, limit: Int, page: Int): SDataI<List<Artist>> {
+        with(artistSearch) {
+
+            postState(SDataI.State.Load)
+
+            lastFmStore.searchByName(name).enqueue(object: Callback<ArtistSearchXML> {
+                override fun onResponse(call: Call<ArtistSearchXML>, response: Response<ArtistSearchXML>) {
+                    setData(response.body()?.artists?.map { albumXML -> albumXML.toArtist() })
+                    setNetErr(false)
+                    postState(SDataI.State.NetOk)
+                }
+
+                override fun onFailure(call: Call<ArtistSearchXML>, t: Throwable) {
+                    setMessage("network error: '${t.message}'")
+                    setNetErr(true)
+                    postState(SDataI.State.Err)
+                }
+            })
+
+            val cacheResult = data?.filter { album -> album.name == name }
+            if (cacheResult != null && cacheResult.isNotEmpty()) {
+                setMessage("${this.javaClass.name} cache hit")
+                postState(SDataI.State.CacheOk)
+                return this
+            }
+
+            val artistEntites = sqlStore.searchByName(name, limit, (page - 1) * limit)
+            if (artistEntites.isNotEmpty()) {
+                setMessage("${this.javaClass.name} sql hit")
+                postState(SDataI.State.SqlOk)
+                setData(artistEntites.map { artistEntity-> artistEntity.toArtist() })
+                return this
+            }
+
+            return this
+        }
+    }
+
+    override fun getTop(limit: Int, page: Int): SDataI<List<Artist>> {
+
+        with(artistTop) {
+            postState(SDataI.State.Load)
+            lastFmStore.getTop(page, limit).enqueue(object : Callback<ArtistsTopXML> {
+                override fun onResponse(call: Call<ArtistsTopXML>, response: Response<ArtistsTopXML>) {
+                    setData(response.body()?.artists?.map { a -> a.toArtist() })
+                    postState(SDataI.State.NetOk)
+                    setNetErr(false)
+                }
+
+                override fun onFailure(call: Call<ArtistsTopXML>, t: Throwable) {
+                    setMessage("network error: '${t.message}'")
+                    setNetErr(true)
+                    postState(SDataI.State.Err)
+                }
+            })
+
+            if (!data.isNullOrEmpty()) {
+                setMessage("${this.javaClass.name} cache hit")
+                postState(SDataI.State.CacheOk)
+                return this
+            }
+
+            val storedArtists = sqlStore.getTop(limit, (page - 1) * limit)
+            if (storedArtists.isNotEmpty()) {
+                setData(storedArtists.map { a -> a.toArtist() })
+                setMessage("${this.javaClass.name} sql hit")
+                postState(SDataI.State.SqlOk)
+                return this
+            }
+
+            return this
+        }
     }
 }
