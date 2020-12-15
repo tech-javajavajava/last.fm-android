@@ -37,4 +37,14 @@ class ImageRepo: IImageRepo {
 
         return result
     }
+
+    companion object {
+        var repo: IImageRepo? = null
+        fun getInstance(): IImageRepo {
+            if (repo == null) {
+                repo = ImageRepo()
+            }
+            return repo as IImageRepo
+        }
+    }
 }

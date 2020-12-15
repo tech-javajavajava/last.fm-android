@@ -169,4 +169,14 @@ class ArtistRepo: IArtistRepo {
             return this
         }
     }
+
+    companion object {
+        var repo: IArtistRepo? = null
+        fun getInstance(): IArtistRepo {
+            if (repo == null) {
+                repo = ArtistRepo()
+            }
+            return repo as IArtistRepo
+        }
+    }
 }

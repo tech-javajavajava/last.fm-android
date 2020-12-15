@@ -36,8 +36,8 @@ class LastFmStore {
     val tagsApi: TagRequester = retrofit.create(TagRequester::class.java)
     val trackApi: TrackRequester = retrofit.create(TrackRequester::class.java)
     val userApi: UserRequester = retrofit.create(UserRequester::class.java)
+    val sessionApi: SessionRequester = retrofit.create(SessionRequester::class.java)
 
-    private val sessionApi: SessionRequester = retrofit.create(SessionRequester::class.java)
     var sessionKey: String = ""
     var apiSig: String = ""
 
