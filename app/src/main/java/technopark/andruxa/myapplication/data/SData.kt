@@ -25,4 +25,10 @@ class SData<T>: SDataI<T> {
     fun setData(newData: T?) {
         data = newData
     }
+
+    fun networkError(message: String?) {
+        setMessage("network error: '${message}'")
+        setNetErr(true)
+        postState(SDataI.State.Err)
+    }
 }

@@ -14,7 +14,7 @@ import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackRequeste
 import technopark.andruxa.myapplication.data.storages.lastFm.user.UserRequester
 
 class LastFmStore {
-    private val client: OkHttpClient = OkHttpClient().newBuilder().build()
+    val client: OkHttpClient = OkHttpClient().newBuilder().build()
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(
             TikXmlConverterFactory.create(
