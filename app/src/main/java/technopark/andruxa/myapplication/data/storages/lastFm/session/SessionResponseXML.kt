@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.data.additional.lastFm.session
+package technopark.andruxa.myapplication.data.storages.lastFm.session
 
 import com.tickaroo.tikxml.annotation.Attribute
 import com.tickaroo.tikxml.annotation.Path

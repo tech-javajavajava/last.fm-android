@@ -1,4 +1,4 @@
-package technopark.andruxa.myapplication.data.additional.lastFm.track
+package technopark.andruxa.myapplication.data.storages.lastFm.track
 
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.Path
@@ -8,5 +8,5 @@ import com.tickaroo.tikxml.annotation.Xml
 class TrackSearchXML {
     @Path("trackmatches")
     @Element
-    var tracks: List<TrackInfoXML> = emptyList()
+    var tracks: List<TrackXML> = emptyList()
 }
