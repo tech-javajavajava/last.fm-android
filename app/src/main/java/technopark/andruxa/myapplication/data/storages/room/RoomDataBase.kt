@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import technopark.andruxa.myapplication.data.storages.room.album.AlbumDao
 import technopark.andruxa.myapplication.data.storages.room.album.AlbumEntity
 import technopark.andruxa.myapplication.data.storages.room.artist.ArtistRoomDao
-import technopark.andruxa.myapplication.data.storages.room.artist.ArtistRoomEntity
+import technopark.andruxa.myapplication.data.storages.room.artist.ArtistEntity
 import technopark.andruxa.myapplication.data.storages.room.image.ImageRoomDao
 import technopark.andruxa.myapplication.data.storages.room.image.ImageRoomEntity
 import technopark.andruxa.myapplication.data.storages.room.tag.TagRoomDao
@@ -20,7 +20,7 @@ import technopark.andruxa.myapplication.data.storages.room.user.UserRoomEntity
         UserRoomEntity::class,
         TrackRoomEntity::class,
         TagRoomEntity::class,
-        ArtistRoomEntity::class,
+        ArtistEntity::class,
         AlbumEntity::class,
         ImageRoomEntity::class,
     ], version = 1, exportSchema = false

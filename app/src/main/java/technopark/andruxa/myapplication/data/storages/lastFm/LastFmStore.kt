@@ -1,22 +1,19 @@
-package technopark.andruxa.myapplication.data.additional.lastFm
+package technopark.andruxa.myapplication.data.storages.lastFm
 
 import com.tickaroo.tikxml.TikXml
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
-import retrofit2.Call
 import retrofit2.Retrofit
-import technopark.andruxa.myapplication.data.additional.lastFm.album.AlbumRequester
-import technopark.andruxa.myapplication.data.additional.lastFm.artist.ArtistRequester
-import technopark.andruxa.myapplication.data.additional.lastFm.session.SessionAuthBody
-import technopark.andruxa.myapplication.data.additional.lastFm.session.SessionRequester
-import technopark.andruxa.myapplication.data.additional.lastFm.tag.TagRequester
-import technopark.andruxa.myapplication.data.additional.lastFm.track.TrackRequester
-import technopark.andruxa.myapplication.data.additional.lastFm.user.UserInfoXML
-import technopark.andruxa.myapplication.data.additional.lastFm.user.UserRequester
-import technopark.andruxa.myapplication.models.user.User
+import technopark.andruxa.myapplication.data.storages.lastFm.album.AlbumRequester
+import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistRequester
+import technopark.andruxa.myapplication.data.storages.lastFm.session.SessionAuthBody
+import technopark.andruxa.myapplication.data.storages.lastFm.session.SessionRequester
+import technopark.andruxa.myapplication.data.storages.lastFm.tag.TagRequester
+import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackRequester
+import technopark.andruxa.myapplication.data.storages.lastFm.user.UserRequester
 
-class Requester {
+class LastFmStore {
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(
@@ -59,13 +56,6 @@ class Requester {
     }
 
     companion object {
-        var requester: Requester? = null
-        fun getInstance(): Requester {
-            if (requester == null) {
-                requester = Requester()
-            }
-
-            return requester!!
-        }
+        var instance: LastFmStore = LastFmStore()
     }
 }
