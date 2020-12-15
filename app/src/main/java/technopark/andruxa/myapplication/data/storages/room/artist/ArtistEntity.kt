@@ -12,7 +12,7 @@ class ArtistEntity: Artistix {
     @ColumnInfo
     var name: String? = null
     @PrimaryKey
-    var mbid: String? = null
+    var mbid: String = ""
     @ColumnInfo
     var url: String? = null
     @ColumnInfo
@@ -21,15 +21,12 @@ class ArtistEntity: Artistix {
     var imageMedium: String? = null
     @ColumnInfo
     var imageLarge: String? = null
-    @ColumnInfo
-    var isTop: Boolean? = null
 
     override fun toArtist(): Artist {
         return Artist().also {
             it.name = name
             it.id = mbid
             it.url = url
-            it.isTop = isTop != null || isTop == true
             if (imageSmall != null) {
                 it.images.small = Image().apply { url = imageSmall as String }
             }

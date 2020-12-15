@@ -16,7 +16,7 @@ class AlbumEntity: Albumix {
     var artistName: String? = null
 
     @PrimaryKey
-    var id: String? = null
+    var id: String = ""
 
     @ColumnInfo
     var url: String? = null
