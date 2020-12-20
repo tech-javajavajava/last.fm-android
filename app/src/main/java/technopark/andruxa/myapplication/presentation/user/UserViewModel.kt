@@ -19,7 +19,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         loginState.value = LoginState.NONE
     }
 
-    fun getProgress(): LiveData<LoginState> {
+    fun checkLogin(): Boolean {
+        return SessionRepo.getInstance().isLogined.data == true
+    }
+
+    fun getLoginProgress(): LiveData<LoginState> {
         return loginState
     }
 
@@ -35,22 +39,22 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun requestLogin(loginData: LoginData) {
-        Log.d("lol", "request")
+        Log.d("auth", "request")
         loginState.postValue(LoginState.IN_PROGRESS)
         val progressLiveData = SessionRepo.getInstance().login(loginData.login, loginData.password)
         loginState.addSource(progressLiveData.state) { authProgress ->
-            Log.d("lol", "callback")
+            Log.d("auth", "callback")
             if (progressLiveData.isOk()) {
-                Log.d("lol", "success")
+                Log.d("auth", "success")
                 loginState.postValue(LoginState.SUCCESS)
                 loginState.removeSource(progressLiveData.state)
             } else if (authProgress === SDataI.State.Err) {
+                Log.d("auth", "fail")
                 loginState.postValue(LoginState.FAILED)
                 loginState.removeSource(progressLiveData.state)
             }
         }
     }
-
 
     enum class LoginState {
         NONE, ERROR, IN_PROGRESS, SUCCESS, FAILED

@@ -5,9 +5,10 @@ import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import technopark.andruxa.myapplication.Constants
+import technopark.andruxa.myapplication.Utils
 import technopark.andruxa.myapplication.data.storages.lastFm.album.AlbumRequester
 import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistRequester
-import technopark.andruxa.myapplication.data.storages.lastFm.session.SessionAuthBody
 import technopark.andruxa.myapplication.data.storages.lastFm.session.SessionRequester
 import technopark.andruxa.myapplication.data.storages.lastFm.tag.TagRequester
 import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackRequester
@@ -46,7 +47,10 @@ class LastFmStore {
     }
 
     fun login(username: String, password: String): Boolean {
-        val response = sessionApi.login(SessionAuthBody(username, password)).execute()
+        val response = sessionApi.login(
+                username, password, Constants.lastFmApiKey,
+                Utils.md5("api_key" + Constants.lastFmApiKey + "methodauth.getMobileSessionpassword" + password + "username" + username + Constants.lastFmApiSecret)
+        ).execute()
         if (response.isSuccessful) {
             sessionKey = response.body()!!.sessionKey
             apiSig = response.body()!!.apiSig
