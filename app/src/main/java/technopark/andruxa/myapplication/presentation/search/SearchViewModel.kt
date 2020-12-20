@@ -1,18 +1,17 @@
 package technopark.andruxa.myapplication.presentation.search
 
 import android.app.Application
-import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import technopark.andruxa.myapplication.AlbumsRepository
-import technopark.andruxa.myapplication.ArtistsRepository
-import technopark.andruxa.myapplication.ImagesRepository
-import technopark.andruxa.myapplication.TracksRepository
-import technopark.andruxa.myapplication.models.Track
-import technopark.andruxa.myapplication.network.AlbumApi
-import technopark.andruxa.myapplication.network.ArtistApi
+import technopark.andruxa.myapplication.data.SDataI
+import technopark.andruxa.myapplication.data.album.AlbumRepo
+import technopark.andruxa.myapplication.data.artist.ArtistRepo
+import technopark.andruxa.myapplication.data.track.TrackRepo
+import technopark.andruxa.myapplication.models.album.Album
+import technopark.andruxa.myapplication.models.artist.Artist
+import technopark.andruxa.myapplication.models.track.Track
 
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
     private var lastQuery: String? = null
@@ -45,23 +44,20 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         searchState.value?.tracks = null
         searchState.value?.artists = null
         searchState.value?.albums = null
-        val tracksSearchLiveData: LiveData<TracksRepository.Progress> =
-                TracksRepository.getInstance(getApplication()).search(query, limit)!!
-        val artistsSearchLiveData: LiveData<ArtistsRepository.Progress> =
-                ArtistsRepository.getInstance(getApplication()).search(query, limit)!!
-        val albumsSearchLiveData: LiveData<AlbumsRepository.SearchProgress> =
-                AlbumsRepository.getInstance(getApplication()).search(query, limit)!!
-        searchState.addSource(tracksSearchLiveData) { searchProgress ->
+        val tracksSearchLiveData = TrackRepo.getInstance().searchByName(query, null, limit)
+        val artistsSearchLiveData = ArtistRepo.getInstance().searchByName(query, limit)
+        val albumsSearchLiveData = AlbumRepo.getInstance().searchByName(query, limit)
+        searchState.addSource(tracksSearchLiveData.state) { searchProgress ->
             Log.d("tracks search", "callback")
-            if (searchProgress.state === TracksRepository.Progress.State.SUCCESS) {
+            if (tracksSearchLiveData.isOk()) {
                 Log.d("tracks search", "success")
-                searchState.value!!.tracks = searchProgress.tracks
+                searchState.value!!.tracks = tracksSearchLiveData.data
                 ++responsesRecieved
                 if (responsesRecieved == responsesAwaiting) {
                     searchState.postValue(searchState.value!!.changeState(SearchProgress.State.SUCCESS))
                 }
-                searchState.removeSource(tracksSearchLiveData)
-            } else if (searchProgress.state === TracksRepository.Progress.State.FAILED) {
+                searchState.removeSource(tracksSearchLiveData.state)
+            } else if (searchProgress === SDataI.State.Err) {
                 ++responsesRecieved
                 ++responsesFailed
                 if (responsesRecieved == responsesAwaiting) {
@@ -71,20 +67,20 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
                         searchState.postValue(searchState.value!!.changeState(SearchProgress.State.SUCCESS))
                     }
                 }
-                searchState.removeSource(tracksSearchLiveData)
+                searchState.removeSource(tracksSearchLiveData.state)
             }
         }
-        searchState.addSource(artistsSearchLiveData) { searchProgress ->
+        searchState.addSource(artistsSearchLiveData.state) { searchProgress ->
             Log.d("artists search", "callback")
-            if (searchProgress.state === ArtistsRepository.Progress.State.SUCCESS) {
+            if (artistsSearchLiveData.isOk()) {
                 Log.d("artists search", "success")
-                searchState.value!!.artists = searchProgress.artists
+                searchState.value!!.artists = artistsSearchLiveData.data
                 ++responsesRecieved
                 if (responsesRecieved == responsesAwaiting) {
                     searchState.postValue(searchState.value!!.changeState(SearchProgress.State.SUCCESS))
                 }
-                searchState.removeSource(artistsSearchLiveData)
-            } else if (searchProgress.state === ArtistsRepository.Progress.State.FAILED) {
+                searchState.removeSource(artistsSearchLiveData.state)
+            } else if (searchProgress === SDataI.State.Err) {
                 ++responsesRecieved
                 ++responsesFailed
                 if (responsesRecieved == responsesAwaiting) {
@@ -94,20 +90,20 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
                         searchState.postValue(searchState.value!!.changeState(SearchProgress.State.SUCCESS))
                     }
                 }
-                searchState.removeSource(artistsSearchLiveData)
+                searchState.removeSource(artistsSearchLiveData.state)
             }
         }
-        searchState.addSource(albumsSearchLiveData) { searchProgress ->
+        searchState.addSource(albumsSearchLiveData.state) { searchProgress ->
             Log.d("albums search", "callback")
-            if (searchProgress.state === AlbumsRepository.SearchProgress.State.SUCCESS) {
+            if (albumsSearchLiveData.isOk()) {
                 Log.d("albums search", "success")
-                searchState.value!!.albums = searchProgress.albums
+                searchState.value!!.albums = albumsSearchLiveData.data
                 ++responsesRecieved
                 if (responsesRecieved == responsesAwaiting) {
                     searchState.postValue(searchState.value!!.changeState(SearchProgress.State.SUCCESS))
                 }
-                searchState.removeSource(albumsSearchLiveData)
-            } else if (searchProgress.state === AlbumsRepository.SearchProgress.State.FAILED) {
+                searchState.removeSource(albumsSearchLiveData.state)
+            } else if (searchProgress === SDataI.State.Err) {
                 ++responsesRecieved
                 ++responsesFailed
                 if (responsesRecieved == responsesAwaiting) {
@@ -117,7 +113,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
                         searchState.postValue(searchState.value!!.changeState(SearchProgress.State.SUCCESS))
                     }
                 }
-                searchState.removeSource(albumsSearchLiveData)
+                searchState.removeSource(albumsSearchLiveData.state)
             }
         }
     }
@@ -127,15 +123,11 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
             NONE, ERROR, IN_PROGRESS, SUCCESS, FAILED
         }
         var tracks: List<Track>? = null
-        var artists: List<ArtistApi.Artist>? = null
-        var albums: List<AlbumApi.Album>? = null
+        var artists: List<Artist>? = null
+        var albums: List<Album>? = null
         fun changeState(state: State): SearchProgress {
             this.state = state
             return this
         }
-    }
-
-    fun getImage(url: String): Bitmap? {
-        return ImagesRepository.getInstance(getApplication()).getByUrl(url)
     }
 }

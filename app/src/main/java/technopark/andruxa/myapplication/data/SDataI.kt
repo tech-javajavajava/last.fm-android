@@ -15,4 +15,10 @@ interface SDataI<T> {
         Load,
         Err,
     }
+
+    fun isOk(): Boolean {
+        return state.value == State.NetOk ||
+                state.value == State.CacheOk ||
+                state.value == State.SqlOk
+    }
 }

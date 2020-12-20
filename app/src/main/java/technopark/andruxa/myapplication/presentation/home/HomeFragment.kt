@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.size
@@ -14,17 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
-import technopark.andruxa.myapplication.models.Track
-import technopark.andruxa.myapplication.network.ArtistApi
+import technopark.andruxa.myapplication.models.artist.Artist
+import technopark.andruxa.myapplication.models.track.Track
 import technopark.andruxa.myapplication.presentation.track.TrackFragment
 
 class HomeFragment : Fragment() {
@@ -77,24 +71,28 @@ class HomeFragment : Fragment() {
                         val button: Button = tracksShortlist.findViewById(R.id.shortlist_button)
                         button.text = ApplicationModified.context?.getText(R.string.tracks_shortlist_button)
                         for (track: Track in it) {
-                            Log.d("charts render track", track.name!!)
+                            Log.d("charts render track", track.name.toString())
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.track_or_album, container, false)
                             // fill in any details dynamically here
-                            track.images?.get(0)?.url?.let {
-                                setImage(v.findViewById(R.id.image), it)
-                            }
+//                            track.images.small?.let {
+//                                setImage(v.findViewById(R.id.image), it.url)
+//                            }
                             val name: TextView = v.findViewById(R.id.name)
                             name.text = track.name
                             val artistName: TextView = v.findViewById(R.id.artist_name)
-                            artistName.text = track.artist
+                            artistName.text = track.artistName
                             // insert into main view
-                            v.setOnClickListener{
-                                fragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.nav_host_fragment, TrackFragment(track.name, track.artist!!))
-                                    .addToBackStack(null)
-                                    .commit()
+                            track.name?.let { trackName ->
+                                track.artistName?.let { artistName ->
+                                    v.setOnClickListener{
+                                        fragmentManager
+                                                .beginTransaction()
+                                                .replace(R.id.nav_host_fragment, TrackFragment(trackName, artistName))
+                                                .addToBackStack(null)
+                                                .commit()
+                                    }
+                                }
                             }
                             tracksShortlist.addView(v, tracksShortlist.size - 2)
                         }
@@ -109,14 +107,14 @@ class HomeFragment : Fragment() {
                             ApplicationModified.context?.getText(R.string.artists_shortlist_caption)
                         artistsShortlist.findViewById<Button>(R.id.shortlist_button).text =
                             ApplicationModified.context?.getText(R.string.artists_shortlist_button)
-                        for (artist: ArtistApi.Artist in it) {
-                            Log.d("charts render artist", artist.name!!)
+                        for (artist: Artist in it) {
+                            Log.d("charts render artist", artist.name.toString())
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.artist, container, false)
                             // fill in any details dynamically here
-                            artist.images?.get(0)?.url?.let {
-                                setImage(v.findViewById(R.id.image), it)
-                            }
+//                            artist.images.small?.let {
+//                                setImage(v.findViewById(R.id.image), it.url)
+//                            }
                             val name: TextView = v.findViewById(R.id.name) as TextView
                             name.text = artist.name
                             // insert into main view
@@ -142,11 +140,11 @@ class HomeFragment : Fragment() {
                                 val v: View = LayoutInflater.from(container?.context)
                                     .inflate(R.layout.shortlist_tag, container, false)
                                 // fill in any details dynamically here
-                                getTagImageUrl(tag.name!!).observe(viewLifecycleOwner, { url ->
-                                        url?.let {
-                                            setImage(v.findViewById(R.id.image), url)
-                                        }
-                                    })
+//                                getTagImageUrl(tag.name!!).observe(viewLifecycleOwner, { url ->
+//                                        url?.let {
+//                                            setImage(v.findViewById(R.id.image), url)
+//                                        }
+//                                    })
                                 val name: TextView = v.findViewById(R.id.name) as TextView
                                 name.text = tag.name
                                 // insert into main view
@@ -161,24 +159,6 @@ class HomeFragment : Fragment() {
                 chartsState.state === HomeViewModel.ChartsProgress.State.FAILED -> {
                 }
             }
-        }
-
-        fun setImage(image: ImageView, url: String) {
-            GlobalScope.launch {
-                withContext(Dispatchers.IO) {
-                    viewModel.getImage(url)
-                }?.let {
-                    activity?.let { activity ->
-                        activity.runOnUiThread {
-                            image.setImageBitmap(it)
-                        }
-                    }
-                }
-            }
-        }
-
-        fun getTagImageUrl(tag: String): LiveData<String?> {
-            return viewModel.getTagImageUrl(tag)
         }
     }
 }

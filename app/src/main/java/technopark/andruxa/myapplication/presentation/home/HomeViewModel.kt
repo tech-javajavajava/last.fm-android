@@ -1,18 +1,17 @@
 package technopark.andruxa.myapplication.presentation.home
 
 import android.app.Application
-import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import technopark.andruxa.myapplication.ArtistsRepository
-import technopark.andruxa.myapplication.ImagesRepository
-import technopark.andruxa.myapplication.TagsRepository
-import technopark.andruxa.myapplication.TracksRepository
-import technopark.andruxa.myapplication.models.Track
-import technopark.andruxa.myapplication.network.ArtistApi
-import technopark.andruxa.myapplication.network.TagApi
+import technopark.andruxa.myapplication.data.SDataI
+import technopark.andruxa.myapplication.data.artist.ArtistRepo
+import technopark.andruxa.myapplication.data.tag.TagRepo
+import technopark.andruxa.myapplication.data.track.TrackRepo
+import technopark.andruxa.myapplication.models.artist.Artist
+import technopark.andruxa.myapplication.models.tag.Tag
+import technopark.andruxa.myapplication.models.track.Track
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val chartsState = MediatorLiveData<ChartsProgress>()
@@ -40,23 +39,20 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         chartsState.value?.tracks = null
         chartsState.value?.artists = null
         chartsState.value?.tags = null
-        val tracksChartLiveData: LiveData<TracksRepository.Progress> =
-            TracksRepository.getInstance(getApplication()).getChart(3)!!
-        val artistsChartLiveData: LiveData<ArtistsRepository.Progress> =
-            ArtistsRepository.getInstance(getApplication()).getChart(3)!!
-        val tagsChartLiveData: LiveData<TagsRepository.Progress> =
-            TagsRepository.getInstance(getApplication()).getChart(9)!!
-        chartsState.addSource(tracksChartLiveData) { chartProgress ->
+        val tracksChartLiveData = TrackRepo.getInstance().getTop(3)
+        val artistsChartLiveData = ArtistRepo.getInstance().getTop(3)
+        val tagsChartLiveData = TagRepo.getInstance().getTop(3)
+        chartsState.addSource(tracksChartLiveData.state) { chartProgress ->
             Log.d("tracks chart", "callback")
-            if (chartProgress.state === TracksRepository.Progress.State.SUCCESS) {
+            if (tracksChartLiveData.isOk()) {
                 Log.d("tracks chart", "success")
-                chartsState.value!!.tracks = chartProgress.tracks
+                chartsState.value!!.tracks = tracksChartLiveData.data
                 ++responsesRecieved
                 if (responsesRecieved == responsesAwaiting) {
                     chartsState.postValue(chartsState.value!!.changeState(ChartsProgress.State.SUCCESS))
                 }
-                chartsState.removeSource(tracksChartLiveData)
-            } else if (chartProgress.state === TracksRepository.Progress.State.FAILED) {
+                chartsState.removeSource(tracksChartLiveData.state)
+            } else if (chartProgress === SDataI.State.Err) {
                 ++responsesRecieved
                 ++responsesFailed
                 if (responsesRecieved == responsesAwaiting) {
@@ -66,20 +62,20 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                         chartsState.postValue(chartsState.value!!.changeState(ChartsProgress.State.SUCCESS))
                     }
                 }
-                chartsState.removeSource(tracksChartLiveData)
+                chartsState.removeSource(tracksChartLiveData.state)
             }
         }
-        chartsState.addSource(artistsChartLiveData) { chartProgress ->
+        chartsState.addSource(artistsChartLiveData.state) { chartProgress ->
             Log.d("artists chart", "callback")
-            if (chartProgress.state === ArtistsRepository.Progress.State.SUCCESS) {
+            if (artistsChartLiveData.isOk()) {
                 Log.d("artists chart", "success")
-                chartsState.value!!.artists = chartProgress.artists
+                chartsState.value!!.artists = artistsChartLiveData.data
                 ++responsesRecieved
                 if (responsesRecieved == responsesAwaiting) {
                     chartsState.postValue(chartsState.value!!.changeState(ChartsProgress.State.SUCCESS))
                 }
-                chartsState.removeSource(artistsChartLiveData)
-            } else if (chartProgress.state === ArtistsRepository.Progress.State.FAILED) {
+                chartsState.removeSource(artistsChartLiveData.state)
+            } else if (chartProgress === SDataI.State.Err) {
                 ++responsesRecieved
                 ++responsesFailed
                 if (responsesRecieved == responsesAwaiting) {
@@ -89,20 +85,20 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                         chartsState.postValue(chartsState.value!!.changeState(ChartsProgress.State.SUCCESS))
                     }
                 }
-                chartsState.removeSource(artistsChartLiveData)
+                chartsState.removeSource(artistsChartLiveData.state)
             }
         }
-        chartsState.addSource(tagsChartLiveData) { chartProgress ->
+        chartsState.addSource(tagsChartLiveData.state) { chartProgress ->
             Log.d("tags chart", "callback")
-            if (chartProgress.state === TagsRepository.Progress.State.SUCCESS) {
+            if (tagsChartLiveData.isOk()) {
                 Log.d("tags chart", "success")
-                chartsState.value!!.tags = chartProgress.tags
+                chartsState.value!!.tags = tagsChartLiveData.data
                 ++responsesRecieved
                 if (responsesRecieved == responsesAwaiting) {
                     chartsState.postValue(chartsState.value!!.changeState(ChartsProgress.State.SUCCESS))
                 }
-                chartsState.removeSource(tagsChartLiveData)
-            } else if (chartProgress.state === TagsRepository.Progress.State.FAILED) {
+                chartsState.removeSource(tagsChartLiveData.state)
+            } else if (chartProgress === SDataI.State.Err) {
                 ++responsesRecieved
                 ++responsesFailed
                 if (responsesRecieved == responsesAwaiting) {
@@ -112,7 +108,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                         chartsState.postValue(chartsState.value!!.changeState(ChartsProgress.State.SUCCESS))
                     }
                 }
-                chartsState.removeSource(tagsChartLiveData)
+                chartsState.removeSource(tagsChartLiveData.state)
             }
         }
     }
@@ -122,19 +118,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             NONE, IN_PROGRESS, SUCCESS, FAILED
         }
         var tracks: List<Track>? = null
-        var artists: List<ArtistApi.Artist>? = null
-        var tags: List<TagApi.Tag>? = null
+        var artists: List<Artist>? = null
+        var tags: List<Tag>? = null
         fun changeState(state: State): ChartsProgress {
             this.state = state
             return this
         }
-    }
-
-    fun getImage(url: String): Bitmap? {
-        return ImagesRepository.getInstance(getApplication()).getByUrl(url)
-    }
-
-    fun getTagImageUrl(tag: String): LiveData<String?> {
-        return TagsRepository.getInstance(getApplication()).getImageUrl(tag)
     }
 }

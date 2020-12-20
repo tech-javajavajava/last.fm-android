@@ -110,4 +110,14 @@ class TrackRepo: ITrackRepo {
             return this
         }
     }
+
+    companion object {
+        var repo: ITrackRepo? = null
+        fun getInstance(): ITrackRepo {
+            if (repo == null) {
+                repo = TrackRepo()
+            }
+            return repo as ITrackRepo
+        }
+    }
 }

@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import technopark.andruxa.myapplication.ImagesRepository
 import technopark.andruxa.myapplication.TracksRepository
-import technopark.andruxa.myapplication.models.Track
+import technopark.andruxa.myapplication.models.track.Track
 
 class TrackViewModel(application: Application) : AndroidViewModel(application) {
     private val trackState = MediatorLiveData<TrackProgress>()

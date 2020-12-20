@@ -12,15 +12,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
-import technopark.andruxa.myapplication.models.Track
-import technopark.andruxa.myapplication.network.AlbumApi
-import technopark.andruxa.myapplication.network.ArtistApi
+import technopark.andruxa.myapplication.models.album.Album
+import technopark.andruxa.myapplication.models.artist.Artist
+import technopark.andruxa.myapplication.models.track.Track
 import technopark.andruxa.myapplication.presentation.track.TrackFragment
 
 class SearchFragment : Fragment() {
@@ -98,20 +94,24 @@ class SearchFragment : Fragment() {
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.track_or_album, container, false)
                             // fill in any details dynamically here
-                            track.images?.get(0)?.url?.let {
-                                setImage(v.findViewById(R.id.image), it)
-                            }
+//                            track.images?.get(0)?.url?.let {
+//                                setImage(v.findViewById(R.id.image), it)
+//                            }
                             val name: TextView = v.findViewById(R.id.name)
                             name.text = track.name
                             val artistName: TextView = v.findViewById(R.id.artist_name)
-                            artistName.text = track.artist
+                            artistName.text = track.artistName
                             // insert into main view
-                            v.setOnClickListener{
-                                fragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.nav_host_fragment, TrackFragment(track.name, track.artist!!))
-                                    .addToBackStack(null)
-                                    .commit()
+                            track.name?.let { trackName ->
+                                track.artistName?.let { artistName ->
+                                    v.setOnClickListener{
+                                        fragmentManager
+                                                .beginTransaction()
+                                                .replace(R.id.nav_host_fragment, TrackFragment(trackName, artistName))
+                                                .addToBackStack(null)
+                                                .commit()
+                                    }
+                                }
                             }
                             tracksShortlist.addView(v, tracksShortlist.size - 2)
                         }
@@ -125,14 +125,14 @@ class SearchFragment : Fragment() {
                             ApplicationModified.context?.getText(R.string.artists_shortlist_caption)
                         artistsShortlist.findViewById<Button>(R.id.shortlist_button).text =
                             ApplicationModified.context?.getText(R.string.artists_shortlist_button)
-                        for (artist: ArtistApi.Artist in it) {
+                        for (artist: Artist in it) {
                             Log.d("search render", artist.name!!)
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.artist, container, false)
                             // fill in any details dynamically here
-                            artist.images?.get(0)?.url?.let {
-                                setImage(v.findViewById(R.id.image), it)
-                            }
+//                            artist.images?.get(0)?.url?.let {
+//                                setImage(v.findViewById(R.id.image), it)
+//                            }
                             val name: TextView = v.findViewById(R.id.name) as TextView
                             name.text = artist.name
                             // insert into main view
@@ -148,19 +148,19 @@ class SearchFragment : Fragment() {
                             ApplicationModified.context?.getText(R.string.albums_shortlist_caption)
                         albumsShortlist.findViewById<Button>(R.id.shortlist_button).text =
                             ApplicationModified.context?.getText(R.string.albums_shortlist_button)
-                        for (album: AlbumApi.Album in it) {
+                        for (album: Album in it) {
                             Log.d("search render", album.name!!)
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.track_or_album, container, false)
                             // fill in any details dynamically here
-                            album.images?.get(0)?.url?.let {
-                                setImage(v.findViewById(R.id.image), it)
-                            }
+//                            album.images?.get(0)?.url?.let {
+//                                setImage(v.findViewById(R.id.image), it)
+//                            }
                             val name: TextView =
                                 v.findViewById<View>(R.id.name) as TextView
                             name.text = album.name
                             val artistName: TextView = v.findViewById(R.id.artist_name) as TextView
-                            artistName.text = album.artist
+                            artistName.text = album.artistName
                             // insert into main view
                             albumsShortlist.addView(v, albumsShortlist.size - 2)
                         }
@@ -170,20 +170,6 @@ class SearchFragment : Fragment() {
                 }
                 searchState.state === SearchViewModel.SearchProgress.State.FAILED -> {
                     progressBar.visibility = View.GONE
-                }
-            }
-        }
-
-        fun setImage(image: ImageView, url: String) {
-            GlobalScope.launch {
-                withContext(Dispatchers.IO) {
-                    viewModel.getImage(url)
-                }?.let {
-                    activity?.let { activity ->
-                        activity.runOnUiThread {
-                            image.setImageBitmap(it)
-                        }
-                    }
                 }
             }
         }

@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -15,15 +14,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.flexbox.FlexboxLayout
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
 import technopark.andruxa.myapplication.Utils
-import technopark.andruxa.myapplication.models.Tag
-import technopark.andruxa.myapplication.models.Track
+import technopark.andruxa.myapplication.models.track.Track
 
 class TrackFragment() : Fragment() {
     constructor(trackName: String, trackArtist: String) : this() {
@@ -122,28 +116,28 @@ class TrackFragment() : Fragment() {
                     trackState.track?.let {
                         Log.d("track render", it.name!!)
                         trackView.findViewById<TextView>(R.id.track_name).text = it.name
-                        trackView.findViewById<TextView>(R.id.track_artist_name).text = it.artist
-                        trackView.findViewById<TextView>(R.id.track_duration).text = Utils.millisecondsToString(it.duration!!)
+                        trackView.findViewById<TextView>(R.id.track_artist_name).text = it.artistName
+//                        trackView.findViewById<TextView>(R.id.track_duration).text = Utils.millisecondsToString(it.duration!!)
                         trackView.findViewById<TextView>(R.id.track_listeners).text = Utils.amountToString(it.listeners!!)
-                        trackView.findViewById<TextView>(R.id.track_playcount).text = Utils.amountToString(it.playcount!!)
+//                        trackView.findViewById<TextView>(R.id.track_playcount).text = Utils.amountToString(it.playcount!!)
                         val tagsContainer = trackView.findViewById<FlexboxLayout>(R.id.tags_container)
-                        it.topTags?.let {topTags ->
-                            for (tag: Tag in topTags) {
-                                val tagView = LayoutInflater.from(container?.context)
-                                    .inflate(R.layout.tag, container, false) as TextView
-                                tagView.text = tag.name
-                                tagsContainer.addView(tagView)
-                            }
-                        }
-                        trackView.findViewById<TextView>(R.id.album_name).text = it.album!!.name
-                        trackView.findViewById<TextView>(R.id.album_artist_name).text = it.album!!.artist
-                        it.images?.get(0)?.url?.let {
-                            setImage(trackView.findViewById(R.id.album_image), it)
-                        }
-                        trackView.findViewById<TextView>(R.id.wiki).text = it.wiki!!.summary
-                        trackView.findViewById<TextView>(R.id.wiki_expander).setOnClickListener{_ ->
-                            clickListener.onWikiExpanderClickListener(it.wiki!!.summary, it.wiki!!.content)
-                        }
+//                        it.topTags?.let {topTags ->
+//                            for (tag: Tag in topTags) {
+//                                val tagView = LayoutInflater.from(container?.context)
+//                                    .inflate(R.layout.tag, container, false) as TextView
+//                                tagView.text = tag.name
+//                                tagsContainer.addView(tagView)
+//                            }
+//                        }
+//                        trackView.findViewById<TextView>(R.id.album_name).text = it.album!!.name
+//                        trackView.findViewById<TextView>(R.id.album_artist_name).text = it.album!!.artist
+//                        it.images?.get(0)?.url?.let {
+//                            setImage(trackView.findViewById(R.id.album_image), it)
+//                        }
+//                        trackView.findViewById<TextView>(R.id.wiki).text = it.wiki!!.summary
+//                        trackView.findViewById<TextView>(R.id.wiki_expander).setOnClickListener{_ ->
+//                            clickListener.onWikiExpanderClickListener(it.wiki!!.summary, it.wiki!!.content)
+//                        }
                     }
                     trackState.similarTracks?.let {
                         Log.d("track render similar", it.size.toString())
@@ -152,10 +146,10 @@ class TrackFragment() : Fragment() {
                                 .inflate(R.layout.track_or_album, container, false)
                             // fill in any details dynamically here
                             v.findViewById<TextView>(R.id.name).text = track.name
-                            v.findViewById<TextView>(R.id.artist_name).text = track.artist
-                            track.images?.get(0)?.url?.let {
-                                setImage(v.findViewById(R.id.image), it)
-                            }
+                            v.findViewById<TextView>(R.id.artist_name).text = track.artistName
+//                            track.images?.get(0)?.url?.let {
+//                                setImage(v.findViewById(R.id.image), it)
+//                            }
                             // insert into main view
                             v.setOnClickListener{
                                 fragmentManager
@@ -171,20 +165,6 @@ class TrackFragment() : Fragment() {
                 }
                 trackState.state === TrackViewModel.TrackProgress.State.FAILED -> {
                     view.findViewById<ProgressBar>(R.id.track_progress_bar).visibility = View.GONE
-                }
-            }
-        }
-
-        fun setImage(image: ImageView, url: String) {
-            GlobalScope.launch {
-                withContext(Dispatchers.IO) {
-                    viewModel.getImage(url)
-                }?.let {
-                    activity?.let { activity ->
-                        activity.runOnUiThread {
-                            image.setImageBitmap(it)
-                        }
-                    }
                 }
             }
         }

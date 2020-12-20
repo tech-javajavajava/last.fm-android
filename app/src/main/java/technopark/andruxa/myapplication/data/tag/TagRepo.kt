@@ -6,8 +6,8 @@ import retrofit2.Response
 import technopark.andruxa.myapplication.data.SData
 import technopark.andruxa.myapplication.data.SDataI
 import technopark.andruxa.myapplication.data.storages.lastFm.LastFmStore
-import technopark.andruxa.myapplication.data.storages.lastFm.tag.TagXML
 import technopark.andruxa.myapplication.data.storages.lastFm.tag.TagTopXML
+import technopark.andruxa.myapplication.data.storages.lastFm.tag.TagXML
 import technopark.andruxa.myapplication.models.tag.Tag
 
 class TagRepo: ITagRepo {
@@ -59,5 +59,15 @@ class TagRepo: ITagRepo {
         )
 
         return tagTop
+    }
+
+    companion object {
+        var repo: ITagRepo? = null
+        fun getInstance(): ITagRepo {
+            if (repo == null) {
+                repo = TagRepo()
+            }
+            return repo as ITagRepo
+        }
     }
 }
