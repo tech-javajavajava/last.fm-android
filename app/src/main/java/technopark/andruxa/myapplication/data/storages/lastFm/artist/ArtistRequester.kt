@@ -46,14 +46,14 @@ interface ArtistRequester {
         @Query("page") page: Int = 1,
         @Query("autocorrect") autocorrect: Int = 1,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
-        )
+        ): Call<ArtistTopAlbumsXML>
 
     @GET("/2.0/?method=artist.gettoptags")
     fun getTopTags(
         @Query("artist") name: String,
         @Query("autocorrect") autocorrect: Int = 1,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
-        )
+        ): Call<ArtistTopTagsXML>
 
     @GET("/2.0/?method=artist.gettoptracks")
     fun getTopTracks(
@@ -62,5 +62,5 @@ interface ArtistRequester {
         @Query("page") page: Int = 1,
         @Query("autocorrect") autocorrect: Int = 1,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
-    )
+    ): Call<ArtistTopTracksXML>
 }

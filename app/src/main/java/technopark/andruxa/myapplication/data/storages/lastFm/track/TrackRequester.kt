@@ -17,7 +17,7 @@ interface TrackRequester {
 
     @GET("/2.0/?method=track.getInfo")
     fun getByNameNArtist(
-        @Query("album") album: String,
+        @Query("track") track: String,
         @Query("artist") artist: String,
         @Query("autocorrect") autocorrect: Int? = 1,
         @Query("username") userName: String? = null,
