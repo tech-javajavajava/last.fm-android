@@ -28,12 +28,11 @@ class AuthFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
-        val loginButton : Button = view.findViewById(R.id.login_button)
-
         viewModel.getLoginProgress().observe(viewLifecycleOwner, UserObserver(
                 parentFragmentManager
         ))
 
+        val loginButton : Button = view.findViewById(R.id.login_button)
         val login: EditText = view.findViewById(R.id.login)
         val password: EditText = view.findViewById(R.id.password)
         loginButton.setOnClickListener {

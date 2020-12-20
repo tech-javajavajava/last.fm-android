@@ -1,6 +1,7 @@
 package technopark.andruxa.myapplication.presentation.user
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,37 +32,9 @@ class UserFragment : Fragment() {
                     .commit()
         }
 
-//        val loginButton : Button = view.findViewById(R.id.login_button)
-//
-//        viewModel.getProgress().observe(viewLifecycleOwner, UserObserver())
-//
-//        val login: EditText = view.findViewById(R.id.login)
-//        val password: EditText = view.findViewById(R.id.password)
-//        loginButton.setOnClickListener {
-//            viewModel.login(
-//                login.text.toString(),
-//                password.text.toString()
-//            )
-//        }
+        Log.d("user", "logged in")
     }
 
     fun render() {}
 
-//    private class UserObserver() :
-//        Observer<UserViewModel.LoginState?> {
-//        override fun onChanged(loginState: UserViewModel.LoginState?) {
-//            when {
-//                loginState === UserViewModel.LoginState.FAILED -> {
-//                }
-//                loginState === UserViewModel.LoginState.ERROR -> {
-//                }
-//                loginState === UserViewModel.LoginState.IN_PROGRESS -> {
-//                }
-//                loginState === UserViewModel.LoginState.SUCCESS -> {
-//                }
-//                else -> {
-//                }
-//            }
-//        }
-//    }
 }
