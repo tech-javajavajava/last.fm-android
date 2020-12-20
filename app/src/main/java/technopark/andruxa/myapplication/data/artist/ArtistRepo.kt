@@ -6,18 +6,29 @@ import retrofit2.Response
 import technopark.andruxa.myapplication.data.SData
 import technopark.andruxa.myapplication.data.SDataI
 import technopark.andruxa.myapplication.data.storages.lastFm.LastFmStore
-import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistInfoXML
-import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistSearchXML
-import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistsTopXML
+import technopark.andruxa.myapplication.data.storages.lastFm.artist.*
 import technopark.andruxa.myapplication.data.storages.room.RoomStore
+import technopark.andruxa.myapplication.models.album.Album
 import technopark.andruxa.myapplication.models.artist.Artist
+import technopark.andruxa.myapplication.models.tag.Tag
+import technopark.andruxa.myapplication.models.track.Track
 
 class ArtistRepo: IArtistRepo {
 
-    override val artistById: SData<Artist> = SData()
-    override val artistByName: SData<Artist> = SData()
-    override val artistSearch: SData<List<Artist>> = SData()
-    override val artistTop: SData<List<Artist>> = SData()
+    override var artistById: SData<Artist> = SData()
+        private set
+    override var artistByName: SData<Artist> = SData()
+        private set
+    override var artistSearch: SData<List<Artist>> = SData()
+        private set
+    override var artistTop: SData<List<Artist>> = SData()
+        private set
+    override var artistTopAlbums: SData<List<Album>> = SData()
+        private set
+    override var artistTopTracks: SData<List<Track>> = SData()
+        private set
+    override var artistTopTags: SData<List<Tag>> = SData()
+        private set
 
     private val lastFmStore = LastFmStore.instance.artistApi
     private val sqlStore = RoomStore.instance.artistRoomDao()
@@ -165,6 +176,69 @@ class ArtistRepo: IArtistRepo {
 //                postState(SDataI.State.SqlOk)
 //                return this
 //            }
+
+            return this
+        }
+    }
+
+    override fun getTopAlbums(name: String, limit: Int, page: Int): SDataI<List<Album>> {
+        with(artistTopAlbums) {
+            postState(SDataI.State.Load)
+            lastFmStore.getTopAlbums(name, limit, page).enqueue(object : Callback<ArtistTopAlbumsXML> {
+                override fun onResponse(call: Call<ArtistTopAlbumsXML>, response: Response<ArtistTopAlbumsXML>) {
+                    setData(response.body()?.albums?.map { a -> a.toAlbum() })
+                    postState(SDataI.State.NetOk)
+                    setNetErr(false)
+                }
+
+                override fun onFailure(call: Call<ArtistTopAlbumsXML>, t: Throwable) {
+                    setMessage("network error: '${t.message}'")
+                    setNetErr(true)
+                    postState(SDataI.State.Err)
+                }
+            })
+
+            return this
+        }
+    }
+
+    override fun getTopTags(name: String): SDataI<List<Tag>> {
+        with(artistTopTags) {
+            postState(SDataI.State.Load)
+            lastFmStore.getTopTags(name).enqueue(object : Callback<ArtistTopTagsXML> {
+                override fun onResponse(call: Call<ArtistTopTagsXML>, response: Response<ArtistTopTagsXML>) {
+                    setData(response.body()?.tags?.map { a -> a.toTag() })
+                    postState(SDataI.State.NetOk)
+                    setNetErr(false)
+                }
+
+                override fun onFailure(call: Call<ArtistTopTagsXML>, t: Throwable) {
+                    setMessage("network error: '${t.message}'")
+                    setNetErr(true)
+                    postState(SDataI.State.Err)
+                }
+            })
+
+            return this
+        }
+    }
+
+    override fun getTopTracks(name: String, limit: Int, page: Int): SDataI<List<Track>> {
+        with(artistTopTracks) {
+            postState(SDataI.State.Load)
+            lastFmStore.getTopTracks(name, limit, page).enqueue(object : Callback<ArtistTopTracksXML> {
+                override fun onResponse(call: Call<ArtistTopTracksXML>, response: Response<ArtistTopTracksXML>) {
+                    setData(response.body()?.tracks?.map { a -> a.toTrack() })
+                    postState(SDataI.State.NetOk)
+                    setNetErr(false)
+                }
+
+                override fun onFailure(call: Call<ArtistTopTracksXML>, t: Throwable) {
+                    setMessage("network error: '${t.message}'")
+                    setNetErr(true)
+                    postState(SDataI.State.Err)
+                }
+            })
 
             return this
         }

@@ -32,10 +32,35 @@ interface ArtistRequester {
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
     ): Call<ArtistSearchXML>
 
-    @GET(" /2.0/?method=chart.gettopartists")
+    @GET("/2.0/?method=chart.gettopartists")
     fun getTop(
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 50,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
     ): Call<ArtistsTopXML>
+
+    @GET("/2.0/?method=artist.gettopalbums")
+    fun getTopAlbums(
+        @Query("artist") name: String,
+        @Query("limit") limit: Int = 50,
+        @Query("page") page: Int = 1,
+        @Query("autocorrect") autocorrect: Int = 1,
+        @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
+        ): Call<ArtistTopAlbumsXML>
+
+    @GET("/2.0/?method=artist.gettoptags")
+    fun getTopTags(
+        @Query("artist") name: String,
+        @Query("autocorrect") autocorrect: Int = 1,
+        @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
+        ): Call<ArtistTopTagsXML>
+
+    @GET("/2.0/?method=artist.gettoptracks")
+    fun getTopTracks(
+        @Query("artist") name: String,
+        @Query("limit") limit: Int = 50,
+        @Query("page") page: Int = 1,
+        @Query("autocorrect") autocorrect: Int = 1,
+        @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
+    ): Call<ArtistTopTracksXML>
 }

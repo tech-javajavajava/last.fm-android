@@ -8,12 +8,12 @@ import com.tickaroo.tikxml.annotation.Xml
 @Xml(name = "lfm")
 class SessionResponseXML {
     @Attribute
-    var status: String = ""
+    var status: String? = null
     @Path("session")
     @PropertyElement(name = "session_key")
-    var sessionKey: String = ""
+    var sessionKey: String? = null
 
     @Path("session")
     @PropertyElement(name = "api_sig")
-    var apiSig: String = ""
+    var apiSig: String? = null
 }

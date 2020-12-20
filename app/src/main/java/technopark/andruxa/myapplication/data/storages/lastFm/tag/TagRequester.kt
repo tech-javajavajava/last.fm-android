@@ -19,4 +19,39 @@ interface TagRequester {
         @Query("limit") limit: Int = 50,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
     ): Call<TagTopXML>
+
+    @GET("/2.0/?method=tag.getsimilar")
+    fun getSimilar(
+        @Query("tag") name: String,
+        @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
+        ): Call<TagSimilarXML>
+
+    @GET("/2.0/?method=tag.gettopalbums")
+    fun getTopAlbums(
+        @Query("tag") name: String,
+        @Query("page") page: Int = 1,
+        @Query("limit") limit: Int = 50,
+        @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
+        ): Call<TagTopAlbumsXML>
+
+    @GET("/2.0/?method=tag.gettopartists")
+    fun getTopArtists(
+        @Query("tag") name: String,
+        @Query("page") page: Int = 1,
+        @Query("limit") limit: Int = 50,
+        @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
+    ): Call<TagTopArtistsXML>
+
+    @GET("/2.0/?method=tag.getTopTags")
+    fun getTopTags(
+        @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
+    ): Call<TagTopTagsXML>
+
+    @GET("/2.0/?method=tag.gettoptracks")
+    fun getTopTracks(
+        @Query("tag") name: String,
+        @Query("page") page: Int = 1,
+        @Query("limit") limit: Int = 50,
+        @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
+    ): Call<TagTopTracksXML>
 }

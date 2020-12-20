@@ -7,7 +7,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import technopark.andruxa.myapplication.data.storages.lastFm.album.AlbumRequester
 import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistRequester
-import technopark.andruxa.myapplication.data.storages.lastFm.session.SessionAuthBody
 import technopark.andruxa.myapplication.data.storages.lastFm.session.SessionRequester
 import technopark.andruxa.myapplication.data.storages.lastFm.tag.TagRequester
 import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackRequester
@@ -37,23 +36,6 @@ class LastFmStore {
     val trackApi: TrackRequester = retrofit.create(TrackRequester::class.java)
     val userApi: UserRequester = retrofit.create(UserRequester::class.java)
     val sessionApi: SessionRequester = retrofit.create(SessionRequester::class.java)
-
-    var sessionKey: String = ""
-    var apiSig: String = ""
-
-    fun isAuthorized(): Boolean {
-        return sessionKey.isNotEmpty() && apiSig.isNotEmpty()
-    }
-
-    fun login(username: String, password: String): Boolean {
-        val response = sessionApi.login(SessionAuthBody(username, password)).execute()
-        if (response.isSuccessful) {
-            sessionKey = response.body()!!.sessionKey
-            apiSig = response.body()!!.apiSig
-        }
-
-        return response.isSuccessful
-    }
 
     companion object {
         var instance: LastFmStore = LastFmStore()
