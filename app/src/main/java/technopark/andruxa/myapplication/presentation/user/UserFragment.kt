@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import technopark.andruxa.myapplication.R
 
@@ -27,35 +24,44 @@ class UserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
-        val loginButton : Button = view.findViewById(R.id.login_button)
-
-        viewModel.getProgress().observe(viewLifecycleOwner, UserObserver())
-
-        val login: EditText = view.findViewById(R.id.login)
-        val password: EditText = view.findViewById(R.id.password)
-        loginButton.setOnClickListener {
-            viewModel.login(
-                login.text.toString(),
-                password.text.toString()
-            )
+        if (!viewModel.checkLogin()) {
+            parentFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, AuthFragment())
+                    .commit()
         }
+
+//        val loginButton : Button = view.findViewById(R.id.login_button)
+//
+//        viewModel.getProgress().observe(viewLifecycleOwner, UserObserver())
+//
+//        val login: EditText = view.findViewById(R.id.login)
+//        val password: EditText = view.findViewById(R.id.password)
+//        loginButton.setOnClickListener {
+//            viewModel.login(
+//                login.text.toString(),
+//                password.text.toString()
+//            )
+//        }
     }
 
-    private class UserObserver() :
-        Observer<UserViewModel.LoginState?> {
-        override fun onChanged(loginState: UserViewModel.LoginState?) {
-            when {
-                loginState === UserViewModel.LoginState.FAILED -> {
-                }
-                loginState === UserViewModel.LoginState.ERROR -> {
-                }
-                loginState === UserViewModel.LoginState.IN_PROGRESS -> {
-                }
-                loginState === UserViewModel.LoginState.SUCCESS -> {
-                }
-                else -> {
-                }
-            }
-        }
-    }
+    fun render() {}
+
+//    private class UserObserver() :
+//        Observer<UserViewModel.LoginState?> {
+//        override fun onChanged(loginState: UserViewModel.LoginState?) {
+//            when {
+//                loginState === UserViewModel.LoginState.FAILED -> {
+//                }
+//                loginState === UserViewModel.LoginState.ERROR -> {
+//                }
+//                loginState === UserViewModel.LoginState.IN_PROGRESS -> {
+//                }
+//                loginState === UserViewModel.LoginState.SUCCESS -> {
+//                }
+//                else -> {
+//                }
+//            }
+//        }
+//    }
 }
