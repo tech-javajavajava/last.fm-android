@@ -35,14 +35,18 @@ class TrackXML: Trackix {
     @Element
     var images: List<ImageXML>? = null
 
-    @Element(name = "toptags")
+    @Path("toptags")
+    @Element
     var topTags: List<TagXML>? = null
 
     @Path("wiki")
+    @PropertyElement
     var published: String? = null
     @Path("wiki")
+    @PropertyElement
     var summary: String? = null
     @Path("wiki")
+    @PropertyElement
     var content: String? = null
 
     override fun toTrack(): Track {
