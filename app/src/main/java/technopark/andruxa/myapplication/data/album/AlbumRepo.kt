@@ -44,13 +44,13 @@ class AlbumRepo: IAlbumRepo {
                 return this
             }
 
-            val albumEntity = sqlStore.getById(id)
-            if (albumEntity != null) {
-                setMessage("${this.javaClass.name} sql hit")
-                setData(albumEntity.toAlbum())
-                postState(SDataI.State.SqlOk)
-                return this
-            }
+//            val albumEntity = sqlStore.getById(id)
+//            if (albumEntity != null) {
+//                setMessage("${this.javaClass.name} sql hit")
+//                setData(albumEntity.toAlbum())
+//                postState(SDataI.State.SqlOk)
+//                return this
+//            }
 
             return this
         }
@@ -82,13 +82,13 @@ class AlbumRepo: IAlbumRepo {
                 return this
             }
 
-            val albumEntity = sqlStore.getByNameNArtist(name, artistName)
-            if (albumEntity != null) {
-                setMessage("${this.javaClass.name} sql hit")
-                setData(albumEntity.toAlbum())
-                postState(SDataI.State.SqlOk)
-                return this
-            }
+//            val albumEntity = sqlStore.getByNameNArtist(name, artistName)
+//            if (albumEntity != null) {
+//                setMessage("${this.javaClass.name} sql hit")
+//                setData(albumEntity.toAlbum())
+//                postState(SDataI.State.SqlOk)
+//                return this
+//            }
 
             return this
         }
@@ -120,13 +120,13 @@ class AlbumRepo: IAlbumRepo {
                 return this
             }
 
-            val albumEntities = sqlStore.search(name, limit, (page - 1) * limit)
-            if (albumEntities.isNotEmpty()) {
-                setMessage("${this.javaClass.name} sql hit")
-                setData(albumEntities.map { albumEntity -> albumEntity.toAlbum() })
-                postState(SDataI.State.SqlOk)
-                return this
-            }
+//            val albumEntities = sqlStore.search(name, limit, (page - 1) * limit)
+//            if (albumEntities.isNotEmpty()) {
+//                setMessage("${this.javaClass.name} sql hit")
+//                setData(albumEntities.map { albumEntity -> albumEntity.toAlbum() })
+//                postState(SDataI.State.SqlOk)
+//                return this
+//            }
 
             return this
         }

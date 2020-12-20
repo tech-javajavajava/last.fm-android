@@ -47,13 +47,13 @@ class ArtistRepo: IArtistRepo {
                 return this
             }
 
-            val albumEntity = sqlStore.getByMbid(id)
-            if (albumEntity != null) {
-                setMessage("${this.javaClass.name} sql hit")
-                setData(albumEntity.toArtist())
-                postState(SDataI.State.SqlOk)
-                return this
-            }
+//            val albumEntity = sqlStore.getByMbid(id)
+//            if (albumEntity != null) {
+//                setMessage("${this.javaClass.name} sql hit")
+//                setData(albumEntity.toArtist())
+//                postState(SDataI.State.SqlOk)
+//                return this
+//            }
 
             return this
         }
@@ -84,13 +84,13 @@ class ArtistRepo: IArtistRepo {
                 return this
             }
 
-            val albumEntity = sqlStore.getByName(name)
-            if (albumEntity != null) {
-                setMessage("${this.javaClass.name} sql hit")
-                setData(albumEntity.toArtist())
-                postState(SDataI.State.SqlOk)
-                return this
-            }
+//            val albumEntity = sqlStore.getByName(name)
+//            if (albumEntity != null) {
+//                setMessage("${this.javaClass.name} sql hit")
+//                setData(albumEntity.toArtist())
+//                postState(SDataI.State.SqlOk)
+//                return this
+//            }
 
             return this
         }
@@ -122,13 +122,13 @@ class ArtistRepo: IArtistRepo {
                 return this
             }
 
-            val artistEntites = sqlStore.searchByName(name, limit, (page - 1) * limit)
-            if (artistEntites.isNotEmpty()) {
-                setMessage("${this.javaClass.name} sql hit")
-                postState(SDataI.State.SqlOk)
-                setData(artistEntites.map { artistEntity-> artistEntity.toArtist() })
-                return this
-            }
+//            val artistEntites = sqlStore.searchByName(name, limit, (page - 1) * limit)
+//            if (artistEntites.isNotEmpty()) {
+//                setMessage("${this.javaClass.name} sql hit")
+//                postState(SDataI.State.SqlOk)
+//                setData(artistEntites.map { artistEntity-> artistEntity.toArtist() })
+//                return this
+//            }
 
             return this
         }
@@ -158,13 +158,13 @@ class ArtistRepo: IArtistRepo {
                 return this
             }
 
-            val storedArtists = sqlStore.getTop(limit, (page - 1) * limit)
-            if (storedArtists.isNotEmpty()) {
-                setData(storedArtists.map { a -> a.toArtist() })
-                setMessage("${this.javaClass.name} sql hit")
-                postState(SDataI.State.SqlOk)
-                return this
-            }
+//            val storedArtists = sqlStore.getTop(limit, (page - 1) * limit)
+//            if (storedArtists.isNotEmpty()) {
+//                setData(storedArtists.map { a -> a.toArtist() })
+//                setMessage("${this.javaClass.name} sql hit")
+//                postState(SDataI.State.SqlOk)
+//                return this
+//            }
 
             return this
         }
