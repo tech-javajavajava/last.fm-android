@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import technopark.andruxa.myapplication.data.SDataI
+import technopark.andruxa.myapplication.data.session.SessionRepo
 import java.util.*
 
 
@@ -35,17 +37,16 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private fun requestLogin(loginData: LoginData) {
         Log.d("lol", "request")
         loginState.postValue(LoginState.IN_PROGRESS)
-        val progressLiveData: LiveData<UserRepository.AuthProgress> =
-            UserRepository.getInstance(getApplication()).login(loginData.login, loginData.password)!!
-        loginState.addSource(progressLiveData) { authProgress ->
+        val progressLiveData = SessionRepo.getInstance().login(loginData.login, loginData.password)
+        loginState.addSource(progressLiveData.state) { authProgress ->
             Log.d("lol", "callback")
-            if (authProgress === UserRepository.AuthProgress.SUCCESS) {
+            if (progressLiveData.isOk()) {
                 Log.d("lol", "success")
                 loginState.postValue(LoginState.SUCCESS)
-                loginState.removeSource(progressLiveData)
-            } else if (authProgress === UserRepository.AuthProgress.FAILED) {
+                loginState.removeSource(progressLiveData.state)
+            } else if (authProgress === SDataI.State.Err) {
                 loginState.postValue(LoginState.FAILED)
-                loginState.removeSource(progressLiveData)
+                loginState.removeSource(progressLiveData.state)
             }
         }
     }

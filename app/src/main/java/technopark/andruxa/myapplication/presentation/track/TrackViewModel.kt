@@ -1,13 +1,12 @@
 package technopark.andruxa.myapplication.presentation.track
 
 import android.app.Application
-import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import technopark.andruxa.myapplication.ImagesRepository
-import technopark.andruxa.myapplication.TracksRepository
+import technopark.andruxa.myapplication.data.SDataI
+import technopark.andruxa.myapplication.data.track.TrackRepo
 import technopark.andruxa.myapplication.models.track.Track
 
 class TrackViewModel(application: Application) : AndroidViewModel(application) {
@@ -35,21 +34,19 @@ class TrackViewModel(application: Application) : AndroidViewModel(application) {
         var responsesFailed = 0
         trackState.value?.track = null
         trackState.value?.similarTracks = null
-        val trackLiveData: LiveData<TracksRepository.ProgressSingle> =
-            TracksRepository.getInstance(getApplication()).getTrack(name, artist)!!
-        val similarTracksLiveData: LiveData<TracksRepository.Progress> =
-            TracksRepository.getInstance(getApplication()).getSimilarTracks(name, artist)!!
-        trackState.addSource(trackLiveData) { trackProgress ->
+        val trackLiveData = TrackRepo.getInstance().getByNameNArtist(name, artist)
+        val similarTracksLiveData = TrackRepo.getInstance().getSimilar(name, artist)
+        trackState.addSource(trackLiveData.state) { trackProgress ->
             Log.d("track", "callback")
-            if (trackProgress.state === TracksRepository.ProgressSingle.State.SUCCESS) {
+            if (trackLiveData.isOk()) {
                 Log.d("track", "success")
-                trackState.value!!.track = trackProgress.track
+                trackState.value!!.track = trackLiveData.data
                 ++responsesRecieved
                 if (responsesRecieved == responsesAwaiting) {
                     trackState.postValue(trackState.value!!.changeState(TrackProgress.State.SUCCESS))
                 }
-                trackState.removeSource(trackLiveData)
-            } else if (trackProgress.state === TracksRepository.ProgressSingle.State.FAILED) {
+                trackState.removeSource(trackLiveData.state)
+            } else if (trackProgress === SDataI.State.Err) {
                 ++responsesRecieved
                 ++responsesFailed
                 if (responsesRecieved == responsesAwaiting) {
@@ -59,20 +56,20 @@ class TrackViewModel(application: Application) : AndroidViewModel(application) {
                         trackState.postValue(trackState.value!!.changeState(TrackProgress.State.SUCCESS))
                     }
                 }
-                trackState.removeSource(trackLiveData)
+                trackState.removeSource(trackLiveData.state)
             }
         }
-        trackState.addSource(similarTracksLiveData) { tracksProgress ->
+        trackState.addSource(similarTracksLiveData.state) { tracksProgress ->
             Log.d("track", "callback")
-            if (tracksProgress.state === TracksRepository.Progress.State.SUCCESS) {
+            if (similarTracksLiveData.isOk()) {
                 Log.d("track", "success")
-                trackState.value!!.similarTracks = tracksProgress.tracks
+                trackState.value!!.similarTracks = similarTracksLiveData.data
                 ++responsesRecieved
                 if (responsesRecieved == responsesAwaiting) {
                     trackState.postValue(trackState.value!!.changeState(TrackProgress.State.SUCCESS))
                 }
-                trackState.removeSource(similarTracksLiveData)
-            } else if (tracksProgress.state === TracksRepository.Progress.State.FAILED) {
+                trackState.removeSource(similarTracksLiveData.state)
+            } else if (tracksProgress === SDataI.State.Err) {
                 ++responsesRecieved
                 ++responsesFailed
                 if (responsesRecieved == responsesAwaiting) {
@@ -82,7 +79,7 @@ class TrackViewModel(application: Application) : AndroidViewModel(application) {
                         trackState.postValue(trackState.value!!.changeState(TrackProgress.State.SUCCESS))
                     }
                 }
-                trackState.removeSource(similarTracksLiveData)
+                trackState.removeSource(similarTracksLiveData.state)
             }
         }
     }
@@ -97,9 +94,5 @@ class TrackViewModel(application: Application) : AndroidViewModel(application) {
             this.state = state
             return this
         }
-    }
-
-    fun getImage(url: String): Bitmap? {
-        return ImagesRepository.getInstance(getApplication()).getByUrl(url)
     }
 }

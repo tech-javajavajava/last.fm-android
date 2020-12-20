@@ -17,6 +17,7 @@ import com.google.android.flexbox.FlexboxLayout
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
 import technopark.andruxa.myapplication.Utils
+import technopark.andruxa.myapplication.models.tag.Tag
 import technopark.andruxa.myapplication.models.track.Track
 
 class TrackFragment() : Fragment() {
@@ -117,27 +118,27 @@ class TrackFragment() : Fragment() {
                         Log.d("track render", it.name!!)
                         trackView.findViewById<TextView>(R.id.track_name).text = it.name
                         trackView.findViewById<TextView>(R.id.track_artist_name).text = it.artistName
-//                        trackView.findViewById<TextView>(R.id.track_duration).text = Utils.millisecondsToString(it.duration!!)
+                        trackView.findViewById<TextView>(R.id.track_duration).text = Utils.millisecondsToString(it.duration!!)
                         trackView.findViewById<TextView>(R.id.track_listeners).text = Utils.amountToString(it.listeners!!)
-//                        trackView.findViewById<TextView>(R.id.track_playcount).text = Utils.amountToString(it.playcount!!)
+                        trackView.findViewById<TextView>(R.id.track_playcount).text = Utils.amountToString(it.playcount!!)
                         val tagsContainer = trackView.findViewById<FlexboxLayout>(R.id.tags_container)
-//                        it.topTags?.let {topTags ->
-//                            for (tag: Tag in topTags) {
-//                                val tagView = LayoutInflater.from(container?.context)
-//                                    .inflate(R.layout.tag, container, false) as TextView
-//                                tagView.text = tag.name
-//                                tagsContainer.addView(tagView)
-//                            }
-//                        }
-//                        trackView.findViewById<TextView>(R.id.album_name).text = it.album!!.name
-//                        trackView.findViewById<TextView>(R.id.album_artist_name).text = it.album!!.artist
+                        it.topTags?.let {topTags ->
+                            for (tag: Tag in topTags) {
+                                val tagView = LayoutInflater.from(container?.context)
+                                    .inflate(R.layout.tag, container, false) as TextView
+                                tagView.text = tag.name
+                                tagsContainer.addView(tagView)
+                            }
+                        }
+                        trackView.findViewById<TextView>(R.id.album_name).text = it.albumName
+                        trackView.findViewById<TextView>(R.id.album_artist_name).text = it.artistName
 //                        it.images?.get(0)?.url?.let {
 //                            setImage(trackView.findViewById(R.id.album_image), it)
 //                        }
-//                        trackView.findViewById<TextView>(R.id.wiki).text = it.wiki!!.summary
-//                        trackView.findViewById<TextView>(R.id.wiki_expander).setOnClickListener{_ ->
-//                            clickListener.onWikiExpanderClickListener(it.wiki!!.summary, it.wiki!!.content)
-//                        }
+                        trackView.findViewById<TextView>(R.id.wiki).text = it.summary
+                        trackView.findViewById<TextView>(R.id.wiki_expander).setOnClickListener{_ ->
+                            clickListener.onWikiExpanderClickListener(it.summary, it.content)
+                        }
                     }
                     trackState.similarTracks?.let {
                         Log.d("track render similar", it.size.toString())
@@ -151,12 +152,16 @@ class TrackFragment() : Fragment() {
 //                                setImage(v.findViewById(R.id.image), it)
 //                            }
                             // insert into main view
-                            v.setOnClickListener{
-                                fragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.nav_host_fragment, TrackFragment(track.name!!, track.artist!!))
-                                    .addToBackStack(null)
-                                    .commit()
+                            track.name?.let { trackName ->
+                                track.artistName?.let { artistName ->
+                                    v.setOnClickListener{
+                                        fragmentManager
+                                                .beginTransaction()
+                                                .replace(R.id.nav_host_fragment, TrackFragment(trackName, artistName))
+                                                .addToBackStack(null)
+                                                .commit()
+                                    }
+                                }
                             }
                             trackView.addView(v)
                         }
