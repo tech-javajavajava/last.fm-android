@@ -7,12 +7,14 @@ import technopark.andruxa.myapplication.data.SData
 import technopark.andruxa.myapplication.data.SDataI
 import technopark.andruxa.myapplication.data.storages.lastFm.LastFmStore
 import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackSearchXML
+import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackSimilarXML
 import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackTopXML
 import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackXML
 import technopark.andruxa.myapplication.models.track.Track
 
 class TrackRepo: ITrackRepo {
-
+    override var trackSimilar: SData<List<Track>> = SData()
+        private set
     override var trackById: SData<Track> = SData()
         private set
     override var trackByNameNArtist: SData<Track> = SData()
@@ -23,6 +25,27 @@ class TrackRepo: ITrackRepo {
         private set
 
     private val lastFmStore = LastFmStore.instance.trackApi
+
+    override fun getSimilar(name: String, artistName: String): SDataI<List<Track>> {
+        with(trackSimilar) {
+
+            postState(SDataI.State.Load)
+
+            lastFmStore.getSimilar(name, artistName).enqueue(object: Callback<TrackSimilarXML> {
+                override fun onResponse(call: Call<TrackSimilarXML>, response: Response<TrackSimilarXML>) {
+                    setData(response.body()?.tracks?.map { t -> t.toTrack()})
+                    setNetErr(false)
+                    postState(SDataI.State.NetOk)
+                }
+
+                override fun onFailure(call: Call<TrackSimilarXML>, t: Throwable) {
+                    networkError(t.message)
+                }
+            })
+
+            return this
+        }
+    }
 
     override fun getById(id: String, userName: String?): SDataI<Track> {
         with(trackById) {

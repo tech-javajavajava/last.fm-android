@@ -6,11 +6,20 @@ import retrofit2.http.Query
 import technopark.andruxa.myapplication.data.storages.lastFm.LastFmStore
 
 interface TrackRequester {
+    @GET("/2.0/?method=track.getsimilar")
+    fun getSimilar(
+        @Query("track") name: String,
+        @Query("artist") artistName: String,
+        @Query("autocorrect") autocorrect: Int = 1,
+        @Query("limit") limit: Int = 20,
+        @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
+    ): Call<TrackSimilarXML>
+
     @GET("/2.0/?method=track.getInfo")
     fun getByNameNArtist(
         @Query("album") album: String,
         @Query("artist") artist: String,
-        @Query("autocorrect") autocorrect: Int? = null,
+        @Query("autocorrect") autocorrect: Int? = 1,
         @Query("username") userName: String? = null,
         @Query("lang") lang: String = LastFmStore.instance.lang,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
@@ -19,7 +28,7 @@ interface TrackRequester {
     @GET("/2.0/?method=track.getInfo")
     fun getByMbid(
         @Query("mbid") mbid: String,
-        @Query("autocorrect") autocorrect: Int? = null,
+        @Query("autocorrect") autocorrect: Int? = 1,
         @Query("username") userName: String? = null,
         @Query("lang") lang: String = LastFmStore.instance.lang,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,

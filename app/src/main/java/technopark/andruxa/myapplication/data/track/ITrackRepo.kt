@@ -13,6 +13,8 @@ interface ITrackRepo {
 
     val trackTop: SDataI<List<Track>>
 
+    val trackSimilar: SDataI<List<Track>>
+
     fun getById(
         id: String,
         userName: String? = null,
@@ -23,6 +25,11 @@ interface ITrackRepo {
         artistName: String,
         userName: String? = null,
     ): SDataI<Track>
+
+    fun getSimilar(
+        name: String,
+        artistName: String,
+    ): SDataI<List<Track>>
 
     fun searchByName(name: String, artistName: String?, limit: Int = 50, page: Int = 1): SDataI<List<Track>>
     fun getTop(limit: Int = 50, page: Int = 1): SDataI<List<Track>>
