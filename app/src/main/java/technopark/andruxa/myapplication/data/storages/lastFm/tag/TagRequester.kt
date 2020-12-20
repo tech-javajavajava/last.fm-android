@@ -11,7 +11,7 @@ interface TagRequester {
         @Query("tag") tag: String,
         @Query("lang") lang: String = LastFmStore.instance.lang,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
-    ): Call<TagXML>
+    ): Call<TagInfoXML>
 
     @GET("/2.0/?method=chart.gettoptags")
     fun getTop(

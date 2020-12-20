@@ -33,10 +33,10 @@ class TrackXML: Trackix {
 
     @Path("album")
     @Element
-    var images: List<ImageXML> = List(0) { ImageXML() }
+    var images: List<ImageXML>? = null
 
     @Element(name = "toptags")
-    var topTags: List<TagXML> = List(0) { TagXML() }
+    var topTags: List<TagXML>? = null
 
     @Path("wiki")
     var published: String? = null
@@ -54,24 +54,26 @@ class TrackXML: Trackix {
             it.playcount = playcount
             it.artistName = artistName
             it.albumName = albumName
-            for (image in images) {
-                if (image.size == null || image.url == null) {
-                    continue
-                }
-                when (image.size) {
-                    "large" -> {
-                        it.images.large = Image().apply { url = image.url!! }
+            if (images != null) {
+                for (image in images!!) {
+                    if (image.size == null || image.url == null) {
+                        continue
                     }
-                    "medium" -> {
-                        it.images.medium = Image().apply { url = image.url!! }
-                    }
-                    else -> {
-                        it.images.small = Image().apply { url = image.url!! }
+                    when (image.size) {
+                        "large" -> {
+                            it.images.large = Image().apply { url = image.url!! }
+                        }
+                        "medium" -> {
+                            it.images.medium = Image().apply { url = image.url!! }
+                        }
+                        else -> {
+                            it.images.small = Image().apply { url = image.url!! }
+                        }
                     }
                 }
             }
 
-            it.topTags = topTags.map { t -> t.toTag() }
+            it.topTags = topTags?.map { t -> t.toTag() }
             it.published = published
             it.summary = summary
             it.content = content

@@ -6,8 +6,8 @@ import retrofit2.Response
 import technopark.andruxa.myapplication.data.SData
 import technopark.andruxa.myapplication.data.SDataI
 import technopark.andruxa.myapplication.data.storages.lastFm.LastFmStore
+import technopark.andruxa.myapplication.data.storages.lastFm.album.AlbumInfoXML
 import technopark.andruxa.myapplication.data.storages.lastFm.album.AlbumSearchXML
-import technopark.andruxa.myapplication.data.storages.lastFm.album.AlbumXML
 import technopark.andruxa.myapplication.data.storages.room.RoomStore
 import technopark.andruxa.myapplication.models.album.Album
 
@@ -24,14 +24,14 @@ class AlbumRepo: IAlbumRepo {
 
             postState(SDataI.State.Load)
 
-            lastFmStore.getByMbid(id).enqueue(object: Callback<AlbumXML> {
-                override fun onResponse(call: Call<AlbumXML>, response: Response<AlbumXML>) {
-                    response.body()?.let { setData(it.toAlbum()) }
+            lastFmStore.getByMbid(id).enqueue(object: Callback<AlbumInfoXML> {
+                override fun onResponse(call: Call<AlbumInfoXML>, response: Response<AlbumInfoXML>) {
+                    response.body()?.let { setData(it.album?.toAlbum()) }
                     setNetErr(false)
                     postState(SDataI.State.NetOk)
                 }
 
-                override fun onFailure(call: Call<AlbumXML>, t: Throwable) {
+                override fun onFailure(call: Call<AlbumInfoXML>, t: Throwable) {
                     setMessage("network error: '${t.message}'")
                     setNetErr(true)
                     postState(SDataI.State.Err)
@@ -62,14 +62,14 @@ class AlbumRepo: IAlbumRepo {
 
             postState(SDataI.State.Load)
 
-            lastFmStore.getByNameNArtist(name, artistName, 1, userName).enqueue(object: Callback<AlbumXML> {
-                override fun onResponse(call: Call<AlbumXML>, response: Response<AlbumXML>) {
-                    response.body()?.let { setData(it.toAlbum()) }
+            lastFmStore.getByNameNArtist(name, artistName, 1, userName).enqueue(object: Callback<AlbumInfoXML> {
+                override fun onResponse(call: Call<AlbumInfoXML>, response: Response<AlbumInfoXML>) {
+                    response.body()?.let { setData(it.album?.toAlbum()) }
                     setNetErr(false)
                     postState(SDataI.State.NetOk)
                 }
 
-                override fun onFailure(call: Call<AlbumXML>, t: Throwable) {
+                override fun onFailure(call: Call<AlbumInfoXML>, t: Throwable) {
                     setMessage("network error: '${t.message}'")
                     setNetErr(true)
                     postState(SDataI.State.Err)

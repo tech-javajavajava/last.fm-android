@@ -1,15 +1,16 @@
 package technopark.andruxa.myapplication.data.track
 
+import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import technopark.andruxa.myapplication.data.SData
 import technopark.andruxa.myapplication.data.SDataI
 import technopark.andruxa.myapplication.data.storages.lastFm.LastFmStore
+import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackInfoXML
 import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackSearchXML
 import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackSimilarXML
 import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackTopXML
-import technopark.andruxa.myapplication.data.storages.lastFm.track.TrackXML
 import technopark.andruxa.myapplication.models.track.Track
 
 class TrackRepo: ITrackRepo {
@@ -52,14 +53,14 @@ class TrackRepo: ITrackRepo {
 
             postState(SDataI.State.Load)
 
-            lastFmStore.getByMbid(id).enqueue(object: Callback<TrackXML> {
-                override fun onResponse(call: Call<TrackXML>, response: Response<TrackXML>) {
-                    response.body()?.let { setData(it.toTrack()) }
+            lastFmStore.getByMbid(id).enqueue(object: Callback<TrackInfoXML> {
+                override fun onResponse(call: Call<TrackInfoXML>, response: Response<TrackInfoXML>) {
+                    response.body()?.let { setData(it.track?.toTrack()) }
                     setNetErr(false)
                     postState(SDataI.State.NetOk)
                 }
 
-                override fun onFailure(call: Call<TrackXML>, t: Throwable) {
+                override fun onFailure(call: Call<TrackInfoXML>, t: Throwable) {
                     networkError(t.message)
                 }
             })
@@ -73,14 +74,14 @@ class TrackRepo: ITrackRepo {
 
             postState(SDataI.State.Load)
 
-            lastFmStore.getByNameNArtist(name, artistName, 1, userName).enqueue(object: Callback<TrackXML> {
-                override fun onResponse(call: Call<TrackXML>, response: Response<TrackXML>) {
-                    response.body()?.let { setData(it.toTrack()) }
+            lastFmStore.getByNameNArtist(name, artistName, 1, userName).enqueue(object: Callback<TrackInfoXML> {
+                override fun onResponse(call: Call<TrackInfoXML>, response: Response<TrackInfoXML>) {
+                    response.body()?.let { setData(it.track?.toTrack()) }
                     setNetErr(false)
                     postState(SDataI.State.NetOk)
                 }
 
-                override fun onFailure(call: Call<TrackXML>, t: Throwable) {
+                override fun onFailure(call: Call<TrackInfoXML>, t: Throwable) {
                     networkError(t.message)
                 }
             })
@@ -116,16 +117,24 @@ class TrackRepo: ITrackRepo {
     }
 
     override fun getTop(limit: Int, page: Int): SDataI<List<Track>> {
+        Log.d("db/trackrepo/getTop", "req init")
+
         with(trackTop) {
             postState(SDataI.State.Load)
             lastFmStore.getTop(page, limit).enqueue(object : Callback<TrackTopXML> {
                 override fun onResponse(call: Call<TrackTopXML>, response: Response<TrackTopXML>) {
+                    Log.d("db/trackrepo/getTop", response.body()?.tracks.toString())
                     setData(response.body()?.tracks?.map { t -> t.toTrack() })
                     postState(SDataI.State.NetOk)
                     setNetErr(false)
                 }
 
                 override fun onFailure(call: Call<TrackTopXML>, t: Throwable) {
+                    Log.d("db/tr/getTop", "err")
+                    t.message?.let {
+                        Log.d("db/tr/gte", it)
+                    }
+                    Log.d("db/tr/gte", t.stackTrace.joinToString("\n"))
                     networkError(t.message)
                 }
             })

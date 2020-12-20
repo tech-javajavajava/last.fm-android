@@ -23,7 +23,7 @@ interface TrackRequester {
         @Query("username") userName: String? = null,
         @Query("lang") lang: String = LastFmStore.instance.lang,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
-    ): Call<TrackXML>
+    ): Call<TrackInfoXML>
 
     @GET("/2.0/?method=track.getInfo")
     fun getByMbid(
@@ -32,7 +32,7 @@ interface TrackRequester {
         @Query("username") userName: String? = null,
         @Query("lang") lang: String = LastFmStore.instance.lang,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
-    ): Call<TrackXML>
+    ): Call<TrackInfoXML>
 
     @GET("/2.0/?method=track.search")
     fun searchByName(

@@ -19,7 +19,7 @@ class AlbumXML: Albumix {
     @PropertyElement
     var url: String? = null
     @Element
-    var images: List<ImageXML> = List(0) { ImageXML() }
+    var images: List<ImageXML>? = null
 
     override fun toAlbum(): Album {
         return Album().also {
@@ -27,22 +27,25 @@ class AlbumXML: Albumix {
             it.artistName = artistName
             it.id = id
             it.url = url
-            for (image in images) {
-                if (image.size == null || image.url == null) {
-                    continue
-                }
-                when (image.size) {
-                    "large" -> {
-                        it.images.large = Image().apply { url = image.url!! }
+            if (images != null) {
+                for (image in images!!) {
+                    if (image.size == null || image.url == null) {
+                        continue
                     }
-                    "medium" -> {
-                        it.images.medium = Image().apply { url = image.url!! }
-                    }
-                    else -> {
-                        it.images.small = Image().apply { url = image.url!! }
+                    when (image.size) {
+                        "large" -> {
+                            it.images.large = Image().apply { url = image.url!! }
+                        }
+                        "medium" -> {
+                            it.images.medium = Image().apply { url = image.url!! }
+                        }
+                        else -> {
+                            it.images.small = Image().apply { url = image.url!! }
+                        }
                     }
                 }
             }
+
         }
     }
 }

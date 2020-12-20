@@ -4,9 +4,9 @@ import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.Path
 import com.tickaroo.tikxml.annotation.Xml
 
-@Xml(name = "results")
+@Xml(name = "lfm")
 class TrackSearchXML {
-    @Path("trackmatches")
+    @Path("results/trackmatches")
     @Element
-    var tracks: List<TrackXML> = emptyList()
+    var tracks: List<TrackXML>? = null
 }

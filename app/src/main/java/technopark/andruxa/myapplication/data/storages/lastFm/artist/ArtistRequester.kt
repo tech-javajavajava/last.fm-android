@@ -13,7 +13,7 @@ interface ArtistRequester {
         @Query("username") userName: String? = null,
         @Query("lang") lang: String = LastFmStore.instance.lang,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
-    ): Call<ArtistXML>
+    ): Call<ArtistInfoXML>
 
     @GET("/2.0/?method=artist.getinfo")
     fun getByMbid(
@@ -22,7 +22,7 @@ interface ArtistRequester {
         @Query("username") userName: String? = null,
         @Query("lang") lang: String = LastFmStore.instance.lang,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
-    ): Call<ArtistXML>
+    ): Call<ArtistInfoXML>
 
     @GET("/2.0/?method=artist.search")
     fun searchByName(

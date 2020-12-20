@@ -6,8 +6,8 @@ import retrofit2.Response
 import technopark.andruxa.myapplication.data.SData
 import technopark.andruxa.myapplication.data.SDataI
 import technopark.andruxa.myapplication.data.storages.lastFm.LastFmStore
+import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistInfoXML
 import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistSearchXML
-import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistXML
 import technopark.andruxa.myapplication.data.storages.lastFm.artist.ArtistsTopXML
 import technopark.andruxa.myapplication.data.storages.room.RoomStore
 import technopark.andruxa.myapplication.models.artist.Artist
@@ -27,14 +27,14 @@ class ArtistRepo: IArtistRepo {
 
             postState(SDataI.State.Load)
 
-            lastFmStore.getByMbid(id).enqueue(object: Callback<ArtistXML> {
-                override fun onResponse(call: Call<ArtistXML>, response: Response<ArtistXML>) {
-                    response.body()?.let { setData(it.toArtist()) }
+            lastFmStore.getByMbid(id).enqueue(object: Callback<ArtistInfoXML> {
+                override fun onResponse(call: Call<ArtistInfoXML>, response: Response<ArtistInfoXML>) {
+                    response.body()?.let { setData(it.artist?.toArtist()) }
                     setNetErr(false)
                     postState(SDataI.State.NetOk)
                 }
 
-                override fun onFailure(call: Call<ArtistXML>, t: Throwable) {
+                override fun onFailure(call: Call<ArtistInfoXML>, t: Throwable) {
                     setMessage("network error: '${t.message}'")
                     setNetErr(true)
                     postState(SDataI.State.Err)
@@ -64,14 +64,14 @@ class ArtistRepo: IArtistRepo {
 
             postState(SDataI.State.Load)
 
-            lastFmStore.getInfoByName(name, 1, userName).enqueue(object: Callback<ArtistXML> {
-                override fun onResponse(call: Call<ArtistXML>, response: Response<ArtistXML>) {
-                    response.body()?.let { setData(it.toArtist()) }
+            lastFmStore.getInfoByName(name, 1, userName).enqueue(object: Callback<ArtistInfoXML> {
+                override fun onResponse(call: Call<ArtistInfoXML>, response: Response<ArtistInfoXML>) {
+                    response.body()?.let { setData(it.artist?.toArtist()) }
                     setNetErr(false)
                     postState(SDataI.State.NetOk)
                 }
 
-                override fun onFailure(call: Call<ArtistXML>, t: Throwable) {
+                override fun onFailure(call: Call<ArtistInfoXML>, t: Throwable) {
                     setMessage("network error: '${t.message}'")
                     setNetErr(true)
                     postState(SDataI.State.Err)

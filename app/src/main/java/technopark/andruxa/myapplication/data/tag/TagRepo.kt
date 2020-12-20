@@ -6,8 +6,8 @@ import retrofit2.Response
 import technopark.andruxa.myapplication.data.SData
 import technopark.andruxa.myapplication.data.SDataI
 import technopark.andruxa.myapplication.data.storages.lastFm.LastFmStore
+import technopark.andruxa.myapplication.data.storages.lastFm.tag.TagInfoXML
 import technopark.andruxa.myapplication.data.storages.lastFm.tag.TagTopXML
-import technopark.andruxa.myapplication.data.storages.lastFm.tag.TagXML
 import technopark.andruxa.myapplication.models.tag.Tag
 
 class TagRepo: ITagRepo {
@@ -22,16 +22,16 @@ class TagRepo: ITagRepo {
         tagByName.postState(SDataI.State.Load)
 
         lastFmStore.getInfoByName(name).enqueue(
-            object : Callback<TagXML> {
-                override fun onResponse(call: Call<TagXML>, response: Response<TagXML>) {
+            object : Callback<TagInfoXML> {
+                override fun onResponse(call: Call<TagInfoXML>, response: Response<TagInfoXML>) {
                     response.body()?.let {
-                        tagByName.setData(it.toTag())
+                        tagByName.setData(it.tag?.toTag())
                     }
 
                     tagByName.postState(SDataI.State.NetOk)
                 }
 
-                override fun onFailure(call: Call<TagXML>, t: Throwable) {
+                override fun onFailure(call: Call<TagInfoXML>, t: Throwable) {
                     tagByName.networkError(t.message)
                 }
             }
