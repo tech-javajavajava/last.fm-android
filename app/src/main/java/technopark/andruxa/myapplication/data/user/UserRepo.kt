@@ -1,5 +1,6 @@
 package technopark.andruxa.myapplication.data.user
 
+import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,11 +36,11 @@ class UserRepo: UserRepoI {
                 }
 
                 override fun onFailure(call: Call<UserLovedXML>, t: Throwable) {
-                    android.util.Log.d("db/userloved/err", "err")
+                    Log.d("db/userloved/err", "err")
                     t.message?.let {
-                        android.util.Log.d("db/userloved/message", it)
+                        Log.d("db/userloved/message", it)
                     }
-                    android.util.Log.d("db/userloved/stack", t.stackTrace.joinToString("\n"))
+                    Log.d("db/userloved/stack", t.stackTrace.joinToString("\n"))
                     networkError(t.message)
                 }
             })
@@ -59,11 +60,11 @@ class UserRepo: UserRepoI {
                 }
 
                 override fun onFailure(call: Call<UserRecentXML>, t: Throwable) {
-                    android.util.Log.d("db/userrecent", "err")
+                    Log.d("db/userrecent", "err")
                     t.message?.let {
-                        android.util.Log.d("db/userrecent/message", it)
+                        Log.d("db/userrecent/message", it)
                     }
-                    android.util.Log.d("db/userrecent/stack", t.stackTrace.joinToString("\n"))
+                    Log.d("db/userrecent/stack", t.stackTrace.joinToString("\n"))
                     networkError(t.message)
                 }
             })
@@ -73,6 +74,10 @@ class UserRepo: UserRepoI {
     }
 
     override fun getCurrent(): SData<User> {
+        Log.d("user", sessionRepo.isLogined.isOk().toString())
+        Log.d("user", sessionRepo.isLogined.data.toString())
+        Log.d("user", sessionRepo.apiSig.toString())
+        Log.d("user", sessionRepo.sessionKey.toString())
         if (sessionRepo.isLogined.isOk() &&
                 sessionRepo.isLogined.data == true &&
                 sessionRepo.apiSig != null &&
@@ -90,6 +95,7 @@ class UserRepo: UserRepoI {
                     }
 
                     override fun onFailure(call: Call<UserInfoXML>, t: Throwable) {
+                        Log.d("user", t.toString())
                         t.message?.let { currentUser.setMessage(it) }
                         currentUser.setNetErr(true)
                     }
@@ -102,5 +108,15 @@ class UserRepo: UserRepoI {
         }
 
         return this.currentUser
+    }
+
+    companion object {
+        var repo: UserRepoI? = null
+        fun getInstance(): UserRepoI {
+            if (repo == null) {
+                repo = UserRepo()
+            }
+            return repo as UserRepoI
+        }
     }
 }

@@ -1,48 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ТОПКЕК"
-        android:textColor="@color/text_color"
-        android:textAlignment="center"
-        android:textSize="40sp"/>
+        android:textColor="@color/text_color_inversed"
+        android:padding="@dimen/action_bar_padding"
+        android:textSize="@dimen/action_bar_text_size"
+        android:background="@color/last_fm_red"/>
 
-    <EditText
-        android:id="@+id/login"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/login_form_vertical_margin"
-        android:layout_marginHorizontal="@dimen/login_form_horizontal_margin"
-        android:inputType="text"
-        android:autofillHints="login"
-        tools:ignore="LabelFor"
-        android:hint="@string/login_hint"/>
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/login_form_vertical_margin"
-        android:layout_marginHorizontal="@dimen/login_form_horizontal_margin"
-        android:inputType="textPassword"
-        android:autofillHints="password"
-        tools:ignore="LabelFor"
-        android:hint="@string/password_hint"/>
+        <LinearLayout
+            android:id="@+id/profile_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
 
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/login_form_vertical_margin"
-        android:text="@string/log_in"
-        android:background="@color/last_fm_red" />
+    </ScrollView>
 
 </LinearLayout>
