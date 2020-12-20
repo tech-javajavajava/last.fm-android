@@ -8,14 +8,69 @@ import technopark.andruxa.myapplication.data.SDataI
 import technopark.andruxa.myapplication.data.session.SessionRepo
 import technopark.andruxa.myapplication.data.storages.lastFm.LastFmStore
 import technopark.andruxa.myapplication.data.storages.lastFm.user.UserInfoXML
+import technopark.andruxa.myapplication.data.storages.lastFm.user.UserLovedXML
+import technopark.andruxa.myapplication.data.storages.lastFm.user.UserRecentXML
+import technopark.andruxa.myapplication.models.track.Track
 import technopark.andruxa.myapplication.models.user.User
 
 class UserRepo: UserRepoI {
     override var currentUser: SData<User> = SData()
+        private set
+    override var loveTracks: SData<List<Track>> = SData()
+        private set
+    override var recenTracks: SData<List<Track>> = SData()
+        private set
 
     private val sessionRepo = SessionRepo.getInstance()
+    private val lastFmStore = LastFmStore.instance.userApi
 
-    private val userApi = LastFmStore.instance.userApi
+    override fun getLovedTracks(name: String, limit: Int, page: Int): SDataI<List<Track>> {
+        with(loveTracks) {
+            postState(SDataI.State.Load)
+            lastFmStore.getLoved(name, limit, page).enqueue(object : Callback<UserLovedXML> {
+                override fun onResponse(call: Call<UserLovedXML>, response: Response<UserLovedXML>) {
+                    setData(response.body()?.tracks?.map { t -> t.toTrack() })
+                    postState(SDataI.State.NetOk)
+                    setNetErr(false)
+                }
+
+                override fun onFailure(call: Call<UserLovedXML>, t: Throwable) {
+                    android.util.Log.d("db/userloved/err", "err")
+                    t.message?.let {
+                        android.util.Log.d("db/userloved/message", it)
+                    }
+                    android.util.Log.d("db/userloved/stack", t.stackTrace.joinToString("\n"))
+                    networkError(t.message)
+                }
+            })
+
+            return this
+        }
+    }
+
+    override fun getRecentTracks(name: String, limit: Int, page: Int): SDataI<List<Track>> {
+        with(recenTracks) {
+            postState(SDataI.State.Load)
+            lastFmStore.getRecent(name, limit, page).enqueue(object : Callback<UserRecentXML> {
+                override fun onResponse(call: Call<UserRecentXML>, response: Response<UserRecentXML>) {
+                    setData(response.body()?.tracks?.map { t -> t.toTrack() })
+                    postState(SDataI.State.NetOk)
+                    setNetErr(false)
+                }
+
+                override fun onFailure(call: Call<UserRecentXML>, t: Throwable) {
+                    android.util.Log.d("db/userrecent", "err")
+                    t.message?.let {
+                        android.util.Log.d("db/userrecent/message", it)
+                    }
+                    android.util.Log.d("db/userrecent/stack", t.stackTrace.joinToString("\n"))
+                    networkError(t.message)
+                }
+            })
+
+            return this
+        }
+    }
 
     override fun getCurrent(): SData<User> {
         if (sessionRepo.isLogined.isOk() &&
@@ -23,7 +78,7 @@ class UserRepo: UserRepoI {
                 sessionRepo.apiSig != null &&
                 sessionRepo.sessionKey != null) {
 
-            userApi.getInfo(sessionRepo.sessionKey!!, sessionRepo.apiSig!!).enqueue(
+            lastFmStore.getInfo(sessionRepo.sessionKey!!, sessionRepo.apiSig!!).enqueue(
                 object: Callback<UserInfoXML> {
                     override fun onResponse(
                         call: Call<UserInfoXML>,
@@ -31,7 +86,7 @@ class UserRepo: UserRepoI {
                     ) {
                         currentUser.setData(response.body()?.user?.toUser())
                         currentUser.postState(SDataI.State.NetOk)
-                        currentUser.setNetErr(false);
+                        currentUser.setNetErr(false)
                     }
 
                     override fun onFailure(call: Call<UserInfoXML>, t: Throwable) {
@@ -46,6 +101,6 @@ class UserRepo: UserRepoI {
             currentUser.postState(SDataI.State.Err)
         }
 
-        return this.currentUser;
+        return this.currentUser
     }
 }
