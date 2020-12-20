@@ -47,7 +47,7 @@ class TagRepo: ITagRepo {
             object : Callback<TagTopXML> {
                 override fun onResponse(call: Call<TagTopXML>, response: Response<TagTopXML>) {
                     response.body()?.let {
-                        tagTop.setData(it.tags.map { t -> t.toTag() })
+                        tagTop.setData(it.tags?.map { t -> t.toTag() })
                     }
                     tagTop.postState(SDataI.State.NetOk)
                 }

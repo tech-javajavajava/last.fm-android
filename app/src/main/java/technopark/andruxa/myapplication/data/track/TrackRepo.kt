@@ -100,7 +100,7 @@ class TrackRepo: ITrackRepo {
 
             postState(SDataI.State.Load)
 
-            lastFmStore.searchByName(name).enqueue(object: Callback<TrackSearchXML> {
+            lastFmStore.searchByName(name, artistName, page, limit).enqueue(object: Callback<TrackSearchXML> {
                 override fun onResponse(call: Call<TrackSearchXML>, response: Response<TrackSearchXML>) {
                     setData(response.body()?.tracks?.map { t -> t.toTrack()})
                     setNetErr(false)

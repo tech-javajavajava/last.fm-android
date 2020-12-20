@@ -23,26 +23,34 @@ class TrackXML: Trackix {
     @PropertyElement
     var playcount: Int? = null
 
-    @Path("album")
-    @PropertyElement(name = "artist")
+    @Path("artist")
+    @PropertyElement(name = "name")
     var artistName: String? = null
 
     @Path("album")
-    @PropertyElement(name = "name")
+    @PropertyElement(name = "artist")
+    var albumArtist: String? = null
+
+    @Path("album")
+    @PropertyElement(name = "title")
     var albumName: String? = null
 
     @Path("album")
     @Element
     var images: List<ImageXML>? = null
 
-    @Element(name = "toptags")
+    @Path("toptags")
+    @Element
     var topTags: List<TagXML>? = null
 
     @Path("wiki")
+    @PropertyElement
     var published: String? = null
     @Path("wiki")
+    @PropertyElement
     var summary: String? = null
     @Path("wiki")
+    @PropertyElement
     var content: String? = null
 
     override fun toTrack(): Track {
@@ -54,6 +62,7 @@ class TrackXML: Trackix {
             it.playcount = playcount
             it.artistName = artistName
             it.albumName = albumName
+            it.albumArtist = albumArtist
             if (images != null) {
                 for (image in images!!) {
                     if (image.size == null || image.url == null) {

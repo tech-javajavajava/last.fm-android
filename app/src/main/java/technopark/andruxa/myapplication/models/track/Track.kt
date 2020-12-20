@@ -8,6 +8,7 @@ class Track {
     var url: String? = null
     var listeners: Int? = null
     var artistName: String? = null
+    var albumArtist: String? = null
     var albumName: String? = null
     var images: Images = Images()
     var duration: Int? = null

@@ -131,7 +131,7 @@ class TrackFragment() : Fragment() {
                             }
                         }
                         trackView.findViewById<TextView>(R.id.album_name).text = it.albumName
-                        trackView.findViewById<TextView>(R.id.album_artist_name).text = it.artistName
+                        trackView.findViewById<TextView>(R.id.album_artist_name).text = it.albumArtist
 //                        it.images?.get(0)?.url?.let {
 //                            setImage(trackView.findViewById(R.id.album_image), it)
 //                        }

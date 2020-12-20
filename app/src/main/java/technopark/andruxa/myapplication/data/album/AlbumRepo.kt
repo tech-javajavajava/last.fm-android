@@ -99,7 +99,7 @@ class AlbumRepo: IAlbumRepo {
 
             postState(SDataI.State.Load)
 
-            lastFmStore.searchByName(name).enqueue(object: Callback<AlbumSearchXML> {
+            lastFmStore.searchByName(name, page, limit).enqueue(object: Callback<AlbumSearchXML> {
                 override fun onResponse(call: Call<AlbumSearchXML>, response: Response<AlbumSearchXML>) {
                     setData(response.body()?.albums?.map { albumXML -> albumXML.toAlbum() })
                     setNetErr(false)

@@ -63,6 +63,7 @@ class HomeFragment : Fragment() {
                 chartsState.state === HomeViewModel.ChartsProgress.State.IN_PROGRESS -> {
                 }
                 chartsState.state === HomeViewModel.ChartsProgress.State.SUCCESS -> {
+                    chartsContainer.removeAllViews()
                     chartsState.tracks?.let {
                         val tracksShortlist: LinearLayout = LayoutInflater.from(container?.context)
                             .inflate(R.layout.shortlist, container, false) as LinearLayout

@@ -41,6 +41,7 @@ class TrackViewModel(application: Application) : AndroidViewModel(application) {
             if (trackLiveData.isOk()) {
                 Log.d("track", "success")
                 trackState.value!!.track = trackLiveData.data
+                Log.d("lol track", trackLiveData.data.toString());
                 ++responsesRecieved
                 if (responsesRecieved == responsesAwaiting) {
                     trackState.postValue(trackState.value!!.changeState(TrackProgress.State.SUCCESS))

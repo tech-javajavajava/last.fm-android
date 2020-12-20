@@ -101,7 +101,7 @@ class ArtistRepo: IArtistRepo {
 
             postState(SDataI.State.Load)
 
-            lastFmStore.searchByName(name).enqueue(object: Callback<ArtistSearchXML> {
+            lastFmStore.searchByName(name, page, limit).enqueue(object: Callback<ArtistSearchXML> {
                 override fun onResponse(call: Call<ArtistSearchXML>, response: Response<ArtistSearchXML>) {
                     setData(response.body()?.artists?.map { albumXML -> albumXML.toArtist() })
                     setNetErr(false)
