@@ -1,7 +1,9 @@
 package technopark.andruxa.myapplication.data.storages.lastFm.artist
 
+import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
+import technopark.andruxa.myapplication.data.storages.lastFm.image.ImageXML
 import technopark.andruxa.myapplication.models.artist.Artist
 import technopark.andruxa.myapplication.models.artist.Artistix
 import technopark.andruxa.myapplication.models.image.Image
@@ -14,21 +16,31 @@ class ArtistXML: Artistix {
     var id: String? = null
     @PropertyElement
     var url: String? = null
-    @PropertyElement(name = "image_small")
-    var imageSmall: String? = null
-    @PropertyElement
-    var image: String? = null
+    @Element
+    var images: List<ImageXML>? = null
 
     override fun toArtist(): Artist {
         return Artist().also {
             it.name = name
             it.id = id
             it.url = url
-            if (imageSmall != null) {
-                it.images.small = Image().apply { url = imageSmall as String }
-            }
-            if (image != null) {
-                it.images.medium = Image().apply { url = image as String }
+            images?.let { list ->
+                for (image in list) {
+                    if (image.size == null || image.url == null) {
+                        continue
+                    }
+                    when (image.size) {
+                        "large" -> {
+                            it.images.large = Image().apply { url = image.url!! }
+                        }
+                        "medium" -> {
+                            it.images.medium = Image().apply { url = image.url!! }
+                        }
+                        else -> {
+                            it.images.small = Image().apply { url = image.url!! }
+                        }
+                    }
+                }
             }
         }
     }

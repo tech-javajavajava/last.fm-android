@@ -6,17 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.squareup.picasso.Picasso
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
+import technopark.andruxa.myapplication.data.SDataI
 import technopark.andruxa.myapplication.models.artist.Artist
 import technopark.andruxa.myapplication.models.track.Track
 import technopark.andruxa.myapplication.presentation.track.TrackFragment
@@ -41,7 +43,6 @@ class HomeFragment : Fragment() {
         viewModel.getChartsState().observe(viewLifecycleOwner, ChartsObserver(
             viewModel,
             container,
-            activity,
             parentFragmentManager,
             viewLifecycleOwner,
             view.findViewById(R.id.charts_container)
@@ -52,17 +53,16 @@ class HomeFragment : Fragment() {
     private class ChartsObserver(
         private val viewModel: HomeViewModel,
         private val container: ViewGroup?,
-        private val activity: FragmentActivity?,
         private val fragmentManager: FragmentManager,
         private val viewLifecycleOwner: LifecycleOwner,
         private val chartsContainer: LinearLayout
     ): Observer<HomeViewModel.ChartsProgress?> {
         override fun onChanged(chartsState: HomeViewModel.ChartsProgress?) {
             if (chartsState == null) return
-            when {
-                chartsState.state === HomeViewModel.ChartsProgress.State.IN_PROGRESS -> {
+            when (chartsState.state) {
+                HomeViewModel.ChartsProgress.State.IN_PROGRESS -> {
                 }
-                chartsState.state === HomeViewModel.ChartsProgress.State.SUCCESS -> {
+                HomeViewModel.ChartsProgress.State.SUCCESS -> {
                     chartsContainer.removeAllViews()
                     chartsState.tracks?.let {
                         val tracksShortlist: LinearLayout = LayoutInflater.from(container?.context)
@@ -76,9 +76,9 @@ class HomeFragment : Fragment() {
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.track_or_album, container, false)
                             // fill in any details dynamically here
-//                            track.images.small?.let {
-//                                setImage(v.findViewById(R.id.image), it.url)
-//                            }
+                            track.images.small?.let {
+                                Picasso.get().load(it.url).into(v.findViewById(R.id.image) as ImageView)
+                            }
                             val name: TextView = v.findViewById(R.id.name)
                             name.text = track.name
                             val artistName: TextView = v.findViewById(R.id.artist_name)
@@ -113,9 +113,9 @@ class HomeFragment : Fragment() {
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.artist, container, false)
                             // fill in any details dynamically here
-//                            artist.images.small?.let {
-//                                setImage(v.findViewById(R.id.image), it.url)
-//                            }
+                            artist.images.small?.let {
+                                Picasso.get().load(it.url).into(v.findViewById(R.id.image) as ImageView)
+                            }
                             val name: TextView = v.findViewById(R.id.name) as TextView
                             name.text = artist.name
                             // insert into main view
@@ -141,11 +141,16 @@ class HomeFragment : Fragment() {
                                 val v: View = LayoutInflater.from(container?.context)
                                     .inflate(R.layout.shortlist_tag, container, false)
                                 // fill in any details dynamically here
-//                                getTagImageUrl(tag.name!!).observe(viewLifecycleOwner, { url ->
-//                                        url?.let {
-//                                            setImage(v.findViewById(R.id.image), url)
-//                                        }
-//                                    })
+                                val tagTopArtist = getTagImageUrl(tag.name!!)
+                                tagTopArtist.state.observe(viewLifecycleOwner, {
+                                        if (tagTopArtist.isOk()) {
+                                            tagTopArtist.data?.let {
+                                                it.get(0).images.small?.let {
+                                                    Picasso.get().load(it.url).into(v.findViewById(R.id.image) as ImageView)
+                                                }
+                                            }
+                                        }
+                                    })
                                 val name: TextView = v.findViewById(R.id.name) as TextView
                                 name.text = tag.name
                                 // insert into main view
@@ -157,9 +162,13 @@ class HomeFragment : Fragment() {
                         chartsContainer.addView(tagsShortlist)
                     }
                 }
-                chartsState.state === HomeViewModel.ChartsProgress.State.FAILED -> {
+                HomeViewModel.ChartsProgress.State.FAILED -> {
                 }
             }
+        }
+
+        fun getTagImageUrl(name: String): SDataI<List<Artist>> {
+            return viewModel.getTagImageUrl(name)
         }
     }
 }

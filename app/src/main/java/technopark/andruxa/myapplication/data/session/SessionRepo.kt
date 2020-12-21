@@ -31,12 +31,11 @@ class SessionRepo: ISessionRepo {
                     response: Response<SessionResponseXML>
                 ) {
                     response.body()?.let {
+                        Log.d("auth", "got session key")
                         isLogined.setData(it.sessionKey != null)
                         sessionKey = it.sessionKey
                         apiSig = it.apiSig
                     }
-                    Log.d("auth", "got session key")
-                    isLogined.setData(true)
                     isLogined.postState(SDataI.State.NetOk)
                 }
 
