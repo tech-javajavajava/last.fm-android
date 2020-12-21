@@ -16,8 +16,6 @@ class SessionRepo: ISessionRepo {
         private set
     override var sessionKey: String? = null
         private set
-    override var apiSig: String? = null
-        private set
 
     private val lastFmStore = LastFmStore.instance.sessionApi
 
@@ -46,16 +44,9 @@ class SessionRepo: ISessionRepo {
                             Log.d("auth resp session key", "NO SKEY")
                         }
 
-                        if (it.apiSig != null) {
-                            Log.d("auth resp api sig", it.apiSig!!)
-                        } else {
-                            Log.d("auth resp api sig", "NO ASIG")
-                        }
-
                         Log.d("auth", "got session key")
                         isLogined.setData(it.sessionKey != null)
                         sessionKey = it.sessionKey
-                        apiSig = it.apiSig
                     }
                     isLogined.postState(SDataI.State.NetOk)
                 }

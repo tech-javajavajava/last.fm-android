@@ -29,7 +29,6 @@ class LastFmStore {
         .build()
     val apiKey = "3b8a89498b5ab698a8966a966e97c5a1"
     val lang = "RU"
-
     val albumApi: AlbumRequester = retrofit.create(AlbumRequester::class.java)
     val artistApi: ArtistRequester = retrofit.create(ArtistRequester::class.java)
     val tagsApi: TagRequester = retrofit.create(TagRequester::class.java)

@@ -9,7 +9,6 @@ interface UserRequester {
     @GET("/2.0/?method=user.getinfo")
     fun getInfo(
         @Query("sk") sessionKey: String,
-        @Query("api_sig") apiSig: String,
         @Query("api_key") apiKey: String = LastFmStore.instance.apiKey,
     ): Call<UserInfoXML>
 

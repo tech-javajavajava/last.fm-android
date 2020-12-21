@@ -5,7 +5,6 @@ import technopark.andruxa.myapplication.data.SDataI
 interface ISessionRepo {
     val isLogined: SDataI<Boolean>
     val sessionKey: String?
-    val apiSig: String?
 
     fun login(login: String, password: String): SDataI<Boolean>
 }
