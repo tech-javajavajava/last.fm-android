@@ -24,6 +24,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun checkLogin(): Boolean {
+        Log.d("auth", SessionRepo.getInstance().isLogined.data.toString())
         return SessionRepo.getInstance().isLogined.data == true
     }
 

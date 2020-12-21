@@ -1,6 +1,7 @@
 package technopark.andruxa.myapplication.presentation.user
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,7 @@ class AuthFragment : Fragment() {
                 loginState === UserViewModel.LoginState.IN_PROGRESS -> {
                 }
                 loginState === UserViewModel.LoginState.SUCCESS -> {
+                    Log.d("auth", "to user fragment")
                     fragmentManager
                             .beginTransaction()
                             .replace(R.id.nav_host_fragment, UserFragment())
