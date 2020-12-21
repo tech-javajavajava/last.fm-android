@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.size
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.squareup.picasso.Picasso
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
 import technopark.andruxa.myapplication.models.track.Track
@@ -41,13 +43,15 @@ class UserFragment : Fragment() {
                     .beginTransaction()
                     .replace(R.id.nav_host_fragment, AuthFragment())
                     .commit()
+            return
         }
 
         Log.d("user", "logged in")
         viewModel.getProfileProgress().observe(viewLifecycleOwner, ProfileObserver(
-                container,
-                parentFragmentManager,
-                view.findViewById(R.id.profile_container)
+            container,
+            parentFragmentManager,
+            view.findViewById(R.id.username),
+            view.findViewById(R.id.profile_container)
         ))
         viewModel.getProfile()
     }
@@ -55,15 +59,19 @@ class UserFragment : Fragment() {
     private class ProfileObserver(
             private val container: ViewGroup?,
             private val fragmentManager: FragmentManager,
-            private val chartsContainer: LinearLayout
+            private val usernameContainer: TextView,
+            private val profileContainer: LinearLayout
     ): Observer<UserViewModel.ProfileProgress?> {
         override fun onChanged(profileState: UserViewModel.ProfileProgress?) {
             if (profileState == null) return
-            when {
-                profileState.state === UserViewModel.ProfileProgress.State.IN_PROGRESS -> {
+            when (profileState.state) {
+                UserViewModel.ProfileProgress.State.IN_PROGRESS -> {
                 }
-                profileState.state === UserViewModel.ProfileProgress.State.SUCCESS -> {
-                    chartsContainer.removeAllViews()
+                UserViewModel.ProfileProgress.State.SUCCESS -> {
+                    profileContainer.removeAllViews()
+                    profileState.username?.let {
+                        usernameContainer.text = it
+                    }
                     profileState.loved?.let {
                         val tracksShortlist: LinearLayout = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.shortlist, container, false) as LinearLayout
@@ -76,9 +84,12 @@ class UserFragment : Fragment() {
                             val v: View = LayoutInflater.from(container?.context)
                                     .inflate(R.layout.track_or_album, container, false)
                             // fill in any details dynamically here
-//                            track.images.small?.let {
-//                                setImage(v.findViewById(R.id.image), it.url)
-//                            }
+                            track.images.small?.let {
+                                if (it.url != "") {
+                                    Picasso.get().load(it.url)
+                                        .into(v.findViewById(R.id.image) as ImageView)
+                                }
+                            }
                             val name: TextView = v.findViewById(R.id.name)
                             name.text = track.name
                             val artistName: TextView = v.findViewById(R.id.artist_name)
@@ -98,7 +109,7 @@ class UserFragment : Fragment() {
                             tracksShortlist.addView(v, tracksShortlist.size - 2)
                         }
                         tracksShortlist.visibility = View.VISIBLE
-                        chartsContainer.addView(tracksShortlist)
+                        profileContainer.addView(tracksShortlist)
                     }
                     profileState.recent?.let {
                         val tracksShortlist: LinearLayout = LayoutInflater.from(container?.context)
@@ -112,9 +123,12 @@ class UserFragment : Fragment() {
                             val v: View = LayoutInflater.from(container?.context)
                                     .inflate(R.layout.track_or_album, container, false)
                             // fill in any details dynamically here
-//                            track.images.small?.let {
-//                                setImage(v.findViewById(R.id.image), it.url)
-//                            }
+                            track.images.small?.let {
+                                if (it.url != "") {
+                                    Picasso.get().load(it.url)
+                                        .into(v.findViewById(R.id.image) as ImageView)
+                                }
+                            }
                             val name: TextView = v.findViewById(R.id.name)
                             name.text = track.name
                             val artistName: TextView = v.findViewById(R.id.artist_name)
@@ -134,10 +148,10 @@ class UserFragment : Fragment() {
                             tracksShortlist.addView(v, tracksShortlist.size - 2)
                         }
                         tracksShortlist.visibility = View.VISIBLE
-                        chartsContainer.addView(tracksShortlist)
+                        profileContainer.addView(tracksShortlist)
                     }
                 }
-                profileState.state === UserViewModel.ProfileProgress.State.FAILED -> {
+                UserViewModel.ProfileProgress.State.FAILED -> {
                 }
             }
         }

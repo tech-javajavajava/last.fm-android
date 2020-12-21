@@ -74,10 +74,6 @@ class UserRepo: UserRepoI {
     }
 
     override fun getCurrent(): SData<User> {
-        Log.d("user", sessionRepo.isLogined.isOk().toString())
-        Log.d("user", sessionRepo.isLogined.data.toString())
-        Log.d("user", sessionRepo.apiSig.toString())
-        Log.d("user", sessionRepo.sessionKey.toString())
         if (sessionRepo.isLogined.isOk() &&
                 sessionRepo.isLogined.data == true &&
                 sessionRepo.sessionKey != null) {
