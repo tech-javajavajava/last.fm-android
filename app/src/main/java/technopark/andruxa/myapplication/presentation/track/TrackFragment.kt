@@ -5,15 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.flexbox.FlexboxLayout
+import com.squareup.picasso.Picasso
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
 import technopark.andruxa.myapplication.Utils
@@ -43,6 +44,7 @@ class TrackFragment() : Fragment() {
     ): View? {
         this.container = container
         viewModel = ViewModelProvider(this).get(TrackViewModel::class.java)
+
         return inflater.inflate(R.layout.fragment_track, container, false)
     }
 
@@ -55,16 +57,14 @@ class TrackFragment() : Fragment() {
             trackName = it.getString(NAME_KEY, "")
             trackArtist = it.getString(ARTIST_KEY, "")
         }
+        clearTrackView(view.findViewById(R.id.track) as LinearLayout)
         viewModel = ViewModelProvider(this).get(TrackViewModel::class.java)
         viewModel.getTrackState().observe(viewLifecycleOwner, TrackObserver(
-            viewModel,
             container,
-            activity,
             this,
             parentFragmentManager,
             view
-        )
-        )
+        ))
         viewModel.getTrack(trackName, trackArtist)
     }
 
@@ -96,10 +96,20 @@ class TrackFragment() : Fragment() {
         }
     }
 
+    private fun clearTrackView(trackView: LinearLayout) {
+        trackView.findViewById<TextView>(R.id.track_name).text = ""
+        trackView.findViewById<TextView>(R.id.track_artist_name).text = ""
+        trackView.findViewById<TextView>(R.id.track_duration).text = ""
+        trackView.findViewById<TextView>(R.id.track_listeners).text = ""
+        trackView.findViewById<TextView>(R.id.track_playcount).text = ""
+        trackView.findViewById<FlexboxLayout>(R.id.tags_container).removeAllViews()
+        trackView.findViewById<TextView>(R.id.album_name).text = ""
+        trackView.findViewById<TextView>(R.id.album_artist_name).text = ""
+        trackView.findViewById<TextView>(R.id.wiki).text = ""
+    }
+
     private class TrackObserver(
-        private val viewModel: TrackViewModel,
         private val container: ViewGroup?,
-        private val activity: FragmentActivity?,
         private val clickListener: TrackFragment,
         private val fragmentManager: FragmentManager,
         private val view: View
@@ -107,12 +117,12 @@ class TrackFragment() : Fragment() {
         override fun onChanged(trackState: TrackViewModel.TrackProgress?) {
             if (trackState == null) return
             val trackView = view.findViewById<LinearLayout>(R.id.track)
-            when {
-                trackState.state === TrackViewModel.TrackProgress.State.IN_PROGRESS -> {
+            when (trackState.state) {
+                TrackViewModel.TrackProgress.State.IN_PROGRESS -> {
                     trackView.visibility = View.GONE
                     view.findViewById<ProgressBar>(R.id.track_progress_bar).visibility = View.VISIBLE
                 }
-                trackState.state === TrackViewModel.TrackProgress.State.SUCCESS -> {
+                TrackViewModel.TrackProgress.State.SUCCESS -> {
                     view.findViewById<ProgressBar>(R.id.track_progress_bar).visibility = View.GONE
                     trackState.track?.let {
                         Log.d("track render", it.name!!)
@@ -132,9 +142,21 @@ class TrackFragment() : Fragment() {
                         }
                         trackView.findViewById<TextView>(R.id.album_name).text = it.albumName
                         trackView.findViewById<TextView>(R.id.album_artist_name).text = it.albumArtist
-//                        it.images?.get(0)?.url?.let {
-//                            setImage(trackView.findViewById(R.id.album_image), it)
-//                        }
+                        it.images.small?.let {
+                            Picasso.get().load(it.url)
+                                .into(trackView.findViewById(R.id.album_image) as ImageView)
+                        }
+                        it.albumName?.let { albumName ->
+                            it.albumArtist?.let { artistName ->
+                                trackView.findViewById<ImageView>(R.id.album_image).setOnClickListener{
+                                    fragmentManager
+                                        .beginTransaction()
+                                        .replace(R.id.nav_host_fragment, AlbumFragment(albumName, artistName))
+                                        .addToBackStack(null)
+                                        .commit()
+                                }
+                            }
+                        }
                         trackView.findViewById<TextView>(R.id.wiki).text = it.summary
                         trackView.findViewById<TextView>(R.id.wiki_expander).setOnClickListener{_ ->
                             clickListener.onWikiExpanderClickListener(it.summary, it.content)
@@ -148,18 +170,19 @@ class TrackFragment() : Fragment() {
                             // fill in any details dynamically here
                             v.findViewById<TextView>(R.id.name).text = track.name
                             v.findViewById<TextView>(R.id.artist_name).text = track.artistName
-//                            track.images?.get(0)?.url?.let {
-//                                setImage(v.findViewById(R.id.image), it)
-//                            }
+                            track.images.small?.let {
+                                Picasso.get().load(it.url)
+                                    .into(v.findViewById(R.id.image) as ImageView)
+                            }
                             // insert into main view
                             track.name?.let { trackName ->
                                 track.artistName?.let { artistName ->
                                     v.setOnClickListener{
                                         fragmentManager
-                                                .beginTransaction()
-                                                .replace(R.id.nav_host_fragment, TrackFragment(trackName, artistName))
-                                                .addToBackStack(null)
-                                                .commit()
+                                            .beginTransaction()
+                                            .replace(R.id.nav_host_fragment, TrackFragment(trackName, artistName))
+                                            .addToBackStack(null)
+                                            .commit()
                                     }
                                 }
                             }
@@ -168,7 +191,7 @@ class TrackFragment() : Fragment() {
                     }
                     trackView.visibility = View.VISIBLE
                 }
-                trackState.state === TrackViewModel.TrackProgress.State.FAILED -> {
+                TrackViewModel.TrackProgress.State.FAILED -> {
                     view.findViewById<ProgressBar>(R.id.track_progress_bar).visibility = View.GONE
                 }
             }

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ProgressBar
+        android:id="@+id/album_progress_bar"
+        android:visibility="gone"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
+        android:layout_gravity="center"
+        android:layout_marginVertical="@dimen/search_vertical_margin" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/album"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/base_indent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/main_indent"
+                android:layout_marginTop="@dimen/base_indent"
+                android:layout_marginEnd="@dimen/base_indent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/album_image"
+                    android:layout_width="@dimen/album_image_track_page_size"
+                    android:layout_height="@dimen/album_image_track_page_size"
+                    android:layout_gravity="center_vertical" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/base_indent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/album_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/album_name_track_page_text_size" />
+
+                    <TextView
+                        android:id="@+id/album_artist_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text_color"
+                        android:textSize="@dimen/album_name_track_page_text_size" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <include layout="@layout/separator_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/base_indent"
+                android:layout_marginVertical="@dimen/small_indent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/main_indent"
+                        android:text="@string/listeners"
+                        android:textColor="@color/secondary_text_color" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/album_listeners"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/text_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/base_indent"
+                android:layout_marginVertical="@dimen/small_indent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/main_indent"
+                        android:text="@string/playcount"
+                        android:textColor="@color/secondary_text_color" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/album_playcount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/text_color" />
+
+            </LinearLayout>
+
+            <include layout="@layout/separator_line" />
+
+            <com.google.android.flexbox.FlexboxLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/tags_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/main_indent"
+                app:flexWrap="wrap"/>
+
+            <include layout="@layout/separator_line" />
+
+            <TextView
+                android:id="@+id/wiki"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/main_indent"
+                android:textColor="@color/text_color" />
+
+            <TextView
+                android:id="@+id/wiki_expander"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/main_indent"
+                android:text="@string/track_wiki_expander_expand_text"
+                android:textAlignment="center"
+                android:textColor="@color/last_fm_red"
+                android:focusable="true"
+                android:clickable="true"/>
+
+            <include layout="@layout/separator_line" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/main_indent"
+                android:text="@string/album_tracks"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/secondary_entity_name_entity_page_text_size" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

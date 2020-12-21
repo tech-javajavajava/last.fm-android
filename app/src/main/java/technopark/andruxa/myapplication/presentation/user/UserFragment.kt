@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
 import technopark.andruxa.myapplication.models.track.Track
-import technopark.andruxa.myapplication.presentation.track.TrackFragment
+import technopark.andruxa.myapplication.presentation.track.AlbumFragment
 
 class UserFragment : Fragment() {
     private lateinit var viewModel: UserViewModel
@@ -100,7 +100,7 @@ class UserFragment : Fragment() {
                                     v.setOnClickListener{
                                         fragmentManager
                                                 .beginTransaction()
-                                                .replace(R.id.nav_host_fragment, TrackFragment(trackName, artistName))
+                                                .replace(R.id.nav_host_fragment, AlbumFragment(trackName, artistName))
                                                 .addToBackStack(null)
                                                 .commit()
                                     }
@@ -139,7 +139,7 @@ class UserFragment : Fragment() {
                                     v.setOnClickListener{
                                         fragmentManager
                                                 .beginTransaction()
-                                                .replace(R.id.nav_host_fragment, TrackFragment(trackName, artistName))
+                                                .replace(R.id.nav_host_fragment, AlbumFragment(trackName, artistName))
                                                 .addToBackStack(null)
                                                 .commit()
                                     }
