@@ -10,7 +10,7 @@ class SessionResponseXML {
     @Attribute
     var status: String? = null
     @Path("session")
-    @PropertyElement(name = "session_key")
+    @PropertyElement(name = "key")
     var sessionKey: String? = null
 
     @Path("session")

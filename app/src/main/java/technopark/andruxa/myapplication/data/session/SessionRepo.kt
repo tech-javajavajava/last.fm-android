@@ -22,20 +22,37 @@ class SessionRepo: ISessionRepo {
     private val lastFmStore = LastFmStore.instance.sessionApi
 
     override fun login(login: String, password: String): SDataI<Boolean> {
-        Log.d("auth l", login)
-        Log.d("auth p", password)
-        Log.d("auth k", Constants.lastFmApiKey)
-        Log.d("auth s", Utils.md5("api_key" + Constants.lastFmApiKey + "methodauth.getMobileSessionpassword" + password + "username" + login + Constants.lastFmApiSecret))
-        lastFmStore.login(login, password, Constants.lastFmApiKey,
-                Utils.md5("api_key" + Constants.lastFmApiKey + "methodauth.getMobileSessionpassword" + password + "username" + login + Constants.lastFmApiSecret)
+        lastFmStore.login(
+            login,
+            password,
+            Utils.md5("api_key" + Constants.lastFmApiKey + "methodauth.getMobileSessionpassword" + password + "username" + login + Constants.lastFmApiSecret)
         ).enqueue(
             object : Callback<SessionResponseXML> {
                 override fun onResponse(
                     call: Call<SessionResponseXML>,
                     response: Response<SessionResponseXML>
                 ) {
+                    Log.d("auth", "started!")
                     response.body()?.let {
-                        Log.d("auth", "got session key: " + it.sessionKey.toString())
+                        if (it.status != null) {
+                            Log.d("auth resp status", it.status!!)
+                        } else {
+                            Log.d("auth resp status", "NO STATUS")
+                        }
+
+                        if (it.sessionKey != null) {
+                            Log.d("auth resp session key", it.sessionKey!!)
+                        } else {
+                            Log.d("auth resp session key", "NO SKEY")
+                        }
+
+                        if (it.apiSig != null) {
+                            Log.d("auth resp api sig", it.apiSig!!)
+                        } else {
+                            Log.d("auth resp api sig", "NO ASIG")
+                        }
+
+                        Log.d("auth", "got session key")
                         isLogined.setData(it.sessionKey != null)
                         sessionKey = it.sessionKey
                         apiSig = it.apiSig
