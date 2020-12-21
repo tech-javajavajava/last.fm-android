@@ -125,4 +125,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             return this
         }
     }
+
+    fun getTagImageUrl(tag: String): SDataI<List<Artist>> {
+        return TagRepo.getInstance().getTopArtists(tag, limit = 1)
+    }
 }

@@ -4,7 +4,7 @@ import com.tickaroo.tikxml.annotation.Attribute
 import com.tickaroo.tikxml.annotation.TextContent
 import com.tickaroo.tikxml.annotation.Xml
 
-@Xml
+@Xml(name = "image")
 class ImageXML {
     @Attribute
     var size: String? = null

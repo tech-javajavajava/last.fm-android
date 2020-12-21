@@ -35,7 +35,6 @@ class TrackXML: Trackix {
     @PropertyElement(name = "title")
     var albumName: String? = null
 
-    @Path("album")
     @Element
     var images: List<ImageXML>? = null
 

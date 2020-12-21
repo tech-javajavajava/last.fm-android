@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.squareup.picasso.Picasso
 import technopark.andruxa.myapplication.ApplicationModified
 import technopark.andruxa.myapplication.R
 import technopark.andruxa.myapplication.models.album.Album
@@ -38,9 +38,7 @@ class SearchFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
 
         viewModel.getSearchState().observe(viewLifecycleOwner, SearchResultsObserver(
-            viewModel,
             container,
-            activity,
             parentFragmentManager,
             view.findViewById(R.id.search_progress_bar),
             view.findViewById(R.id.search_results_container)
@@ -60,9 +58,7 @@ class SearchFragment : Fragment() {
     }
 
     private class SearchResultsObserver(
-        private val viewModel: SearchViewModel,
         private val container: ViewGroup?,
-        private val activity: FragmentActivity?,
         private val fragmentManager: FragmentManager,
         private val progressBar: ProgressBar,
         private val searchResultsContainer: LinearLayout
@@ -70,17 +66,17 @@ class SearchFragment : Fragment() {
 
         override fun onChanged(searchState: SearchViewModel.SearchProgress?) {
             if (searchState == null) return
-            when {
-                searchState.state === SearchViewModel.SearchProgress.State.ERROR -> {
+            when (searchState.state) {
+                SearchViewModel.SearchProgress.State.ERROR -> {
                     progressBar.visibility = View.GONE
                 }
-                searchState.state === SearchViewModel.SearchProgress.State.IN_PROGRESS -> {
+                SearchViewModel.SearchProgress.State.IN_PROGRESS -> {
                     while (searchResultsContainer.size > 0) {
                         searchResultsContainer.removeViewAt(0)
                     }
                     progressBar.visibility = View.VISIBLE
                 }
-                searchState.state === SearchViewModel.SearchProgress.State.SUCCESS -> {
+                SearchViewModel.SearchProgress.State.SUCCESS -> {
                     progressBar.visibility = View.GONE
                     searchState.tracks?.let {
                         val tracksShortlist: LinearLayout = LayoutInflater.from(container?.context)
@@ -94,9 +90,9 @@ class SearchFragment : Fragment() {
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.track_or_album, container, false)
                             // fill in any details dynamically here
-//                            track.images?.get(0)?.url?.let {
-//                                setImage(v.findViewById(R.id.image), it)
-//                            }
+                            track.images.small?.let {
+                                Picasso.get().load(it.url).into(v.findViewById(R.id.image) as ImageView)
+                            }
                             val name: TextView = v.findViewById(R.id.name)
                             name.text = track.name
                             val artistName: TextView = v.findViewById(R.id.artist_name)
@@ -130,9 +126,9 @@ class SearchFragment : Fragment() {
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.artist, container, false)
                             // fill in any details dynamically here
-//                            artist.images?.get(0)?.url?.let {
-//                                setImage(v.findViewById(R.id.image), it)
-//                            }
+                            artist.images.small?.let {
+                                Picasso.get().load(it.url).into(v.findViewById(R.id.image) as ImageView)
+                            }
                             val name: TextView = v.findViewById(R.id.name) as TextView
                             name.text = artist.name
                             // insert into main view
@@ -153,9 +149,9 @@ class SearchFragment : Fragment() {
                             val v: View = LayoutInflater.from(container?.context)
                                 .inflate(R.layout.track_or_album, container, false)
                             // fill in any details dynamically here
-//                            album.images?.get(0)?.url?.let {
-//                                setImage(v.findViewById(R.id.image), it)
-//                            }
+                            album.images.small?.let {
+                                Picasso.get().load(it.url).into(v.findViewById(R.id.image) as ImageView)
+                            }
                             val name: TextView =
                                 v.findViewById<View>(R.id.name) as TextView
                             name.text = album.name
@@ -168,7 +164,7 @@ class SearchFragment : Fragment() {
                         searchResultsContainer.addView(albumsShortlist)
                     }
                 }
-                searchState.state === SearchViewModel.SearchProgress.State.FAILED -> {
+                SearchViewModel.SearchProgress.State.FAILED -> {
                     progressBar.visibility = View.GONE
                 }
             }
