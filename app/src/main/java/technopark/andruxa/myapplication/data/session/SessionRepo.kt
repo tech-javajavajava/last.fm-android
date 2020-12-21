@@ -22,6 +22,10 @@ class SessionRepo: ISessionRepo {
     private val lastFmStore = LastFmStore.instance.sessionApi
 
     override fun login(login: String, password: String): SDataI<Boolean> {
+        Log.d("auth l", login)
+        Log.d("auth p", password)
+        Log.d("auth k", Constants.lastFmApiKey)
+        Log.d("auth s", Utils.md5("api_key" + Constants.lastFmApiKey + "methodauth.getMobileSessionpassword" + password + "username" + login + Constants.lastFmApiSecret))
         lastFmStore.login(login, password, Constants.lastFmApiKey,
                 Utils.md5("api_key" + Constants.lastFmApiKey + "methodauth.getMobileSessionpassword" + password + "username" + login + Constants.lastFmApiSecret)
         ).enqueue(
@@ -31,7 +35,7 @@ class SessionRepo: ISessionRepo {
                     response: Response<SessionResponseXML>
                 ) {
                     response.body()?.let {
-                        Log.d("auth", "got session key")
+                        Log.d("auth", "got session key: " + it.sessionKey.toString())
                         isLogined.setData(it.sessionKey != null)
                         sessionKey = it.sessionKey
                         apiSig = it.apiSig

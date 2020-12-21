@@ -47,11 +47,17 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         loginState.addSource(progressLiveData.state) { authProgress ->
             Log.d("auth", "callback")
             if (progressLiveData.isOk()) {
-                Log.d("auth", "success")
-                loginState.postValue(LoginState.SUCCESS)
+                Log.d("auth", "net ok")
+                if (progressLiveData.data == true) {
+                    Log.d("auth", "success")
+                    loginState.postValue(LoginState.SUCCESS)
+                } else {
+                    Log.d("auth", "failure")
+                    loginState.postValue(LoginState.FAILED)
+                }
                 loginState.removeSource(progressLiveData.state)
             } else if (authProgress === SDataI.State.Err) {
-                Log.d("auth", "failure")
+                Log.d("auth", "net failure")
                 loginState.postValue(LoginState.FAILED)
                 loginState.removeSource(progressLiveData.state)
             }
