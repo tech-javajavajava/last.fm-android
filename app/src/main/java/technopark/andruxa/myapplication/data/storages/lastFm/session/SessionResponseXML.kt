@@ -12,8 +12,4 @@ class SessionResponseXML {
     @Path("session")
     @PropertyElement(name = "key")
     var sessionKey: String? = null
-
-    @Path("session")
-    @PropertyElement(name = "api_sig")
-    var apiSig: String? = null
 }

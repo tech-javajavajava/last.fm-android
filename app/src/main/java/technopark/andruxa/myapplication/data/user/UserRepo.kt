@@ -80,10 +80,9 @@ class UserRepo: UserRepoI {
         Log.d("user", sessionRepo.sessionKey.toString())
         if (sessionRepo.isLogined.isOk() &&
                 sessionRepo.isLogined.data == true &&
-                sessionRepo.apiSig != null &&
                 sessionRepo.sessionKey != null) {
 
-            lastFmStore.getInfo(sessionRepo.sessionKey!!, sessionRepo.apiSig!!).enqueue(
+            lastFmStore.getInfo(sessionRepo.sessionKey!!).enqueue(
                 object: Callback<UserInfoXML> {
                     override fun onResponse(
                         call: Call<UserInfoXML>,
